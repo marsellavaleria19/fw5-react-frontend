@@ -1,0 +1,1517 @@
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+         :root {
+            --primary: #03045E;
+            --secondary: #00B4D8;
+            --third: #90E0EF;
+            --four: #CAF0F8;
+            --green-light: #ACB992;
+            --green-dark: #464E2E;
+        }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--four);
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            font-size: 48px;
+        }
+        
+        .search input[type="search"] {
+            border-right: none;
+            width: 269px;
+            height: 50px;
+            border: 0.8px solid var(--secondary);
+            color: var(--secondary);
+            font-size: 16px;
+        }
+        
+        .search input[type="search"]::placeholder {
+            color: var(--secondary);
+        }
+        
+        .search .btn {
+            border: none;
+            right: 0;
+            width: 80px;
+            height: 50px;
+        }
+        
+        .search .btn i {
+            font-size: 20px;
+            color: var(--secondary);
+        }
+        
+        .header-forgot {
+            background-image: url(../images/backgroud-image-forgotpassword.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .header-forgot .header-content {
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 758px;
+            padding-left: 139px;
+            color: var(--green-light);
+        }
+        
+        .header-forgot .header-content .header-nav {
+            margin: 0.89px;
+            padding-top: 74px;
+        }
+        
+        .header-forgot .header-content .header-nav i {
+            font-size: 30px;
+            margin-right: 76px;
+        }
+        
+        .header-forgot .header-content .header-nav span {
+            font-size: 24px;
+        }
+        
+        .header-forgot .header-content h1.heading {
+            font-size: 64px;
+            text-align: center;
+            line-height: 85px;
+            margin-top: 40px;
+        }
+        
+        .header-forgot .header-content form div {
+            text-align: center;
+        }
+        
+        .header-forgot .header-content form div input {
+            height: 79px;
+            width: 447px;
+            border: none;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: var(--green-light);
+            margin-bottom: 31px;
+        }
+        
+        .header-forgot .header-content form div input:focus {
+            outline: none;
+        }
+        
+        .header-forgot .header-content form div input::placeholder {
+            color: var(--green-dark);
+        }
+        
+        .header-forgot .header-content form div button.button-send {
+            background-color: var(--green-light);
+            font-size: 24px;
+            height: 79px;
+            width: 447px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 900;
+        }
+        
+        .header-forgot .header-content .text {
+            font-size: 24px;
+            font-weight: 900;
+            text-align: center;
+            margin-top: 54px;
+        }
+        
+        .button-filled {
+            background-color: var(--third);
+            width: 132px;
+            height: 44px;
+            border-radius: 8px;
+            border: none;
+            color: var(--secondary);
+        }
+        
+        .button-dark {
+            background-color: var(--primary);
+            width: 132px;
+            height: 44px;
+            border-radius: 8px;
+        }
+        
+        .button-gray {
+            background-color: rgba(203, 203, 212, 0.27);
+            width: 132px;
+            height: 44px;
+            border-radius: 8px;
+        }
+        
+        .button-white {
+            background-color: white;
+            width: 132px;
+            height: 44px;
+            border-radius: 8px;
+        }
+        
+        .header-login-signup {
+            background-image: url(../images/background-login-signup.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .header-login-signup .header-content {
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 758px;
+            color: var(--third);
+        }
+        
+        .header-title {
+            margin-top: 107px;
+        }
+        
+        h1.heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 64px;
+            font-weight: 700;
+            text-align: justify;
+            margin-bottom: 43px;
+        }
+        
+        .header-separator {
+            margin-top: 104px;
+        }
+        
+        .separator-circle {
+            width: 20px;
+            height: 20px;
+            background-color: var(--third);
+            border-radius: 20px;
+        }
+        
+        .separator-line {
+            width: 1px;
+            height: 100%;
+            background-color: var(--third);
+        }
+        
+        .header-title .text {
+            font-weight: 700;
+            size: 24px;
+            text-align: justify;
+            margin-bottom: 25px;
+        }
+        
+        .header-title .button-dark {
+            width: 100%;
+            height: 79px;
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--secondary);
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(218, 218, 218, 0.25);
+        }
+        
+        .header-login form {
+            margin-top: 176px;
+        }
+        
+        .header-signup form {
+            margin-top: 129px;
+        }
+        
+        .form-login-signup div input {
+            background: rgba(255, 255, 255, 0.26);
+            width: 447px;
+            height: 79px;
+            margin-top: 34px;
+            border: none;
+            border-radius: 10px;
+        }
+        
+        .form-login-signup div input:focus {
+            outline: none;
+            color: white;
+        }
+        
+        .form-login-signup div input::placeholder {
+            color: white;
+            font-size: 24px;
+            padding-left: 41px;
+        }
+        
+        .form-login-signup p {
+            margin-top: 14px;
+        }
+        
+        .form-login-signup p a {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .signup {
+            margin-top: 27px;
+        }
+        
+        .login {
+            margin-top: 49px;
+        }
+        
+        .form-login-signup .button-filled {
+            font-size: 24px;
+            font-weight: 900;
+            width: 100%;
+            height: 79px;
+            box-shadow: 0px 0px 20px rgba(248, 161, 112, 0.47);
+            border-radius: 10px;
+        }
+        
+        .button-google {
+            color: black;
+            font-size: 24px;
+            font-weight: 900;
+            width: 447px;
+            height: 79px;
+            border-radius: 10px;
+        }
+        
+        .button-google img {
+            width: 31px;
+            height: 33px;
+            margin-right: 12px;
+        }
+        
+        footer.footer {
+            width: 100%;
+            padding-top: 69px;
+            background-color: var(--primary);
+        }
+        
+        footer.footer h5 {
+            color: var(--four);
+        }
+        
+        footer .footer .row.text {
+            margin-bottom: 78px;
+        }
+        
+        footer.footer ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        
+        footer.footer ul li {
+            font-family: 'Mulish', serif;
+            font-weight: 300;
+            color: var(--four);
+            font-size: 18;
+            margin-top: 10px;
+        }
+        
+        footer.footer .description {
+            font-family: 'Mulish', serif;
+            margin-top: 26px;
+            margin-bottom: 53px;
+            width: 300px;
+            color: var(--four);
+            font-size: 18px;
+            font-weight: 300;
+        }
+        
+        footer.footer .copyright {
+            font-family: 'Mulish', serif;
+            color: var(--four);
+            font-size: 17px;
+            font-weight: 300;
+        }
+        
+        footer.footer h5 {
+            font-family: 'Mulish', serif;
+            font-weight: bold;
+            font-size: 19px;
+        }
+        
+        footer.footer .link-social {
+            margin-top: 78px;
+            border-top: 1px solid var(--four);
+            padding: 31px;
+            text-align: center;
+        }
+        
+        footer.footer .link-social i {
+            font-size: 25px;
+            margin-left: 17.5px;
+            margin-right: 17.5px;
+            color: var(--four);
+        }
+        
+        .navbar img {
+            width: 100px;
+            height: 100px;
+        }
+        
+        nav .container {
+            padding-top: 73px;
+            padding-bottom: 43px;
+        }
+        
+        nav .button-white {
+            border: 1px solid var(--secondary);
+        }
+        
+        .jumbotron {
+            background-image: url(../images/background-jumbotron.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .jumbotron .content {
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 767px;
+        }
+        
+        .jumbotron h1.heading {
+            font-size: 64px;
+            font-family: 'Playfair Display', serif;
+            text-align: justify;
+            font-weight: bold;
+            color: white;
+            padding-top: 69px;
+        }
+        
+        .jumbotron p {
+            font-family: 'Nunito', serif;
+            font-size: 22px;
+            font-weight: 900;
+            color: white;
+            margin-top: 74px;
+        }
+        
+        .jumbotron .line {
+            margin-top: 17px;
+            background-color: white;
+            width: 32px;
+            height: 2px;
+        }
+        
+        .jumbotron form {
+            margin-top: 48px;
+            margin-right: 30px;
+        }
+        
+        .jumbotron form select {
+            width: 220px;
+            height: 52px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            font-family: 'Nunito', serif;
+            font-size: 18px;
+        }
+        
+        .jumbotron form input[type="date"] {
+            width: 220px;
+            height: 52px;
+            background-color: rgba(255, 255, 255, 0.5);
+            font-size: 18px;
+            font-family: 'Nunito', serif;
+            font-weight: 700;
+            padding-left: 31px;
+            border: 0.8px solid #AFB0B9;
+            border-radius: 6px;
+        }
+        
+        .jumbotron form button.button-filled {
+            width: 180px;
+            height: 52px;
+            margin-top: 51px;
+            font-family: 'Nunito', serif;
+            font-weight: 900;
+            font-size: 17px;
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            font-weight: 700;
+        }
+        
+        .section-link-view {
+            font-size: 17px;
+            text-decoration: none;
+            color: var(--secondary);
+        }
+        
+        .section-link-view i {
+            font-size: 14px;
+            color: var(--secondary);
+        }
+        
+        .text-title-vehicle {
+            position: absolute;
+            background-color: white;
+            border-radius: 0px 6px 0px 0px;
+            width: 120px;
+            height: 56px;
+            text-align: center;
+            bottom: 0px;
+        }
+        
+        .text-title-vehicle .vehicle-name {
+            font-family: 'Nunito', serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .text-title-vehicle .location {
+            font-family: 'Nunito', serif;
+            font-size: 15px;
+            color: var(--secondary);
+        }
+        
+        .popular-town {
+            margin-top: 82px;
+        }
+        
+        .popular-town .title {
+            color: var(--secondary);
+        }
+        
+        .popular-town .info {
+            font-size: 24px;
+            font-weight: 'Nunito', serif;
+            font-weight: 700;
+            color: #B8BECD;
+        }
+        
+        .popular-town .no-vehicle {
+            font-size: 24px;
+            font-weight: 'Nunito', serif;
+            font-weight: 400;
+            color: #B8BECD;
+            margin-top: 110px;
+            margin-bottom: 120px;
+        }
+        
+        .popular-town .header {
+            margin-bottom: 55px;
+            color: var(--secondary);
+        }
+        /* .popular-town .col-md-5 {
+            margin-bottom: 30px;
+        } */
+        
+        .popular-town img {
+            height: 332px;
+            width: 100%;
+            border-radius: 8px;
+        }
+        
+        .testimonial {
+            margin-top: 105px;
+            margin-bottom: 79px;
+        }
+        
+        .testimonial .header {
+            margin-bottom: 59px;
+            color: var(--secondary);
+        }
+        
+        .testimonial .star {
+            margin-top: 83px;
+            font-size: 23px;
+            color: #FFBB0C;
+            margin-bottom: 30px;
+        }
+        
+        .testimonial p {
+            font-family: 'Mulish', serif;
+            font-size: 24px;
+            color: var(--secondary);
+        }
+        
+        .testimonial .name {
+            font-family: 'Nunito', serif;
+            font-weight: 700;
+            font-size: 22px;
+            margin-top: 40px;
+            color: var(--secondary);
+        }
+        
+        .testimonial .location {
+            font-family: 'Nunito', serif;
+            font-size: 18px;
+            margin-top: 20px;
+            color: var(--secondary);
+        }
+        
+        .testimonial img {
+            width: 384px;
+            height: 491px;
+            border-radius: 14px;
+        }
+        
+        .testimonial .circle img {
+            position: absolute;
+            width: 42px;
+            height: 42px;
+            top: 0;
+            right: 0;
+            z-index: 0 !important;
+        }
+        
+        .testimonial .button-slide {
+            width: 132px;
+            height: 60px;
+            background-color: white;
+            border-radius: 16px 0px 0px 0px;
+            bottom: 0;
+            right: 0;
+            padding-top: 20px;
+            padding-left: 30px;
+        }
+        
+        .testimonial .button-slide img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .badge-mail {
+            background-color: #FFCD61;
+            color: black;
+            font-size: 10px;
+            font-weight: 700;
+            font-family: 'Rubik', serif;
+            width: 20px;
+            height: 20px;
+            padding: 2px;
+            top: 7px;
+            left: 0px;
+            text-align: center;
+        }
+        
+        nav.navbar div ul li {
+            color: var(--secondary);
+        }
+        
+        nav.navbar div ul li a {
+            color: var(--secondary);
+        }
+        
+        nav div a img.profile {
+            width: 50px;
+            height: 50px;
+        }
+        
+        nav div a img.mail {
+            width: 40px;
+            height: 36px;
+        }
+        
+        .profile-general {
+            text-align: center;
+        }
+        
+        .profile h1.title {
+            font-family: 'Nunito', serif;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 57px;
+            color: var(--secondary);
+        }
+        
+        .button-edit-profile {
+            border: unset;
+            background-color: var(--third);
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 50px;
+        }
+        
+        .button-edit-profile i {
+            color: var(--primary);
+        }
+        
+        .profile-detail {
+            margin-top: 40px;
+        }
+        
+        .profile-detail h1.name {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Playfair Display', Times, serif;
+            margin-bottom: 40px;
+            color: var(--secondary);
+        }
+        
+        .profile-detail .detail {
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .profile-radio {
+            margin-top: 134px;
+        }
+        
+        .profile-form {
+            margin-top: 67px;
+        }
+        
+        .profile-form h5 {
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 37px;
+            color: var(--secondary);
+        }
+        
+        .profile-form form div label {
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            color: var(--secondary);
+            font-weight: 700;
+        }
+        
+        .profile-form form div input {
+            border: none;
+            border-bottom: 1px solid var(--secondary);
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            padding-bottom: 26px;
+            background-color: transparent;
+            color: var(--secondary);
+        }
+        
+        .profile-form form div input:focus {
+            outline: none;
+        }
+        
+        .profile-form form div textarea {
+            border: none;
+            border-bottom: 1px solid var(--secondary);
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            color: var(--secondary);
+            background-color: transparent;
+        }
+        
+        .profile-form form div textarea:focus {
+            outline: none;
+        }
+        
+        .profile-form form div .button-filled,
+        .profile-form form div .button-dark,
+        .profile-form form div .button-gray {
+            width: 100%;
+            height: 89px;
+            font-size: 24px;
+            font-family: 'Nunito', serif;
+            font-weight: 900;
+        }
+        
+        .profile-form form div .button-filled {
+            color: var(--secondary);
+        }
+        
+        .profile-form form div .button-gray {
+            color: #393939;
+        }
+        
+        .profile-form form div .button-dark {
+            color: var(--secondary);
+        }
+        
+        .header-nav {
+            font-family: 'Nunito', serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .header-nav i {
+            font-size: 43px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-right: 61px;
+        }
+        
+        .title-vehicle {
+            font-family: 'Playfair Display', Times, serif;
+        }
+        
+        .title-vehicle h1 {
+            font-weight: 900;
+            color: var(--secondary);
+        }
+        
+        .title-vehicle .location {
+            font-size: 36px;
+            color: var(--secondary);
+        }
+        
+        .status-vehicle {
+            font-size: 24px;
+        }
+        
+        .status-vehicle .no-prepayment {
+            color: #9B0A0A;
+        }
+        
+        .detail-vehicle .header-nav {
+            margin-bottom: 112px;
+        }
+        
+        .form-quantity input {
+            background-color: white;
+            border: none;
+            font-family: 'Nunito', serif;
+            font-size: 48px;
+            text-align: center;
+            font-weight: 900;
+            color: var(--secondary);
+        }
+        
+        .form-quantity button {
+            width: 80px;
+            height: 80px;
+            font-size: 48px;
+            font-weight: 900;
+            font-family: 'Nunito', serif;
+            border: none;
+            border-radius: 10px;
+        }
+        
+        .form-quantity button.plus {
+            background-color: var(--third);
+            color: var(--secondary);
+        }
+        
+        .form-quantity button.minus {
+            background-color: var(--primary);
+            color: var(--secondary);
+        }
+        
+        .detail-vehicle .header-nav {
+            margin-bottom: 112px;
+        }
+        
+        .detail-vehicle .img-vehicle img {
+            width: 100%;
+            height: 409px;
+            margin-bottom: 25px;
+        }
+        
+        .detail-vehicle .img-vehicle-detail img {
+            width: 233px;
+            height: 158px;
+        }
+        
+        .detail-vehicle .img-vehicle-detail i {
+            font-size: 43px;
+            color: #4A4C53;
+        }
+        
+        .detail-vehicle .title-vehicle {
+            margin-bottom: 48px;
+        }
+        
+        .detail-vehicle .status-vehicle {
+            margin-bottom: 29px;
+        }
+        
+        .detail-vehicle .detail-info {
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            color: var(--secondary);
+        }
+        
+        .detail-vehicle .price {
+            font-size: 36px;
+            font-weight: 900;
+            margin-top: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .detail-vehicle .price h1 {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--secondary);
+        }
+        
+        .detail-vehicle .form-quantity input {
+            width: 100%;
+        }
+        
+        .detail-vehicle .button-detail {
+            margin-top: 58px;
+        }
+        
+        .detail-vehicle .button-detail .button-dark,
+        .detail-vehicle .button-detail .button-filled {
+            height: 89px;
+            font-size: 'Nunito', serif;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 35px;
+        }
+        
+        .detail-vehicle .button-detail .button-dark {
+            color: var(--secondary);
+        }
+        
+        .detail-vehicle .button-detail .btn-chat {
+            width: 100%;
+        }
+        
+        .detail-vehicle .button-detail .btn-reservation {
+            width: 100%;
+        }
+        
+        .detail-vehicle .button-detail .btn-like {
+            width: 100%;
+        }
+        
+        .detail-vehicle .button-detail .btn-like i {
+            font-size: 50px;
+        }
+        
+        .reservation .header-nav {
+            margin-bottom: 121px;
+        }
+        
+        .reservation .img-vehicle img {
+            width: 100%;
+            height: 616px;
+        }
+        
+        .reservation .title-vehicle {
+            margin-bottom: 32px;
+            color: var(--secondary);
+        }
+        
+        .reservation .status-vehicle {
+            margin-bottom: 60px;
+        }
+        
+        .reservation .form-quantity input {
+            width: 100%;
+        }
+        
+        .reservation form h5 {
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            margin-top: 60px;
+            margin-bottom: 32px;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .reservation form .input-add {
+            width: 100%;
+            height: 80px;
+            background-color: white;
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            color: var(--secondary);
+        }
+        
+        .reservation form .select-form {
+            width: 100%;
+            height: 80px;
+        }
+        
+        .reservation form .select-form select {
+            width: 100%;
+            height: 80px;
+            background-color: white;
+            border-radius: 10px;
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            background-image: unset;
+            color: var(--secondary);
+        }
+        
+        .reservation form .select-form .arrow-select {
+            right: 30px;
+            font-size: 30px;
+            font-weight: 900;
+            color: var(--secondary);
+        }
+        
+        .reservation .btn-payment .button-filled {
+            margin-top: 92px;
+            width: 100%;
+            height: 89px;
+            font-size: 24px;
+            font-weight: 900;
+            border: none;
+        }
+        
+        .text-detail-payment-reservation {
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            color: var(--secondary);
+        }
+        
+        .reservation-detail .header-nav {
+            margin-bottom: 121px;
+        }
+        
+        .reservation-detail .img-vehicle img {
+            width: 660px;
+            height: 477px;
+        }
+        
+        .reservation-detail .title-vehicle {
+            margin-bottom: 33px;
+        }
+        
+        .reservation-detail .reservation {
+            width: 100%;
+            height: 107px;
+            margin-bottom: 30px;
+            border: 1px solid #80918E;
+            padding: 21px 0 20px 44px;
+            border-radius: 10px;
+        }
+        
+        .reservation-detail .text-status {
+            color: #80918E;
+        }
+        
+        .reservation-detail .detail-reservation {
+            border: 1px solid #80918E;
+            padding: 54px 47px;
+            border-radius: 10px;
+            width: 100%;
+            height: 216px;
+        }
+        
+        .reservation-detail .detail-reservation h5 {
+            font-weight: 900;
+            font-size: 24px;
+        }
+        
+        .reservation-detail .detail-reservation ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .reservation-detail .detail-reservation ul li {
+            margin-bottom: 10px;
+            left: 0;
+        }
+        
+        .reservation-detail .reservation-date {
+            margin-top: 67px;
+        }
+        
+        .reservation-detail .reservation-date .label {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        
+        .reservation-detail .reservation-date button {
+            width: 317px;
+            height: 89px;
+            border: 1px solid #80918E;
+            border-radius: 10px;
+            margin-right: 48px;
+            background-color: white;
+        }
+        
+        .reservation-detail .payment-total {
+            width: 100%;
+            height: 116px;
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 49px;
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 900;
+            padding-top: 30px;
+        }
+        
+        .reservation-detail .reservation .text-status {
+            color: #80918E;
+        }
+        
+        .payment .header-nav {
+            margin-bottom: 105px;
+        }
+        
+        .payment .img-vehicle img {
+            width: 452px;
+            height: 317px;
+        }
+        
+        .payment .btn-payment {
+            margin-top: 38px;
+        }
+        
+        .payment .title-vehicle {
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .payment .text-status {
+            color: #B8BECD;
+            font-size: 32px;
+            font-family: 'Nunito', serif;
+        }
+        
+        .payment .code-payment h1 {
+            font-size: 36px;
+            color: var(--secondary);
+        }
+        
+        .payment .reservation-detail {
+            width: 100%;
+        }
+        
+        .payment .detail-payment {
+            width: 100%;
+        }
+        
+        .payment .btn-copy-code .button-filled {
+            width: 240px;
+            height: 42px;
+            font-weight: 700;
+        }
+        
+        .payment .qty,
+        .payment .date {
+            height: 107px;
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+            color: var(--secondary);
+        }
+        
+        .payment .detail-order,
+        .payment .identity {
+            height: 245px;
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+            color: var(--secondary);
+        }
+        
+        .payment .qty,
+        .payment .detail-order {
+            width: 100%;
+        }
+        
+        .payment .date,
+        .payment .identity,
+        .payment .detail-order {
+            width: 100%;
+            padding-left: 59px;
+        }
+        
+        .payment .date {
+            padding-top: 10px;
+            padding-right: 20px;
+        }
+        
+        .payment .identity,
+        .payment .detail-order {
+            padding-top: 30px;
+        }
+        
+        .payment .detail-order h5,
+        .payment .identity h5 {
+            font-weight: 900;
+            font-size: 24px;
+        }
+        
+        .payment .detail-order ul,
+        .payment .identity ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .payment .detail-order ul li,
+        .payment .identity ul li {
+            left: 0;
+        }
+        
+        .payment .detail-order .total {
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            margin-top: 43px;
+        }
+        
+        .payment-transaction label {
+            font-size: 32px;
+            margin-right: 31px;
+            font-family: 'Nunito', serif;
+            font-weight: 700;
+        }
+        
+        .payment-transaction .payment-code,
+        .payment-transaction .payment-method {
+            height: 80px;
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+        }
+        
+        .payment-transaction .payment-code {
+            width: 481px;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            color: var(--secondary);
+        }
+        
+        .payment-transaction .payment-method {
+            width: 100%;
+        }
+        
+        .payment-transaction .button-dark {
+            width: 124px;
+            height: 42px;
+            color: var(--secondary);
+            right: 20px;
+            font-family: 'Nunito', serif;
+        }
+        
+        .payment-transaction .payment-method select {
+            height: 100%;
+            border: none;
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            background-image: unset;
+            color: var(--secondary);
+        }
+        
+        .payment-transaction .select-form .arrow-select {
+            right: 30px;
+            font-size: 30px;
+            font-weight: 900;
+            color: var(--secondary);
+        }
+        
+        .payment-transaction .form-select option {
+            background-color: white;
+            width: 404px;
+            height: 48px;
+            border: 3px solid black;
+        }
+        
+        .payment .btn-payment .button-filled {
+            width: 100%;
+            height: 89px;
+            font-size: 24px;
+            font-weight: 900;
+            border: none;
+        }
+        
+        .history .header-nav {
+            margin-bottom: 105px;
+        }
+        
+        .history .search-input,
+        .history .form-select {
+            width: 100%;
+            height: 75px;
+            background-color: white;
+            font-family: 'Mulish', serif;
+            font-size: 24px;
+            color: var(--secondary);
+        }
+        
+        .history .search-input,
+        .history .search-input::placeholder {
+            padding-left: 20px;
+            color: var(--secondary);
+        }
+        
+        .history .search-filter {
+            margin-bottom: 45px;
+            /* width: 100%; */
+        }
+        /* .history .search-filter .search-input {
+            width: 100%;
+            height: 75px;
+        } */
+        
+        .history .search-filter .btn-search {
+            right: 5px;
+            width: 75px;
+            height: 75px;
+        }
+        
+        .history .search-filter .btn-search i {
+            font-size: 30px;
+            align-items: center;
+            color: var(--secondary);
+        }
+        /* .history .search-filter .form-select {
+            width: 100%;
+            height: 75px;
+        } */
+        
+        .history .title-date {
+            font-size: 24px;
+            color: var(--secondary);
+            font-family: 'Nunito', serif;
+            font-weight: 600;
+        }
+        
+        .history .today {
+            margin-top: 45px;
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            color: var(--secondary);
+        }
+        
+        .history .list-today {
+            border: none;
+            border-bottom: 0.5px solid #C4C4C4;
+            font-weight: 600;
+            width: 100%;
+            padding-top: 26px;
+        }
+        
+        .history .list-today .list-today i {
+            font-size: 30px;
+            color: var(--secondary);
+        }
+        
+        .history .week {
+            margin-top: 48px;
+            font-family: 'Nunito', serif;
+            font-size: 24px;
+            color: var(--secondary);
+        }
+        
+        .history .list-week .list-group-item {
+            border: none;
+            margin-bottom: 52px;
+            color: var(--secondary);
+            background-color: transparent;
+        }
+        
+        .history .list-week img {
+            width: 197px;
+            height: 165px;
+            border-radius: 20px;
+        }
+        
+        .history .list-week h5 {
+            font-weight: 700;
+        }
+        
+        .history .list-week .date {
+            margin-bottom: 14px;
+        }
+        
+        .history .list-week .prepayment {
+            font-weight: 700;
+        }
+        
+        .history .list-week .status {
+            color: green;
+        }
+        
+        .history .button-filled {
+            width: 205px;
+            height: 71px;
+            font-weight: 700;
+        }
+        
+        .new-arrival {
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+        }
+        
+        .new-arrival .title {
+            font-size: 24px;
+            font-weight: 900;
+            font-family: 'Playfair Display', Times, serif;
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 54px;
+            color: var(--secondary);
+        }
+        
+        .new-arrival .view-more {
+            color: var(--secondary);
+            font-family: 'Nunito', serif;
+            font-size: 18px;
+            margin-top: 50px;
+        }
+        
+        .new-arrival .view-more i {
+            margin-bottom: 22px;
+        }
+        
+        .new-arrival .view-more i {
+            color: var(--secondary);
+            font-size: 43px;
+            text-align: center;
+        }
+        
+        .new-arrival img {
+            width: 275px;
+            height: 332px;
+        }
+        
+        .radio-button {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-button input {
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+        
+        .radio-button .checkmark {
+            width: 20px;
+            height: 20px;
+            border-radius: 15px;
+            border: 3px solid var(--secondary);
+            display: inline-block;
+        }
+        
+        .radio-button .text {
+            display: inline-block;
+            margin-left: 19px;
+            font-size: 24px;
+            color: var(--secondary);
+        }
+        
+        .radio-button input:checked~.checkmark {
+            border-color: var(--primary);
+            background-color: var(--secondary);
+            color: #6A4029;
+            font-weight: 700;
+        }
+        
+        @media(max-width:767px) {
+            .popular-town .col-flex-xs {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .popular-town .col-flex-xs .mb-md-photo {
+                margin-bottom: 30px;
+            }
+            .jumbotron form select {
+                width: 100%;
+            }
+            .jumbotron form input[type="date"] {
+                width: 100%;
+            }
+            .jumbotron form .button-filled {
+                margin-bottom: 20px;
+            }
+            .testimonial img {
+                width: 100%;
+            }
+            .history .form-select {
+                margin-top: 30px;
+            }
+        }
+        
+        @media (max-width:991px) {
+            .header-forgot .header-content {
+                padding: 0 10px;
+            }
+            .popular-town .flex-md-wrap .mb-md-photo {
+                margin-bottom: 30px;
+            }
+            .header-forgot .header-content form div input {
+                width: 100%;
+            }
+            .header-forgot .header-content form div button.button-send {
+                width: 100%;
+            }
+            .header-forgot .header-content {
+                padding: 0 10px;
+            }
+            .header-forgot .header-content form div input {
+                width: 100%;
+            }
+            .header-login-signup .header-content {
+                padding: 0 10px;
+                height: 100%;
+                width: 100%;
+            }
+            .header-title {
+                padding-bottom: 10px;
+                width: 100%;
+            }
+            .button-dark {
+                width: 100%;
+            }
+            .button-filled {
+                width: 100%;
+            }
+            .button-google {
+                width: 100%;
+            }
+            .header-login-signup .title {
+                text-align: center;
+            }
+            .form-login-signup div input {
+                width: 100%;
+            }
+            .separator-line {
+                width: 100%;
+                height: 1px;
+                background-color: white;
+            }
+            h1.heading {
+                text-align: center;
+            }
+            .header-login form {
+                margin-top: 30px;
+                margin-bottom: 20px;
+            }
+            .header-signup form {
+                margin-top: 30px;
+                margin-bottom: 20px;
+            }
+            .navbar .add-navbar {
+                margin-top: 30px;
+            }
+            .btn-payment .button-filled {
+                width: 100%;
+            }
+            .reservation form .input-add {
+                width: 100%;
+            }
+            .reservation form .select-form {
+                width: 100%;
+            }
+            .reservation form .select-form select {
+                width: 100%;
+            }
+            .reservation .form-quantity input {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width:1999px) {
+            .popular-town .mb-md-photo {
+                margin-bottom: 30px;
+            }
+            .payment-transaction .payment-code {
+                width: 100%;
+            }
+        }
