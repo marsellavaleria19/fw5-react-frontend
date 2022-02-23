@@ -4,10 +4,10 @@
         }
         
          :root {
-            --primary: #03045E;
-            --secondary: #00B4D8;
-            --third: #90E0EF;
-            --four: #CAF0F8;
+            --primary: #30475E;
+            --secondary: #7E8A97;
+            --third: #CBAF87;
+            --four: #E7DEC8;
             --green-light: #ACB992;
             --green-dark: #464E2E;
         }
@@ -43,7 +43,7 @@
             height: 50px;
         }
         
-        .search .btn i {
+        .search .btn svg {
             font-size: 20px;
             color: var(--secondary);
         }
@@ -58,7 +58,7 @@
             background-color: rgba(0, 0, 0, 0.5);
             height: 758px;
             padding-left: 139px;
-            color: var(--green-light);
+            color: var(--third);
         }
         
         .header-forgot .header-content .header-nav {
@@ -66,7 +66,7 @@
             padding-top: 74px;
         }
         
-        .header-forgot .header-content .header-nav i {
+        .header-forgot .header-content .header-nav svg {
             font-size: 30px;
             margin-right: 76px;
         }
@@ -94,7 +94,7 @@
             text-align: center;
             font-size: 24px;
             background-color: rgba(255, 255, 255, 0.3);
-            color: var(--green-light);
+            color: var(--third);
             margin-bottom: 31px;
         }
         
@@ -103,17 +103,18 @@
         }
         
         .header-forgot .header-content form div input::placeholder {
-            color: var(--green-dark);
+            color: var(--four);
         }
         
         .header-forgot .header-content form div button.button-send {
-            background-color: var(--green-light);
+            background-color: var(--third);
             font-size: 24px;
             height: 79px;
             width: 447px;
             border: none;
             border-radius: 10px;
             font-weight: 900;
+            color: var(--primary);
         }
         
         .header-forgot .header-content .text {
@@ -129,7 +130,7 @@
             height: 44px;
             border-radius: 8px;
             border: none;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .button-dark {
@@ -207,7 +208,7 @@
             font-family: 'Nunito', serif;
             font-size: 24px;
             font-weight: 900;
-            color: var(--secondary);
+            color: var(--third);
             border-radius: 10px;
             box-shadow: 0px 0px 20px rgba(218, 218, 218, 0.25);
         }
@@ -232,6 +233,7 @@
         .form-login-signup div input:focus {
             outline: none;
             color: white;
+            padding-left: 20px;
         }
         
         .form-login-signup div input::placeholder {
@@ -340,7 +342,7 @@
             text-align: center;
         }
         
-        footer.footer .link-social i {
+        footer.footer .link-social svg {
             font-size: 25px;
             margin-left: 17.5px;
             margin-right: 17.5px;
@@ -441,12 +443,13 @@
         .section-link-view {
             font-size: 17px;
             text-decoration: none;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
-        .section-link-view i {
+        .section-link-view svg {
             font-size: 14px;
-            color: var(--secondary);
+            color: var(--primary);
+            margin-left: 15px;
         }
         
         .text-title-vehicle {
@@ -463,13 +466,13 @@
             font-family: 'Nunito', serif;
             font-size: 17px;
             font-weight: 700;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .text-title-vehicle .location {
             font-family: 'Nunito', serif;
             font-size: 15px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .popular-town {
@@ -477,7 +480,7 @@
         }
         
         .popular-town .title {
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .popular-town .info {
@@ -498,15 +501,14 @@
         
         .popular-town .header {
             margin-bottom: 55px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         /* .popular-town .col-md-5 {
             margin-bottom: 30px;
         } */
         
         .popular-town img {
-            height: 332px;
-            width: 100%;
+            max-width: 100%;
             border-radius: 8px;
         }
         
@@ -517,7 +519,7 @@
         
         .testimonial .header {
             margin-bottom: 59px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .testimonial .star {
@@ -530,7 +532,7 @@
         .testimonial p {
             font-family: 'Mulish', serif;
             font-size: 24px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .testimonial .name {
@@ -538,14 +540,14 @@
             font-weight: 700;
             font-size: 22px;
             margin-top: 40px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .testimonial .location {
             font-family: 'Nunito', serif;
             font-size: 18px;
             margin-top: 20px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .testimonial img {
@@ -581,7 +583,7 @@
         }
         
         .badge-mail {
-            background-color: #FFCD61;
+            background-color: #CBAF87;
             color: black;
             font-size: 10px;
             font-weight: 700;
@@ -589,17 +591,17 @@
             width: 20px;
             height: 20px;
             padding: 2px;
-            top: 7px;
+            top: 0px;
             left: 0px;
             text-align: center;
         }
         
         nav.navbar div ul li {
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         nav.navbar div ul li a {
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         nav div a img.profile {
@@ -607,9 +609,13 @@
             height: 50px;
         }
         
-        nav div a img.mail {
-            width: 40px;
-            height: 36px;
+        nav div a svg {
+            font-size: 40px;
+            color: var(--primary);
+        }
+        
+        nav .navbar-toggler-icon {
+            color: var(--primary);
         }
         
         .profile-general {
@@ -732,13 +738,13 @@
             font-family: 'Nunito', serif;
             font-size: 36px;
             font-weight: 700;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
-        .header-nav i {
+        .header-nav svg {
             font-size: 43px;
             font-weight: 700;
-            color: var(--secondary);
+            color: var(--primary);
             margin-right: 61px;
         }
         
@@ -748,12 +754,12 @@
         
         .title-vehicle h1 {
             font-weight: 900;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .title-vehicle .location {
             font-size: 36px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .status-vehicle {
@@ -775,7 +781,7 @@
             font-size: 48px;
             text-align: center;
             font-weight: 900;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .form-quantity button {
@@ -790,7 +796,7 @@
         
         .form-quantity button.plus {
             background-color: var(--third);
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .form-quantity button.minus {
@@ -813,7 +819,7 @@
             height: 158px;
         }
         
-        .detail-vehicle .img-vehicle-detail i {
+        .detail-vehicle .img-vehicle-detail svg {
             font-size: 43px;
             color: #4A4C53;
         }
@@ -829,7 +835,7 @@
         .detail-vehicle .detail-info {
             font-family: 'Nunito', serif;
             font-size: 24px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .detail-vehicle .price {
@@ -842,7 +848,7 @@
         .detail-vehicle .price h1 {
             font-size: 36px;
             font-weight: 900;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .detail-vehicle .form-quantity input {
@@ -878,8 +884,9 @@
             width: 100%;
         }
         
-        .detail-vehicle .button-detail .btn-like i {
+        .detail-vehicle .button-detail .btn-like svg {
             font-size: 50px;
+            margin-right: 10px;
         }
         
         .reservation .header-nav {
@@ -893,7 +900,7 @@
         
         .reservation .title-vehicle {
             margin-bottom: 32px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .reservation .status-vehicle {
@@ -910,14 +917,14 @@
             margin-top: 60px;
             margin-bottom: 32px;
             font-weight: bold;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .reservation form .input-add {
             width: 100%;
             height: 80px;
             background-color: white;
-            border: 1px solid var(--secondary);
+            border: 1px solid var(--primary);
             border-radius: 10px;
             font-family: 'Nunito', serif;
             font-size: 24px;
@@ -940,11 +947,12 @@
             color: var(--secondary);
         }
         
-        .reservation form .select-form .arrow-select {
+        .reservation form .select-form svg {
             right: 30px;
             font-size: 30px;
             font-weight: 900;
-            color: var(--secondary);
+            color: var(--primary);
+            position: absolute;
         }
         
         .reservation .btn-payment .button-filled {
@@ -959,7 +967,7 @@
         .text-detail-payment-reservation {
             font-family: 'Nunito', serif;
             font-size: 24px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .reservation-detail .header-nav {
@@ -1052,7 +1060,7 @@
         }
         
         .payment .img-vehicle img {
-            width: 452px;
+            max-width: 100%;
             height: 317px;
         }
         
@@ -1062,7 +1070,7 @@
         
         .payment .title-vehicle {
             margin-bottom: 20px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .payment .text-status {
@@ -1073,7 +1081,7 @@
         
         .payment .code-payment h1 {
             font-size: 36px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .payment .reservation-detail {
@@ -1093,17 +1101,17 @@
         .payment .qty,
         .payment .date {
             height: 107px;
-            border: 1px solid var(--secondary);
+            border: 1px solid var(--primary);
             border-radius: 10px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .payment .detail-order,
         .payment .identity {
             height: 245px;
-            border: 1px solid var(--secondary);
+            border: 1px solid var(--primary);
             border-radius: 10px;
-            color: var(--secondary);
+            color: var(--primary);
         }
         
         .payment .qty,
@@ -1195,11 +1203,12 @@
             color: var(--secondary);
         }
         
-        .payment-transaction .select-form .arrow-select {
+        .payment-transaction .select-form svg {
             right: 30px;
             font-size: 30px;
             font-weight: 900;
-            color: var(--secondary);
+            color: var(--primary);
+            position: absolute;
         }
         
         .payment-transaction .form-select option {
@@ -1408,8 +1417,8 @@
                 flex-direction: column;
                 align-items: center;
             }
-            .popular-town .col-flex-xs .mb-md-photo {
-                margin-bottom: 30px;
+            .popular-town img {
+                max-width: 100%;
             }
             .jumbotron form select {
                 width: 100%;
@@ -1489,6 +1498,9 @@
             }
             .navbar .add-navbar {
                 margin-top: 30px;
+            }
+            .popular-town .list-img .col-img {
+                margin-right: 100px;
             }
             .btn-payment .button-filled {
                 width: 100%;

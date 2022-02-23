@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import logo from '../assets/images/logo3.png'
+import profile from '../assets/images/image-profile.png'
+import {FaRegEnvelope} from 'react-icons/fa'
+import {FaSearch} from 'react-icons/fa'
 
-export class NavbarLogin extends Component {
+export default class NavbarHomeSearch extends Component {
   render() {
     return (
         <nav class="navbar navbar-expand-lg navbar-light">
@@ -27,9 +30,20 @@ export class NavbarLogin extends Component {
                             <a class="nav-link">About</a>
                         </li>
                     </ul>
-                    <div class="d-flex">
-                        <button class="button-white mx-3" onclick="window.location='./login.html';">Login</button>
-                        <button class="button-filled" onclick="window.location='./signup.html';">Register</button>
+                    <div className="d-inline-block">
+                        <form className="d-flex position-relative search">
+                            <input className="form-control" type="search" placeholder="Search Vehicle" aria-label="Search"/>
+                            <button className="btn position-absolute" type="submit"><FaSearch/></button>
+                        </form>
+                    </div>
+                    <div className="add-navbar">
+                        <a href="#" className="position-relative mx-5">
+                            <FaRegEnvelope/>
+                            <span className="position-absolute translate-middle badge-mail border border-light rounded-circle">1</span>
+                        </a>
+                        <a href="./profile.html">
+                            <img src={profile} className="profile rounded-circle" alt="profile"/>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -37,5 +51,3 @@ export class NavbarLogin extends Component {
     )
   }
 }
-
-export default NavbarLogin;
