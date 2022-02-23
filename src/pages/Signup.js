@@ -15,7 +15,7 @@ export default class Signup extends Component {
                                 <p className="text">Don't have account?</p>
                                 <button className="button-dark" onclick="window.location='./login.html';">Login</button>
                             </div>
-                            <div className="header-separator col-lg d-flex align-items-center flex-lg-column flex-md-row">
+                            <div className="header-separator col-lg d-lg-flex align-items-center flex-lg-column">
                                 <div className="separator-circle"></div>
                                 <div className="separator-line"></div>
                                 <div className="separator-circle"></div>
@@ -36,6 +36,10 @@ export default class Signup extends Component {
                                     </div>
                                     <div>
                                         <button className="button-google signup"><img src={logoGoogle} alt="Logo"/>Sign Up With Google</button>
+                                    </div>
+                                    <div className='btn-login-signup'>
+                                        <p className="text">Have account?</p>
+                                        <button className="button-dark" onclick="window.location='./signup.html';">Login</button>
                                     </div>
                                 </form>
                             </div>

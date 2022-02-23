@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Profiler } from 'react'
 import Homepage from './pages/Homepage'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -9,11 +9,12 @@ import DetailVehicle from './pages/DetailVehicle'
 import Reservation from './pages/Reservation'
 import Payment from './pages/Payment'
 import History from './pages/History'
+import Profile from './pages/Profile'
 
 export default class App extends Component {
   render() {
     return (
-      <div><Payment/></div>
+      <div><Signup/></div>
     )
   }
 }

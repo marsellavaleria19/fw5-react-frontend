@@ -35,7 +35,7 @@ export default class Login extends Component {
                         <p className="text">Don't have account?</p>
                         <button className="button-dark" onclick="window.location='./signup.html';">Sign Up</button>
                     </div>
-                    <div className="header-separator col-lg d-flex align-items-center flex-lg-column flex-md-row">
+                    <div className="header-separator col-lg d-lg-flex align-items-center flex-lg-column">
                         <div className="separator-circle"></div>
                         <div className="separator-line"></div>
                         <div className="separator-circle"></div>
@@ -53,9 +53,12 @@ export default class Login extends Component {
                                 <button type="submit" className="btn p-4 button-filled login">Login</button>
                             </div>
                             <div>
-                                <button className="button-google login"><img src={logoGoogle} alt="Logo"/>Login With Google</button>
+                                <button className="button-google mt-4"><img src={logoGoogle} alt="Logo"/>Login With Google</button>
                             </div>
-
+                            <div className='btn-login-signup'>
+                                <p className="text">Don't have account?</p>
+                                <button className="button-dark" onclick="window.location='./signup.html';">Sign Up</button>
+                            </div>
                         </form>
                     </div>
                 </div>
