@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component,useEffect,useState } from 'react'
 import Footer from '../component/Footer'
 import NavbarHomeSearch from '../component/NavbarHomeSearch'
 import imgPopular1 from '../assets/images/popular1.png';
@@ -14,11 +14,66 @@ import imgBike2 from '../assets/images/bike2.png';
 import imgBike3 from '../assets/images/bike3.png';
 import imgBike4 from '../assets/images/bike4.png';
 import {FaChevronRight} from 'react-icons/fa'
-export default class Category extends Component {
-  render() {
+import {default as axios} from 'axios';
+import Layout from '../component/Layout';
+import { Link } from 'react-router-dom';
+
+export const Category = ()=> {
+    const [listCategory,setListCategory] = useState([])
+    const [listVehicle,setListVehicle] = useState([])
+    useEffect(()=>{
+        getDataCategory()
+        getDataVehicle()
+    },[]);
+    const getDataCategory = async()=>{
+        const {data} = await axios.get('http://localhost:5000/categories');
+        setListCategory(data.results);
+    }
+    const getDataVehicle = async()=>{
+        const {data} = await axios.get('http://localhost:5000/vehicles?limit=20');
+        setListVehicle(data.results);
+    }
     return (
         <>
-            <NavbarHomeSearch/>
+            <Layout>
+                {
+                    listCategory.map((itemCategory)=>{
+                        return(
+                            <section className="popular-town">
+                                <div className="container">
+                                    <div className="row d-flex align-items-center header">
+                                        <div className="col">
+                                            <h1 className="section-title">{itemCategory.name}</h1>
+                                        </div>
+                                        <div className="col text-end">
+                                            <Link className="section-link-view" to={`/category/${itemCategory.id}`}>View all<FaChevronRight/></Link>
+                                        </div>
+                                    </div>
+                                    <div className="row text-center">
+                                        {
+                                            listVehicle.filter(item=>item.category_id===itemCategory.id).filter((item,index)=>index<4).map((itemVehicle)=>{
+                                                return(
+                                                    <div className="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                                        <div class="d-inline-block position-relative">
+                                                            <img src={itemVehicle.photo} alt="Car1" />
+                                                                <div class="text-title-vehicle">
+                                                                    <div className="vehicle-name">{itemVehicle.name}</div>
+                                                                    <div className="location">{itemVehicle.location}</div>
+                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                )    
+                                            })
+                                        }
+                                      
+                                    </div>
+                                </div>
+                            </section>
+                        )
+                    })
+                }
+            </Layout>
+            {/* <NavbarHomeSearch/>
             <section className="popular-town">
                 <div className="container">
                     <div className="row d-flex align-items-center header">
@@ -219,8 +274,9 @@ export default class Category extends Component {
                     </div>
                 </div>
             </section>
-            <Footer/>
+            <Footer/> */}
       </>
     )
   }
-}
+
+  export default Category
