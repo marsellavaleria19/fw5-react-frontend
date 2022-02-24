@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component,useState,useEffect } from 'react'
 import Header from '../component/Header';
 import Footer from '../component/Footer';
 import imgPopular1 from '../assets/images/popular1.png';
@@ -9,9 +9,18 @@ import imgTestimoni from '../assets/images/testimonial.png';
 import imgPrevious from '../assets/images/previous.png';
 import imgNext from '../assets/images/next.png'; 
 import {FaChevronRight} from 'react-icons/fa'
+import {default as axios} from 'axios';
+import { Link } from 'react-router-dom';
 
-export class Homepage extends Component {
-  render() {
+export const Homepage = ()=> {
+    const [listPopular,setListPopular] = useState([])
+    useEffect(()=>{
+        getDataPopularTown()
+    },[]);
+    const getDataPopularTown = async()=>{
+        const {data} = await axios.get('http://localhost:5000/popular?limit=4');
+        setListPopular(data.results);
+    }
     return (
       <>
         <Header/>
@@ -22,12 +31,27 @@ export class Homepage extends Component {
                         <h1 className="section-title">Popular in town</h1>
                     </div>
                     <div className="col text-end">
-                        <a className="section-link-view">View all<FaChevronRight/></a>
+                        <Link className="section-link-view" to="/category">View all<FaChevronRight/></Link>
                     </div>
                 </div>
                 <div className="row text-center">
-                    <div className="col-sm-6 col-md-4 col-lg-3 mb-4">
-                    <div class="d-inline-block position-relative">
+                  {
+                      listPopular.map((item)=>{
+                          return(
+                            <div className="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                <div class="d-inline-block position-relative">
+                                    <img src={item.photo} alt="Popular1" />
+                                    <div class="text-title-vehicle">
+                                        <div class="vehicle-name">{item.name}</div>
+                                        <div class="location">{item.location}</div>
+                                    </div>
+                                </div>
+                            </div>
+                          )
+                      })
+                  }
+                    {/* <div className="col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="d-inline-block position-relative">
                             <img src={imgPopular1} alt="Popular1" />
                             <div class="text-title-vehicle">
                                 <div class="vehicle-name">Merapi</div>
@@ -61,7 +85,7 @@ export class Homepage extends Component {
                                 <div class="location">Yogyakarta</div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </section>
@@ -98,6 +122,5 @@ export class Homepage extends Component {
       </>
     )
   }
-}
 
 export default Homepage;
