@@ -21,13 +21,15 @@ import { useNavigate, useParams,useSearchParams } from 'react-router-dom';
 export const ListVehicle = ()=> {
     const [dataCategory,setDataCategory] = useState({})
     const [listVehicle,setListVehicle] = useState([])
+    const [page,setPage] = useState([])
     const [searchParams,setSearchParams] = useSearchParams()
     const [vehicle,setVehicle] = useState("");
     const {id} = useParams()
     useEffect(()=>{
+      
        if(id){
             getDataCategory();
-        getListVehicle();
+            getListVehicle();
        }else{
         if(searchParams.get('search')){
             getDataSearch(searchParams.get('search'))
@@ -61,11 +63,24 @@ export const ListVehicle = ()=> {
     const getDataSearch = async(search)=>{
         const {data} = await axios.get(`http://localhost:5000/vehicles?search=${search}`);
         setListVehicle(data.results);
+        setPage(data.pageInfo);
     }
+
+    const getNextData = async(url)=>{
+      const {data} = await axios.get(url);
+      if(searchParams.get('search')==null){
+        setListVehicle([...listVehicle,...data.results])
+      }else{
+          setListVehicle(data.results)
+      }
+      setPage(data.pgeInfo)
+    }
+
 
     const getListVehicle = async()=>{
         const {data} = await axios.get(`http://localhost:5000/vehicles/category/${id}?limit=16`);
         setListVehicle(data.results);
+        setPage(data.pageInfo);
     }
     return (
      <>
@@ -99,6 +114,7 @@ export const ListVehicle = ()=> {
                                 })
                             }
                         </div>
+                        <button onClick={()=>getNextData(page.next)} className='btn btn-primary'>Load more</button>
                     </>   
                        : 
                     <div class="no-vehicle text-center">
