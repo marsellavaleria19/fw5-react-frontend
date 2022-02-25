@@ -15,21 +15,54 @@ import imgBike3 from '../assets/images/bike3.png';
 import imgBike4 from '../assets/images/bike4.png';
 import Layout from '../component/Layout';
 import {default as axios} from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams,useSearchParams } from 'react-router-dom';
 
 
 export const ListVehicle = ()=> {
     const [dataCategory,setDataCategory] = useState({})
     const [listVehicle,setListVehicle] = useState([])
+    const [searchParams,setSearchParams] = useSearchParams()
+    const [vehicle,setVehicle] = useState("");
     const {id} = useParams()
     useEffect(()=>{
-        getDataCategory();
+       if(id){
+            getDataCategory();
         getListVehicle();
+       }else{
+        if(searchParams.get('search')){
+            getDataSearch(searchParams.get('search'))
+        }
+       }
     },[]);
+
+    useEffect(()=>{
+        console.log(listVehicle)
+    //    if(vehicle){
+           if(vehicle!==searchParams.get('search')){
+             setVehicle(searchParams.get('search'))
+             if(searchParams.get('search')){
+                getDataSearch(searchParams.get('search'))
+            }
+           }
+    //    }
+    })
+
+    const navigate = useNavigate();
+    
+    const goToDetail = (id)=>{
+        navigate(`/category/vehicle/${id}`)
+    }
+
     const getDataCategory = async()=>{
         const {data} = await axios.get(`http://localhost:5000/categories/${id}`);
         setDataCategory(data.results);
     }
+
+    const getDataSearch = async(search)=>{
+        const {data} = await axios.get(`http://localhost:5000/vehicles?search=${search}`);
+        setListVehicle(data.results);
+    }
+
     const getListVehicle = async()=>{
         const {data} = await axios.get(`http://localhost:5000/vehicles/category/${id}?limit=16`);
         setListVehicle(data.results);
@@ -40,17 +73,20 @@ export const ListVehicle = ()=> {
             <section className="popular-town">
                 <div className="container">
             {
-                (listVehicle.length > 0 && Object.keys(dataCategory).length > 0 ) ? 
+                listVehicle.length > 0  ? 
                     <>
                         <div class="title">
-                                <h1 class="section-title mb-2">{dataCategory.name}</h1>
-                                <div class="info text-center mb-5">Click item to see details and reservation</div>
-                            </div>
-                            <div className="row text-center">
+                            {
+                                Object.keys(dataCategory).length > 0 &&  <h1 class="section-title mb-2">{dataCategory.name}</h1>
+                            }
+                            
+                            <div class="info text-center mb-5">Click item to see details and reservation</div>
+                        </div>
+                        <div className="row text-center">
                             {
                                 listVehicle.map((item)=>{
                                     return(
-                                        <div className="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                        <div  key={String(item.id)} onClick={()=>goToDetail(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
                                             <div class="d-inline-block position-relative">
                                                 <img src={item.photo} alt="Popular1" />
                                                 <div class="text-title-vehicle">
@@ -62,9 +98,8 @@ export const ListVehicle = ()=> {
                                     )
                                 })
                             }
-                            </div>
-                    </>
-                           
+                        </div>
+                    </>   
                        : 
                     <div class="no-vehicle text-center">
                         There is no vehicle left

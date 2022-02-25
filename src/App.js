@@ -21,6 +21,8 @@ export default class App extends Component {
             <Route path="/" element={<Homepage/>}></Route>
             <Route path="category" element={<Category/>}></Route>
             <Route path="category/:id" element={<ListVehicle/>}></Route>
+            <Route path="vehicle" element={<ListVehicle/>}></Route>
+            <Route path="category/vehicle/:id" element={<DetailVehicle/>}></Route>
         </Routes>
       </BrowserRouter>
     )

@@ -3,9 +3,16 @@ import logo from '../assets/images/logo3.png'
 import profile from '../assets/images/image-profile.png'
 import {FaRegEnvelope} from 'react-icons/fa'
 import {FaSearch} from 'react-icons/fa'
+import { useSearchParams,useNavigate } from 'react-router-dom'
 
-export default class NavbarHomeSearch extends Component {
-  render() {
+export const NavbarHomeSearch = () => {
+    const navigate = useNavigate()
+    const handleSearch = async (event)=>{
+        event.preventDefault();
+        const searchVehicle = event.target.elements["search"].value;
+        navigate(`/vehicle?search=${searchVehicle}`,{replace:true})
+        // setSearchParams({searchVehicle});
+    }
     return (
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
@@ -31,8 +38,8 @@ export default class NavbarHomeSearch extends Component {
                         </li>
                     </ul>
                     <div className="d-inline-block">
-                        <form className="d-flex position-relative search">
-                            <input className="form-control" type="search" placeholder="Search Vehicle" aria-label="Search"/>
+                        <form id="search" onSubmit={handleSearch} className="d-flex position-relative search">
+                            <input className="form-control" name="search" type="search" placeholder="Search Vehicle" aria-label="Search"/>
                             <button className="btn position-absolute" type="submit"><FaSearch/></button>
                         </form>
                     </div>
@@ -49,5 +56,6 @@ export default class NavbarHomeSearch extends Component {
             </div>
         </nav>
     )
-  }
 }
+
+export default NavbarHomeSearch
