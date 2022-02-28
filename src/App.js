@@ -23,7 +23,14 @@ export default class App extends Component {
             <Route path="category/:id" element={<ListVehicle/>}></Route>
             <Route path="vehicle" element={<ListVehicle/>}></Route>
             <Route path="category/vehicle/:id" element={<DetailVehicle/>}></Route>
+            <Route path="reservation/:id" element={<Reservation/>}></Route>
+            <Route path="payment/:id" element={<Payment/>}></Route>
             <Route path="search" element={<Search/>}></Route>
+            <Route path="history" element={<History/>}></Route>
+            <Route path="profile" element={<Profile/>}></Route>
+            <Route path="login" element={<Login/>}></Route>
+            <Route path="signup" element={<Signup/>}></Route>
+            <Route path="forgotpassword" element={<ForgotPassowrd/>}></Route>
         </Routes>
       </BrowserRouter>
     )
