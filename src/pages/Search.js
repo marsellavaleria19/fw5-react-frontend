@@ -31,8 +31,11 @@ export  const Search = ()=> {
             }
         }else if(dataSearch[filledParams[3]]!==searchParams.get(filledParams[3])){
             dataSearch[filledParams[3]] = searchParams.get(filledParams[3])
-            setSearchParams(dataSearch)
-            getDataSearch(dataSearch)
+            if(searchParams.get(filledParams[3])){
+                dataSearch[filledParams[3]] = searchParams.get(filledParams[3])
+                setSearchParams(dataSearch)
+                getDataSearch(dataSearch)
+            }
         }
      });
 
@@ -92,7 +95,7 @@ export  const Search = ()=> {
         <Layout>
             <div className="search container">
                 <div className="row mb-5">
-                    <div className="col">
+                    <div className="col-md">
                         <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
@@ -136,7 +139,7 @@ export  const Search = ()=> {
                         </div>
                         </div>
                     </div>
-                    <div className="col">
+                    <div className="col-md mt-3">
                             <select name="sort" className="form-select" aria-label="Default select example" onChange={handleSort}>
                                 <option value="" style={{display:'none'}}>Sort By</option>
                                 <option value="PriceHigh">Highest Price</option>
