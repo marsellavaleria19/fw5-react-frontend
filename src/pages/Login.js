@@ -1,29 +1,15 @@
 import React, { Component } from 'react'
 import logoGoogle from '../assets/images/logo-google.png'
 import Footer from '../component/Footer'
-export default class Login extends Component {
-  
-    constructor(props) {
-        super(props);
-        this.state = {email: '',password:''};
-    
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-      }
-    
-    handleChange(event){
-        this.setState({email:event.target.email,password:event.target.password});
+import {Link, useNavigate } from 'react-router-dom'
+
+export const Login = () => {
+    const navigate = useNavigate()
+
+    const goToSignup = ()=>{
+        navigate("/signup");
     }
 
-    handleSubmit(event){
-        // if(this.state.email==="admin@mail.com" && this.state.password==="1234"){
-        //     console.log("Benar")
-        // }
-        event.PreventDefault();
-        console.log(this.state.email);
-    }
-  
-    render() {
     return (
         <>
         <header className="header-login-signup">
@@ -33,7 +19,7 @@ export default class Login extends Component {
                     <div className="header-title col-lg">
                         <h1 className="heading">Let's Explore The World</h1>
                         <p className="text">Don't have account?</p>
-                        <button className="button-dark" onclick="window.location='./signup.html';">Sign Up</button>
+                        <button className="button-dark" onClick={goToSignup}>Sign Up</button>
                     </div>
                     <div className="header-separator col-lg d-lg-flex align-items-center flex-lg-column">
                         <div className="separator-circle"></div>
@@ -41,13 +27,13 @@ export default class Login extends Component {
                         <div className="separator-circle"></div>
                     </div>
                     <div className="header-login col-lg">
-                        <form className="form-login-signup" onSubmit={this.handleSubmit}>
+                        <form className="form-login-signup">
                             <div>
-                                <input type="text" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange}/>
+                                <input type="text" name="email" placeholder="Email"/>
                             </div>
                             <div>
-                                <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange}/>
-                                <p><a href="forgot-password.html">forgot password?</a></p>
+                                <input type="password" name="password" placeholder="Password"/>
+                                <p><Link to="/forgotpassword">forgot password?</Link></p>
                             </div>
                             <div>
                                 <button type="submit" className="btn p-4 button-filled login">Login</button>
@@ -57,7 +43,7 @@ export default class Login extends Component {
                             </div>
                             <div className='btn-login-signup'>
                                 <p className="text">Don't have account?</p>
-                                <button className="button-dark" onclick="window.location='./signup.html';">Sign Up</button>
+                                <button className="button-dark" onClick={goToSignup}>Sign Up</button>
                             </div>
                         </form>
                     </div>
@@ -69,5 +55,6 @@ export default class Login extends Component {
         </>
         
     )
-  }
 }
+
+export default Login
