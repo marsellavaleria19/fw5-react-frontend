@@ -15,13 +15,26 @@ export  const Search = ()=> {
 
     useEffect(()=>{
         filledParams.forEach((item)=>{
-            console.log(searchParams.get(item))
             if(searchParams.get(item)){
                 dataSearch[item] = searchParams.get(item)
             }
         })
         getDataSearch(dataSearch);
      },[]);
+
+     useEffect(()=>{
+        if(!dataSearch[filledParams[3]]){
+            if(searchParams.get(filledParams[3])){
+                dataSearch[filledParams[3]] = searchParams.get(filledParams[3])
+                setSearchParams(dataSearch)
+                getDataSearch(dataSearch)
+            }
+        }else if(dataSearch[filledParams[3]]!==searchParams.get(filledParams[3])){
+            dataSearch[filledParams[3]] = searchParams.get(filledParams[3])
+            setSearchParams(dataSearch)
+            getDataSearch(dataSearch)
+        }
+     });
 
      const handleFillter = async(event)=>{
         event.preventDefault();
@@ -70,8 +83,8 @@ export  const Search = ()=> {
 
             return `http://localhost:5000/search?${result}&limit=16`
         }
-        console.log(url(dataSearch));
         const {data} = await axios.get(url(dataSearch));
+        console.log(data)
         setListSearch(data.results);
         setPage(data.pageInfo);
     }
@@ -132,9 +145,10 @@ export  const Search = ()=> {
                     </div>
                 </div>
                 <h2 className='mb-3'>Results : </h2>
+               
                 <div className="row mb-3">
                     {
-                        listSearch.map((item)=>{
+                        listSearch.length > 0 ? listSearch.map((item)=>{
                             return(
                                 <div className="col-sm-6 col-md-4 col-lg-3 mb-3">
                                 <div class="card">
@@ -150,7 +164,11 @@ export  const Search = ()=> {
                                 </div>
                             </div>
                             )
-                        })
+                        }) : 
+                        <div className="no-vehicle text-center">
+                            There is no vehicle left
+                         </div> 
+                        
                     }
 {/*               
                     <div className="col">
