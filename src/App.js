@@ -11,7 +11,7 @@ import Reservation from './pages/Reservation'
 import Payment from './pages/Payment'
 import History from './pages/History'
 import Profile from './pages/Profile'
-
+import Search from './pages/Search'
 
 export default class App extends Component {
   render() {
@@ -23,6 +23,7 @@ export default class App extends Component {
             <Route path="category/:id" element={<ListVehicle/>}></Route>
             <Route path="vehicle" element={<ListVehicle/>}></Route>
             <Route path="category/vehicle/:id" element={<DetailVehicle/>}></Route>
+            <Route path="search" element={<Search/>}></Route>
         </Routes>
       </BrowserRouter>
     )
