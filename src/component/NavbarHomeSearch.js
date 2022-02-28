@@ -3,38 +3,40 @@ import logo from '../assets/images/logo3.png'
 import profile from '../assets/images/image-profile.png'
 import {FaRegEnvelope} from 'react-icons/fa'
 import {FaSearch} from 'react-icons/fa'
-import { useSearchParams,useNavigate } from 'react-router-dom'
+import {useNavigate } from 'react-router-dom'
 
 export const NavbarHomeSearch = () => {
     const navigate = useNavigate()
-    const handleSearch = async (event)=>{
+
+    const handleSearch = (event)=>{
         event.preventDefault();
         const searchVehicle = event.target.elements["search"].value;
-        navigate(`/vehicle?search=${searchVehicle}`,{replace:true})
         // setSearchParams({searchVehicle});
+        navigate(`/search?name=${searchVehicle}`,{replace:true})
+        
     }
     return (
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container">
-                <a class="navbar-brand" href="./homepage.html">
+        <nav className="navbar navbar-expand-lg navbar-light">
+            <div className="container">
+                <a className="navbar-brand" href="./homepage.html">
                     <img src={logo} alt="Logo"/>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto me-5 mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="./homepage.html">Home</a>
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="navbar-nav ms-auto me-5 mb-2 mb-lg-0">
+                        <li className="nav-item">
+                            <a className="nav-link active" aria-current="page" href="./homepage.html">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./category.html">Vehicle Type</a>
+                        <li className="nav-item">
+                            <a className="nav-link" href="./category.html">Vehicle Type</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./history.html">History</a>
+                        <li className="nav-item">
+                            <a className="nav-link" href="./history.html">History</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link">About</a>
+                        <li className="nav-item">
+                            <a className="nav-link">About</a>
                         </li>
                     </ul>
                     <div className="d-inline-block">
