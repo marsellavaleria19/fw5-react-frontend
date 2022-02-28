@@ -1,30 +1,56 @@
-import React, { Component } from 'react'
+import React, { Component,useState,useEffect } from 'react'
 import imgDetailVehicle from '../assets/images/detail-vehicle.png'
 import NavbarHomeSearch from '../component/NavbarHomeSearch'
 import Footer from '../component/Footer' 
 import {FaChevronDown} from 'react-icons/fa'
 import {FaChevronLeft} from 'react-icons/fa'
+import Layout from '../component/Layout'
+import { useParams } from 'react-router-dom'
+import {default as axios} from 'axios'
+import { useNavigate } from 'react-router-dom'
 
-export default class Reservation extends Component {
-  render() {
+export const Reservation  = ()=> {
+
+    const [dataVehicle,setDataVehicle] = useState({})
+
+    const {id} = useParams()
+    
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        getDataVehicle();
+    },[]);
+    
+    const getDataVehicle = async()=>{
+        const {data} = await axios.get(`http://localhost:5000/vehicles/${id}`);
+        setDataVehicle(data.results);
+    }
+
+    const goToReservation = ()=>{
+        window.history.back()
+    }
+
+    const goToPayment = (id)=>{
+        navigate(`/payment/${id}`)
+    }
+
     return (
-        <>
-            <NavbarHomeSearch/>
+            <Layout>
             <section className="reservation container mb-5">
-                <div className="header-nav">
+                <div onClick={goToReservation} className="header-nav">
                     <FaChevronLeft/>
                     <span>Reservation</span>
                 </div>
                 <div className="row">
                     <div className="col-md">
                         <div className="img-vehicle">
-                            <img src={imgDetailVehicle} alt="detail-vehicle"/>
+                            <img src={dataVehicle.photo} alt="detail-vehicle"/>
                         </div>
                     </div>
                     <div className="col-md">
                         <div className="title-vehicle">
-                            <h1>Fixie-Gray Only</h1>
-                            <div className="location">Yogyakarta</div>
+                            <h1>{dataVehicle.name}</h1>
+                            <div className="location">{dataVehicle.location}</div>
                         </div>
                         <div className="status-vehicle">
                             <div className="no-prepayment fw-bold">No Prepayment</div>
@@ -51,11 +77,11 @@ export default class Reservation extends Component {
                     </div>
                 </div>
                 <div className="btn-payment">
-                    <button className="button-filled" onclick="window.location='./payment.html';">Pay now : Rp. 178.000</button>
+                    <button className="button-filled" onClick={()=>goToPayment(dataVehicle.id)}>Pay now : Rp. 178.000</button>
                 </div>
         </section>
-        <Footer/>
-      </>
+    </Layout>
     )
-  }
 }
+
+export default Reservation

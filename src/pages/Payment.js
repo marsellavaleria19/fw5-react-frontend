@@ -1,12 +1,32 @@
-import React, { Component } from 'react'
+import React, { Component,useEffect,useState } from 'react'
 import {FaChevronDown} from 'react-icons/fa'
 import {FaChevronLeft} from 'react-icons/fa'
 import imgDetailVehicle from '../assets/images/detail-vehicle.png'
 import NavbarHomeSearch from '../component/NavbarHomeSearch'
 import Footer from '../component/Footer' 
+import { useNavigate,useParams } from 'react-router-dom'
+import {default as axios} from 'axios'
 
-export default class Payment extends Component {
-  render() {
+export const Payment = ()=> {
+    const [dataVehicle,setDataVehicle] = useState({})
+
+    const {id} = useParams()
+    
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        getDataVehicle();
+    },[]);
+    
+    const getDataVehicle = async()=>{
+        const {data} = await axios.get(`http://localhost:5000/vehicles/${id}`);
+        setDataVehicle(data.results);
+    }
+
+    const goToPayment = ()=>{
+        window.history.back()
+    }
+
     return (
       <>
         <NavbarHomeSearch/>
@@ -18,13 +38,13 @@ export default class Payment extends Component {
             <div className="row">
                 <div className="col-md-6 col-lg-4">
                     <div className="img-vehicle">
-                        <img src={imgDetailVehicle} alt="detail-vehicle"/>
+                        <img src={dataVehicle.photo} alt="detail-vehicle"/>
                     </div>
                 </div>
                 <div className="col-md-6 col-lg-4">
                     <div className="title-vehicle">
-                        <h1>Fixie-Gray Only</h1>
-                        <div className="location">Yogyakarta</div>
+                        <h1>{dataVehicle.name}</h1>
+                        <div className="location">{dataVehicle.location}</div>
                     </div>
                     <div className="text-status fw-bold mt-4">No Prepayment</div>
                     <div className="code-payment mt-3">
@@ -125,5 +145,6 @@ export default class Payment extends Component {
         <Footer/>
       </>
     )
-  }
 }
+
+export default Payment
