@@ -2,14 +2,17 @@ import React, { Component } from 'react'
 import Footer from '../component/Footer'
 import {FaChevronLeft} from 'react-icons/fa'
 
-export default class ForgotPassowrd extends Component {
-  render() {
+export const ForgotPassowrd = ()=> {
+
+  const goToBack = ()=>{
+    window.history.back()
+  }
     return (
       <>
         <header className="header-forgot">
             <div className="header-content">
                 <div className="header-nav">
-                    <div onclick="window.location='./signup.html';">
+                    <div onclick={goToBack}>
                         <FaChevronLeft/>
                         <span>Back</span>
                     </div>
@@ -31,5 +34,6 @@ export default class ForgotPassowrd extends Component {
         <Footer/>
       </>
     )
-  }
 }
+
+export default ForgotPassowrd

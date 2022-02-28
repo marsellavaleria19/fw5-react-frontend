@@ -8,12 +8,13 @@ import {FaHeart} from 'react-icons/fa'
 import {default as axios} from 'axios'
 import { useParams } from 'react-router-dom'
 import Layout from '../component/Layout'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 
 export const  DetailVehicle =  ()=> {
     const [dataVehicle,setDataVehicle] = useState({})
 
     const {id} = useParams()
+    const navigate = useNavigate()
 
     useEffect(()=>{
         getDataVehicle();
@@ -23,16 +24,25 @@ export const  DetailVehicle =  ()=> {
         const {data} = await axios.get(`http://localhost:5000/vehicles/${id}`);
         setDataVehicle(data.results);
     }
+
+
+    const goToReservation = (id)=>{
+        navigate(`/reservation/${id}`)
+    }
+
+    const goToDetail = ()=>{
+        window.history.back()
+    }
  
     return (
         <Layout>
-            <section className="detail-vehicle container mb-5">
-                <Link to={`/category/${dataVehicle.category_id}`}>
-                    <div className="header-nav">
+            {
+                Object.keys(dataVehicle) ? 
+                <section className="detail-vehicle container mb-5">
+                    <div onClick={goToDetail} className="header-nav">
                         <FaChevronLeft/>
                         <span>Detail</span>
                     </div>
-                </Link>
                 <div className="row container">
                     <div className="col-md">
                         <div className="img-vehicle">
@@ -91,7 +101,7 @@ export const  DetailVehicle =  ()=> {
                             <button className="button-dark btn-chat">Chat Admin</button>
                         </div>
                         <div className="col-lg-5 col-md mb-3">
-                            <button className="button-filled btn-reservation" onclick="window.location='./reservation.html';">Reservation</button>
+                            <button onClick={()=>goToReservation(dataVehicle.id)} className="button-filled btn-reservation">Reservation</button>
                         </div>
                         <div className="col-lg-2 col-md-3 mb-3">
                             <button className="button-dark btn-like d-flex justify-content-center align-items-center">
@@ -99,7 +109,12 @@ export const  DetailVehicle =  ()=> {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> : 
+                <div className="no-vehicle text-center">
+                    There is no vehicle left
+                </div> 
+            }
+   
         {/* <NavbarHomeSearch/>
         <section className="detail-vehicle container mb-5">
             <div className="header-nav">

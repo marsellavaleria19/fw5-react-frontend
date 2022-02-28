@@ -16,11 +16,12 @@ import imgBike4 from '../assets/images/bike4.png';
 import {FaChevronRight} from 'react-icons/fa'
 import {default as axios} from 'axios';
 import Layout from '../component/Layout';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 export const Category = ()=> {
     const [listCategory,setListCategory] = useState([])
     const [listVehicle,setListVehicle] = useState([])
+    const navigate = useNavigate();
     useEffect(()=>{
         getDataCategory()
         getDataVehicle()
@@ -33,6 +34,11 @@ export const Category = ()=> {
         const {data} = await axios.get('http://localhost:5000/vehicles?limit=20');
         setListVehicle(data.results);
     }
+
+    const goToDetail = (id)=>{
+        navigate(`/category/vehicle/${id}`)
+    }
+
     return (
         <>
             <Layout>
@@ -53,9 +59,9 @@ export const Category = ()=> {
                                         {
                                             listVehicle.filter(item=>item.category_id===itemCategory.id).filter((item,index)=>index<4).map((itemVehicle)=>{
                                                 return(
-                                                    <div className="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                                    <div onClick={()=>goToDetail(itemVehicle.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
                                                         <div class="d-inline-block position-relative">
-                                                            <img src={itemVehicle.photo} alt="Car1" />
+                                                            <img src={itemVehicle.photo} className="img-fluid" alt="Car1" />
                                                                 <div class="text-title-vehicle">
                                                                     <div className="vehicle-name">{itemVehicle.name}</div>
                                                                     <div className="location">{itemVehicle.location}</div>
