@@ -228,6 +228,7 @@
             margin-top: 34px;
             border: none;
             border-radius: 10px;
+            padding-left: 20px;
         }
         
         .form-login-signup div input:focus {
@@ -507,12 +508,18 @@
             margin-bottom: 55px;
             color: var(--primary);
         }
+        
+        .popular-town .btn-next {
+            background-color: transparent;
+            color: var(--primary);
+            font-size: 24px;
+        }
         /* .popular-town .col-md-5 {
             margin-bottom: 30px;
         } */
         
         .popular-town img {
-            max-width: 100%;
+            width: 261px;
             border-radius: 8px;
             height: 332px;
         }
