@@ -10,10 +10,12 @@ import imgPrevious from '../assets/images/previous.png';
 import imgNext from '../assets/images/next.png'; 
 import {FaChevronRight} from 'react-icons/fa'
 import {default as axios} from 'axios';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 export const Homepage = ()=> {
     const [listPopular,setListPopular] = useState([])
+    const navigate = useNavigate();
+ 
     useEffect(()=>{
         getDataPopularTown()
     },[]);
@@ -21,6 +23,10 @@ export const Homepage = ()=> {
         const {data} = await axios.get('http://localhost:5000/popular?limit=4');
         setListPopular(data.results);
     }
+    const goToDetail = (id)=>{
+        navigate(`/category/vehicle/${id}`)
+    }
+
     return (
       <>
         <Header/>
@@ -38,9 +44,9 @@ export const Homepage = ()=> {
                   {
                       listPopular.map((item)=>{
                           return(
-                            <div className="col-sm-6 col-md-4 col-lg-3 mb-4">
+                            <div onClick={()=>goToDetail(item.id)} key={String(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
                                 <div className="d-inline-block position-relative">
-                                    <img src={item.photo} alt="Popular1" />
+                                    <img src={item.photo} className='img-fluid' alt="Popular1" />
                                     <div className="text-title-vehicle">
                                         <div className="vehicle-name">{item.name}</div>
                                         <div className="location">{item.location}</div>
