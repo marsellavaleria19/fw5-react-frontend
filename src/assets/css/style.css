@@ -1416,6 +1416,51 @@
             font-weight: 700;
         }
         
+        .accordion .accordion-button {
+            color: var(--primary);
+            font-weight: 900;
+            background-color: var(--third);
+            font-family: 'Nunito', serif;
+        }
+        
+        .accordion .accordion-item {
+            color: var(--primary);
+            font-weight: 700;
+            background-color: var(--four);
+            border: 2px solid var(--third);
+        }
+        
+        .search .form-select {
+            background-color: var(--third);
+            color: var(--primary);
+            height: 53px;
+        }
+        
+        .search input[type="date"] {
+            background-color: var(--third);
+            color: var(--primary);
+            height: 53px;
+        }
+        
+        .search h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .search .card {
+            background-color: var(--four);
+            border: 2px solid var(--third);
+            color: var(--primary);
+            border-radius: 10px;
+            height: 100%;
+        }
+        
+        .search .card img {
+            height: 200px;
+            aspect-ratio: 3px;
+        }
+        
         @media(max-width:767px) {
             .popular-town .col-flex-xs {
                 display: flex;
