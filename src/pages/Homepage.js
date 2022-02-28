@@ -39,11 +39,11 @@ export const Homepage = ()=> {
                       listPopular.map((item)=>{
                           return(
                             <div className="col-sm-6 col-md-4 col-lg-3 mb-4">
-                                <div class="d-inline-block position-relative">
+                                <div className="d-inline-block position-relative">
                                     <img src={item.photo} alt="Popular1" />
-                                    <div class="text-title-vehicle">
-                                        <div class="vehicle-name">{item.name}</div>
-                                        <div class="location">{item.location}</div>
+                                    <div className="text-title-vehicle">
+                                        <div className="vehicle-name">{item.name}</div>
+                                        <div className="location">{item.location}</div>
                                     </div>
                                 </div>
                             </div>
