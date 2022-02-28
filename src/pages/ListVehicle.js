@@ -16,7 +16,7 @@ import imgBike4 from '../assets/images/bike4.png';
 import Layout from '../component/Layout';
 import {default as axios} from 'axios';
 import { useNavigate, useParams,useSearchParams } from 'react-router-dom';
-
+import { FaAngleDoubleDown } from 'react-icons/fa'
 
 export const ListVehicle = ()=> {
     const [dataCategory,setDataCategory] = useState({})
@@ -26,7 +26,6 @@ export const ListVehicle = ()=> {
     const [vehicle,setVehicle] = useState("");
     const {id} = useParams()
     useEffect(()=>{
-      
        if(id){
             getDataCategory();
             getListVehicle();
@@ -67,13 +66,16 @@ export const ListVehicle = ()=> {
     }
 
     const getNextData = async(url)=>{
+      console.log(url);
       const {data} = await axios.get(url);
-      if(searchParams.get('search')==null){
-        setListVehicle([...listVehicle,...data.results])
-      }else{
-          setListVehicle(data.results)
-      }
-      setPage(data.pgeInfo)
+      console.log(data)
+      setListVehicle([...listVehicle,...data.results])
+    //   if(searchParams.get('search')==null){
+    //     setListVehicle([...listVehicle,...data.results])
+    //   }else{
+    //       setListVehicle(data.results)
+    //   }
+      setPage(data.pageInfo)
     }
 
 
@@ -103,7 +105,7 @@ export const ListVehicle = ()=> {
                                     return(
                                         <div  key={String(item.id)} onClick={()=>goToDetail(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
                                             <div class="d-inline-block position-relative">
-                                                <img src={item.photo} alt="Popular1" />
+                                                <img src={item.photo} className="img-fluid" alt="Popular1" />
                                                 <div class="text-title-vehicle">
                                                     <div class="vehicle-name">{item.name}</div>
                                                     <div class="location">{item.location}</div>
@@ -114,7 +116,12 @@ export const ListVehicle = ()=> {
                                 })
                             }
                         </div>
-                        <button onClick={()=>getNextData(page.next)} className='btn btn-primary'>Load more</button>
+                        {
+                            page.next!==null ? 
+                            <div className='text-center mt-5 mb-5'>
+                                <button onClick={()=>getNextData(page.next)} className='btn btn-next'>Load more <FaAngleDoubleDown/></button>
+                            </div> : ""
+                        }
                     </>   
                        : 
                     <div class="no-vehicle text-center">
