@@ -10,7 +10,7 @@ import DetailVehicle from './pages/DetailVehicle'
 import Reservation from './pages/Reservation'
 import Payment from './pages/Payment'
 import History from './pages/History'
-import Profile from './pages/Profile'
+import ProfileLayout from './pages/Profile'
 import Search from './pages/Search'
 
 export default class App extends Component {
@@ -27,7 +27,7 @@ export default class App extends Component {
             <Route path="payment/:id" element={<Payment/>}></Route>
             <Route path="search" element={<Search/>}></Route>
             <Route path="history" element={<History/>}></Route>
-            <Route path="profile" element={<Profile/>}></Route>
+            <Route path="profil" element={<ProfileLayout/>}></Route>
             <Route path="login" element={<Login/>}></Route>
             <Route path="signup" element={<Signup/>}></Route>
             <Route path="forgotpassword" element={<ForgotPassowrd/>}></Route>
