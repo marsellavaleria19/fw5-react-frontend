@@ -30,35 +30,35 @@ export const Header = ()=> {
     return (
         <header>
         <NavbarLogin/>
-            <div class="jumbotron">
-                <div class="content">
-                    <div class="container">
-                        <h1 class="heading">Explore and Travel</h1>
+            <div className="jumbotron">
+                <div className="content">
+                    <div className="container">
+                        <h1 className="heading">Explore and Travel</h1>
                         <p>Vehicle Finder</p>
-                        <div class="line"></div>
-                        <form onSubmit={handleFilter} class="filter-homepage">
-                            <div class="d-md-flex flex-md-wrap mb-md-4">
-                                <select name="location" class="form-select me-4 mb-3" aria-label="Default select example"> 
+                        <div className="line"></div>
+                        <form onSubmit={handleFilter} className="filter-homepage">
+                            <div className="d-md-flex flex-md-wrap mb-md-4">
+                                <select name="location" className="form-select me-4 mb-3" aria-label="Default select example"> 
                                     <option value="" style={{display:'none'}}>Location</option>
                                     <option value="Yogyakarta">Yogyakarta</option>
                                     <option value="Bandung">Bandung</option>
                                 </select>
-                                <select name="category_id" class="form-select mb-3" aria-label="Default select example">
+                                <select name="category_id" className="form-select mb-3" aria-label="Default select example">
                                     <option value="" style={{display:'none'}}>Type</option>
                                     <option value="1">Bike</option>
                                     <option value="2">Cars</option>
                                     <option value="3">Motorbike</option>
                                 </select>
                             </div>
-                            <div class="d-md-flex flex-md-wrap">
-                                <select name="payment_id" class="form-select me-4 mb-3" aria-label="Default select example">
+                            <div className="d-md-flex flex-md-wrap">
+                                <select name="payment_id" className="form-select me-4 mb-3" aria-label="Default select example">
                                     <option value="" style={{display:'none'}}>Payment</option>
                                     <option value="1">Cash</option>
                                     <option value="2">Transfer</option>
                                 </select>
-                                <input class="form-control" type="date" name="date" />
+                                <input className="form-control" type="date" name="date" />
                             </div>
-                            <button class="button-filled">Explore</button>
+                            <button className="button-filled">Explore</button>
                         </form>
                     </div>
                 </div>
