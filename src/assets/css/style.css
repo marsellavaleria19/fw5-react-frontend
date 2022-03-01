@@ -68,11 +68,13 @@
         
         .header-forgot .header-content .header-nav svg {
             font-size: 30px;
-            margin-right: 76px;
+            margin-right: 30px;
+            color: var(--four);
         }
         
         .header-forgot .header-content .header-nav span {
             font-size: 24px;
+            color: var(--four);
         }
         
         .header-forgot .header-content h1.heading {

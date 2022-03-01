@@ -12,7 +12,7 @@ export const ForgotPassowrd = ()=> {
         <header className="header-forgot">
             <div className="header-content">
                 <div className="header-nav">
-                    <div onclick={goToBack}>
+                    <div onClick={goToBack}>
                         <FaChevronLeft/>
                         <span>Back</span>
                     </div>
