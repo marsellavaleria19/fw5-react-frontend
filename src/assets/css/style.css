@@ -383,7 +383,7 @@
         .jumbotron h1.heading {
             font-size: 64px;
             font-family: 'Playfair Display', serif;
-            text-align: justify;
+            text-align: left;
             font-weight: bold;
             color: white;
             padding-top: 69px;
@@ -606,14 +606,6 @@
             top: 5px;
             left: 0px;
             text-align: center;
-        }
-        
-        nav.navbar div ul li {
-            color: var(--primary);
-        }
-        
-        nav.navbar div ul li a {
-            color: var(--primary);
         }
         
         nav div a img.profile {
@@ -1468,7 +1460,24 @@
             aspect-ratio: 3px;
         }
         
-        @media(max-width:767px) {
+        @media(max-width:500px) {
+            .header-forgot .header-content {
+                padding: 0 10px;
+                height: 100vh;
+            }
+            .header-forgot .header-content form div input {
+                width: 100%;
+            }
+            .header-forgot .header-content form div button.button-send {
+                width: 100%;
+            }
+        }
+        
+        @media(min-width:501px) and (max-width:767px) {
+            .header-forgot .header-content {
+                padding: 0 10px;
+                height: 90vh;
+            }
             .popular-town .col-flex-xs {
                 display: flex;
                 flex-direction: column;
@@ -1477,14 +1486,27 @@
             .popular-town img {
                 max-width: 100%;
             }
+            .jumbotron h1.heading {
+                margin-left: 20px;
+            }
+            .jumbotron p {
+                margin-left: 20px;
+            }
+            .jumbotron .line {
+                margin-left: 20px;
+            }
+            .jumbotron form {
+                text-align: center;
+                padding-left: 20px;
+            }
             .jumbotron form select {
                 width: 100%;
             }
             .jumbotron form input[type="date"] {
                 width: 100%;
             }
-            .jumbotron form .button-filled {
-                margin-bottom: 20px;
+            .jumbotron form button.button-filled {
+                width: 100%;
             }
             .testimonial img {
                 width: 100%;
@@ -1500,18 +1522,6 @@
             }
             .popular-town .flex-md-wrap .mb-md-photo {
                 margin-bottom: 30px;
-            }
-            .header-forgot .header-content form div input {
-                width: 100%;
-            }
-            .header-forgot .header-content form div button.button-send {
-                width: 100%;
-            }
-            .header-forgot .header-content {
-                padding: 0 10px;
-            }
-            .header-forgot .header-content form div input {
-                width: 100%;
             }
             .header-login-signup .header-content {
                 padding: 0 10px;
@@ -1560,6 +1570,20 @@
             }
             .header-title .button-dark {
                 display: none;
+            }
+            .navbar-light .nav-item .nav-link {
+                font-size: 20px;
+                text-align: center;
+            }
+            .navbar-light .button-white {
+                width: 100%;
+                margin-bottom: 20px;
+                margin-top: 20px;
+            }
+            .search input[type="search"] {
+                width: 100%;
+                margin-left: 20px;
+                margin-right: 20px;
             }
             /* .separator-line {
                 width: 100%;
