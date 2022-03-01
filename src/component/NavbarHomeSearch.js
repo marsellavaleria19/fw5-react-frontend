@@ -40,20 +40,24 @@ export const NavbarHomeSearch = () => {
                             <a className="nav-link">About</a>
                         </li>
                     </ul>
-                    <div className="d-inline-block">
-                        <form id="search" onSubmit={handleSearch} className="d-flex position-relative search">
-                            <input className="form-control" name="search" type="search" placeholder="Search Vehicle" aria-label="Search"/>
-                            <button className="btn position-absolute" type="submit"><FaSearch/></button>
-                        </form>
-                    </div>
-                    <div className="add-navbar">
-                        <a href="#" className="position-relative mx-5">
-                            <FaRegEnvelope/>
-                            <span className="position-absolute translate-middle badge-mail border border-light rounded-circle">1</span>
-                        </a>
-                        <Link to="/profile">
-                            <img src={profile} className="profile rounded-circle" alt="profile"/>
-                        </Link>
+                    <div className="row">
+                        <div className="col-lg">
+                            <form id="search" onSubmit={handleSearch} className="d-flex position-relative search">
+                                <input className="form-control" name="search" type="search" placeholder="Search Vehicle" aria-label="Search"/>
+                                <button className="btn position-absolute" type="submit"><FaSearch/></button>
+                            </form>
+                        </div>
+                        <div className="col-lg">
+                            <div className="add-navbar d-flex justify-content-center">
+                                <a href="#" className="position-relative mx-5">
+                                    <FaRegEnvelope/>
+                                    <span className="position-absolute translate-middle badge-mail border border-light rounded-circle">1</span>
+                                </a>
+                                <Link to="/profil">
+                                    <img src={profile} className="profile rounded-circle" alt="profile"/>
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

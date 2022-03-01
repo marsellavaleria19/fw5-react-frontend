@@ -35,9 +35,13 @@ export const NavbarLogin  = () =>{
                             <Link class="nav-link" to="">About</Link>
                         </li>
                     </ul>
-                    <div class="d-flex">
-                        <button class="button-white mx-3" onClick={goToLogin}>Login</button>
-                        <button class="button-filled" onClick={goToSignup}>Register</button>
+                    <div className='row'>
+                        <div className="col-lg-6">
+                            <button className="button-white" onClick={goToLogin}>Login</button>
+                        </div>
+                        <div className="col-lg-6">
+                            <button className="button-filled" onClick={goToSignup}>Register</button>
+                        </div>
                     </div>
                 </div>
             </div>

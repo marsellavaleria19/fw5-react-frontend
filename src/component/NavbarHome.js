@@ -1,14 +1,27 @@
 import React, { Component } from 'react'
-import profile from '../assets/images/image-profile.png'
 import logo from '../assets/images/logo3.png'
+import profile from '../assets/images/image-profile.png'
 import {FaRegEnvelope} from 'react-icons/fa'
+import {FaSearch} from 'react-icons/fa'
+import {useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
 export const NavbarHome = () => {
+    const navigate = useNavigate()
+
+    const handleSearch = (event)=>{
+        event.preventDefault();
+        const searchVehicle = event.target.elements["search"].value;
+        // setSearchParams({searchVehicle});
+        navigate(`/search?name=${searchVehicle}`,{replace:true})
+        
+    }
     return (
         <nav className="navbar navbar-expand-lg navbar-light">
             <div className="container">
-                <Link className="navbar-brand" to="/"><img src={logo} alt="Logo"/></Link>
+                <Link className="navbar-brand" to="/">
+                    <img src={logo} alt="Logo"/>
+                </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -21,19 +34,21 @@ export const NavbarHome = () => {
                             <Link className="nav-link" to="/category">Vehicle Type</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" href="/history">History</Link>
+                            <Link className="nav-link" to="/history">History</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">About</a>
+                            <a className="nav-link">About</a>
                         </li>
                     </ul>
-                    <a href="#" className="position-relative mx-5">
-                        <FaRegEnvelope/>
-                        <span className="position-absolute translate-middle badge-mail border border-light rounded-circle">1</span>
-                    </a>
-                    <Link to="/profile">
-                        <img src={profile} className="profile rounded-circle" alt="profile"/>
-                    </Link>
+                    <div className="add-navbar d-flex justify-content-center">
+                        <a href="#" className="position-relative mx-5">
+                            <FaRegEnvelope/>
+                            <span className="position-absolute translate-middle badge-mail border border-light rounded-circle">1</span>
+                        </a>
+                        <Link to="/profil">
+                            <img src={profile} className="profile rounded-circle" alt="profile"/>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </nav>
