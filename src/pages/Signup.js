@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
 import logoGoogle from '../assets/images/logo-google.png'
 import Footer from '../component/Footer'
+import { useNavigate } from 'react-router-dom'
 
-export default class Signup extends Component {
-  render() {
+export const Signup = () => {
+    const navigate = useNavigate()
+    const goToLogin = ()=>{
+        navigate("/login");
+    }
+
     return (
         <>
             <header className="header-login-signup">
@@ -13,7 +18,7 @@ export default class Signup extends Component {
                             <div className="header-title col">
                                 <h1 className="heading">Let's Explore<br/>The World</h1>
                                 <p className="text">Don't have account?</p>
-                                <button className="button-dark" onclick="window.location='./login.html';">Login</button>
+                                <button className="button-dark" onClick={goToLogin}>Login</button>
                             </div>
                             <div className="header-separator col-lg d-lg-flex align-items-center flex-lg-column">
                                 <div className="separator-circle"></div>
@@ -39,7 +44,7 @@ export default class Signup extends Component {
                                     </div>
                                     <div className='btn-login-signup'>
                                         <p className="text">Have account?</p>
-                                        <button className="button-dark" onclick="window.location='./signup.html';">Login</button>
+                                        <button className="button-dark" onClick={goToLogin}>Login</button>
                                     </div>
                                 </form>
                             </div>
@@ -50,5 +55,6 @@ export default class Signup extends Component {
             <Footer/>
         </>
     )
-  }
 }
+
+export default Signup
