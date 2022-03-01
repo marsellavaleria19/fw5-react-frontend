@@ -139,7 +139,7 @@ export  const Search = ()=> {
                         </div>
                         </div>
                     </div>
-                    <div className="col-md mt-3">
+                    <div className="col-md">
                             <select name="sort" className="form-select" aria-label="Default select example" onChange={handleSort}>
                                 <option value="" style={{display:'none'}}>Sort By</option>
                                 <option value="PriceHigh">Highest Price</option>
