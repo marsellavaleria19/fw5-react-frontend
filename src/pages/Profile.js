@@ -4,8 +4,7 @@ import Footer from '../component/Footer'
 import imgProfile from '../assets/images/image-profile.png'
 import {FaPencilAlt} from 'react-icons/fa'
 
-export default class Profile extends Component {
-  render() {
+export const Profile = ()=> {
     return (
       <>
         <NavbarHome/>
@@ -63,7 +62,7 @@ export default class Profile extends Component {
                             <input className="d-block w-100" type="text" value="zulaikha"/>
                         </div>
                         <div className="col-sm">
-                            <label for="mobile-number">DD/MM/YY</label>
+                            <label for="mobile-number">Birth date (DD/MM/YY)</label>
                             <input className="d-block w-100" type="date" value="03/09/2003"/>
                         </div>
                     </div>
@@ -84,5 +83,6 @@ export default class Profile extends Component {
         <Footer/>
       </>
     )
-  }
 }
+
+export default Profile
