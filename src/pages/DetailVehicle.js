@@ -11,20 +11,22 @@ import Layout from '../component/Layout'
 import { Link,useNavigate } from 'react-router-dom'
 
 export const  DetailVehicle =  ()=> {
+
     const [dataVehicle,setDataVehicle] = useState({})
 
     const {id} = useParams()
     const navigate = useNavigate()
+
+    const {REACT_APP_URL} = process.env 
 
     useEffect(()=>{
         getDataVehicle();
     },[]);
     
     const getDataVehicle = async()=>{
-        const {data} = await axios.get(`http://localhost:5000/vehicles/${id}`);
+        const {data} = await axios.get(`${REACT_APP_URL}/vehicles/${id}`);
         setDataVehicle(data.results);
     }
-
 
     const goToReservation = (id)=>{
         navigate(`/reservation/${id}`)
@@ -84,7 +86,7 @@ export const  DetailVehicle =  ()=> {
                             <div>Reservation before 2 PM</div>
                         </div>
                         <div className="price">
-                            <h1 className="text-end">Rp.{dataVehicle.price}/day</h1>
+                            <h1 className="text-end">Rp. {dataVehicle.price?.toLocaleString("id")}/day</h1>
                         </div>
                         <form>
                             <div className="form-quantity d-flex button-plus-minus">

@@ -1,22 +1,9 @@
 import React, { Component,useEffect,useState } from 'react'
-import NavbarHomeSearch from '../component/NavbarHomeSearch'
-import Footer from '../component/Footer';
-import imgPopular1 from '../assets/images/popular1.png';
-import imgPopular2 from '../assets/images/popular2.png';
-import imgPopular3 from '../assets/images/popular3.png';
-import imgPopular4 from '../assets/images/popular4.png';
-import imgCar2 from '../assets/images/car2.png';
-import imgCar4 from '../assets/images/car4.png';
-import imgMotorBike1 from '../assets/images/motorbike1.png';
-import imgMotorBike3 from '../assets/images/motorbike3.png';
-import imgBike1 from '../assets/images/bike1.png';
-import imgBike2 from '../assets/images/bike2.png';
-import imgBike3 from '../assets/images/bike3.png';
-import imgBike4 from '../assets/images/bike4.png';
 import Layout from '../component/Layout';
 import {default as axios} from 'axios';
 import { useNavigate, useParams,useSearchParams } from 'react-router-dom';
 import { FaAngleDoubleDown } from 'react-icons/fa'
+
 
 export const ListVehicle = ()=> {
     const [dataCategory,setDataCategory] = useState({})
@@ -25,6 +12,8 @@ export const ListVehicle = ()=> {
     const [searchParams,setSearchParams] = useSearchParams()
     const [vehicle,setVehicle] = useState("");
     const {id} = useParams()
+    const {REACT_APP_URL,REACT_APP_LIMIT_VEHICLE} = process.env 
+    
     useEffect(()=>{
        if(id){
             getDataCategory();
@@ -37,7 +26,6 @@ export const ListVehicle = ()=> {
     },[]);
 
     useEffect(()=>{
-        console.log(listVehicle)
     //    if(vehicle){
            if(vehicle!==searchParams.get('search')){
              setVehicle(searchParams.get('search'))
@@ -55,12 +43,12 @@ export const ListVehicle = ()=> {
     }
 
     const getDataCategory = async()=>{
-        const {data} = await axios.get(`http://localhost:5000/categories/${id}`);
+        const {data} = await axios.get(`${REACT_APP_URL}/categories/${id}`);
         setDataCategory(data.results);
     }
 
     const getDataSearch = async(search)=>{
-        const {data} = await axios.get(`http://localhost:5000/vehicles?search=${search}`);
+        const {data} = await axios.get(`${REACT_APP_URL}/vehicles?search=${search}`);
         setListVehicle(data.results);
         setPage(data.pageInfo);
     }
@@ -80,10 +68,11 @@ export const ListVehicle = ()=> {
 
 
     const getListVehicle = async()=>{
-        const {data} = await axios.get(`http://localhost:5000/vehicles/category/${id}?limit=16`);
+        const {data} = await axios.get(`${REACT_APP_URL}/vehicles/category/${id}?limit=${REACT_APP_LIMIT_VEHICLE}`);
         setListVehicle(data.results);
         setPage(data.pageInfo);
     }
+
     return (
      <>
         <Layout>

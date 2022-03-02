@@ -1,26 +1,23 @@
 import React, { Component,useState,useEffect } from 'react'
 import Header from '../component/Header';
 import Footer from '../component/Footer';
-import imgPopular1 from '../assets/images/popular1.png';
-import imgPopular2 from '../assets/images/popular2.png';
-import imgPopular3 from '../assets/images/popular3.png';
-import imgPopular4 from '../assets/images/popular4.png';
 import imgTestimoni from '../assets/images/testimonial.png';
 import imgPrevious from '../assets/images/previous.png';
 import imgNext from '../assets/images/next.png'; 
-import {FaChevronRight} from 'react-icons/fa'
+import {FaChevronRight,FaStar} from 'react-icons/fa'
 import {default as axios} from 'axios';
 import { Link,useNavigate } from 'react-router-dom';
 
 export const Homepage = ()=> {
     const [listPopular,setListPopular] = useState([])
     const navigate = useNavigate();
+    const {REACT_APP_URL} = process.env 
  
     useEffect(()=>{
         getDataPopularTown()
     },[]);
     const getDataPopularTown = async()=>{
-        const {data} = await axios.get('http://localhost:5000/popular?limit=4');
+        const {data} = await axios.get(`${REACT_APP_URL}/popular?limit=4`);
         setListPopular(data.results);
     }
     const goToDetail = (id)=>{
@@ -99,21 +96,21 @@ export const Homepage = ()=> {
             <div className="header">
                 <h1 className="section-title">Testimonial</h1>
             </div>
-            <div className="row d-flex flex-column-reverse flex-sm-row">
+            <div className="row d-flex flex-column-reverse flex-md-row">
                 <div className="col-sm">
                     <div className="star">
-                        <span className="fa fa-star"></span>
-                        <span className="fa fa-star"></span>
-                        <span className="fa fa-star"></span>
-                        <span className="fa fa-star"></span>
-                        <span className="fa fa-star"></span>
+                        <span><FaStar/></span>
+                        <span><FaStar/></span>
+                        <span><FaStar/></span>
+                        <span><FaStar/></span>
+                        <span><FaStar/></span>
                     </div>
                     <p>”It was the right decision to rent vehicle here, I spent less money and enjoy the trip. It was an amazing experience to have a ride for wildlife trip!”</p>
                     <div className="name"><h5>Edward Newgate</h5>
                         <h6 className="location">Founder Circle</h6>
                     </div>
                 </div>
-                <div className="col-sm">
+                <div className="col-md text-center">
                     <div className="d-inline-block position-relative">
                         <img src={imgTestimoni} alt="Testimonial"/>
                         <div className=" position-absolute button-slide">
