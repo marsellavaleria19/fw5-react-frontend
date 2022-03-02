@@ -1,18 +1,4 @@
 import React, { Component,useEffect,useState } from 'react'
-import Footer from '../component/Footer'
-import NavbarHomeSearch from '../component/NavbarHomeSearch'
-import imgPopular1 from '../assets/images/popular1.png';
-import imgPopular2 from '../assets/images/popular2.png';
-import imgPopular3 from '../assets/images/popular3.png';
-import imgPopular4 from '../assets/images/popular4.png';
-import imgCar2 from '../assets/images/car2.png';
-import imgCar4 from '../assets/images/car4.png';
-import imgMotorBike1 from '../assets/images/motorbike1.png';
-import imgMotorBike3 from '../assets/images/motorbike3.png';
-import imgBike1 from '../assets/images/bike1.png';
-import imgBike2 from '../assets/images/bike2.png';
-import imgBike3 from '../assets/images/bike3.png';
-import imgBike4 from '../assets/images/bike4.png';
 import {FaChevronRight} from 'react-icons/fa'
 import {default as axios} from 'axios';
 import Layout from '../component/Layout';
@@ -22,16 +8,18 @@ export const Category = ()=> {
     const [listCategory,setListCategory] = useState([])
     const [listVehicle,setListVehicle] = useState([])
     const navigate = useNavigate();
+    const {REACT_APP_URL,REACT_APP_LIMIT_CATEGORY} = process.env 
+
     useEffect(()=>{
         getDataCategory()
         getDataVehicle()
     },[]);
     const getDataCategory = async()=>{
-        const {data} = await axios.get('http://localhost:5000/categories');
+        const {data} = await axios.get(`${REACT_APP_URL}/categories`);
         setListCategory(data.results);
     }
     const getDataVehicle = async()=>{
-        const {data} = await axios.get('http://localhost:5000/vehicles?limit=20');
+        const {data} = await axios.get(`${REACT_APP_URL}/vehicles?limit=20`);
         setListVehicle(data.results);
     }
 
@@ -57,7 +45,7 @@ export const Category = ()=> {
                                     </div>
                                     <div className="row text-center">
                                         {
-                                            listVehicle.filter(item=>item.category_id===itemCategory.id).filter((item,index)=>index<4).map((itemVehicle)=>{
+                                            listVehicle.filter(item=>item.category_id===itemCategory.id).filter((item,index)=>index<REACT_APP_LIMIT_CATEGORY).map((itemVehicle)=>{
                                                 return(
                                                     <div onClick={()=>goToDetail(itemVehicle.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
                                                         <div class="d-inline-block position-relative">

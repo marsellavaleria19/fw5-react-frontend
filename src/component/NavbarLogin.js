@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import logo from '../assets/images/logo3.png'
 import { Link,useNavigate } from 'react-router-dom';
+import Button from './Button';
 
 export const NavbarLogin  = () =>{
     const navigate = useNavigate()
@@ -37,7 +38,8 @@ export const NavbarLogin  = () =>{
                     </ul>
                     <div className='row'>
                         <div className="col-lg-6">
-                            <button className="button-white" onClick={goToLogin}>Login</button>
+                            <Button styleCss = "button-white" clickFunction={goToLogin} name="Login"/>
+                            {/* <button className="button-white" onClick={goToLogin}>Login</button> */}
                         </div>
                         <div className="col-lg-6">
                             <button className="button-filled" onClick={goToSignup}>Register</button>
