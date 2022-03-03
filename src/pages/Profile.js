@@ -3,6 +3,9 @@ import NavbarHome from '../component/NavbarHome'
 import Footer from '../component/Footer'
 import imgProfile from '../assets/images/image-profile.png'
 import {FaPencilAlt} from 'react-icons/fa'
+import Button from '../component/Button'
+import Input from '../component/Input'
+import Image from '../component/Image'
 
 export const Profile = ()=> {
     return (
@@ -12,8 +15,8 @@ export const Profile = ()=> {
             <h1 className="title">Profile</h1>
             <div className="text-center">
                 <div className="d-inline-block position-relative">
-                    <img src={imgProfile} className="profile rounded-circle" alt="profile"/>
-                    <button className="position-absolute button-edit-profile rounded-circle"><FaPencilAlt/></button>
+                    <Image photo={imgProfile} photoVarian="profile rounded-circle" alt="profile"/>
+                    <Button btnVarian="position-absolute button-edit-profile rounded-circle"><FaPencilAlt/></Button>
                 </div>
                 <div className="profile-detail">
                     <h1 className="name">Samantha Doe</h1>
@@ -44,7 +47,7 @@ export const Profile = ()=> {
             <form className="container">
                 <div className="mb-5">
                     <label for="email">Email</label>
-                    <input className="d-block w-100" type="text" value="zulaikha17@gmail.com"/>
+                    <Input variantInput="d-block w-100" typeInput="text" value="zulaikha17@gmail.com"/>
                 </div>
                 <div className="mb-5">
                     <label for="address">Address</label>
@@ -52,30 +55,30 @@ export const Profile = ()=> {
                 </div>
                 <div className="mb-5">
                     <label for="mobile-number">Mobile number</label>
-                    <input className="d-block w-100" type="text" value="(+62)813456782"/>
+                    <Input variantInput="d-block w-100" typeInput="text" value="(+62)813456782"/>
                 </div>
                 <div className="mb-5">
                     <h5>Identity</h5>
                     <div className="row">
                         <div className="col-sm">
                             <label for="mobile-number">Display name</label>
-                            <input className="d-block w-100" type="text" value="zulaikha"/>
+                            <Input variantInput="d-block w-100" typeInput="text" value="zulaikha"/>
                         </div>
                         <div className="col-sm">
                             <label for="mobile-number">Birth date (DD/MM/YY)</label>
-                            <input className="d-block w-100" type="date" value="03/09/2003"/>
+                            <Input variantInput="d-block w-100" typeInput="date" value="03/09/2003"/>
                         </div>
                     </div>
                 </div>
                 <div className="mt-5 row">
                     <div className="col-md-4 mb-3">
-                        <button className="button-filled">Save Change</button>
+                        <Button btnVarian="button-filled">Save Change</Button>
                     </div>
                     <div className="col-md-4 mb-3">
-                        <button className="button-dark">Edit Password</button>
+                        <Button btnVarian="button-dark">Edit Password</Button>
                     </div>
                     <div className="col-md-4 mb-3">
-                        <button className="button-gray">Cancel</button>
+                        <Button btnVarian="button-gray">Cancel</Button>
                     </div>
                 </div>
             </form>

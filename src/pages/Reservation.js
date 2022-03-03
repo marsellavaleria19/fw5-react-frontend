@@ -8,6 +8,10 @@ import Layout from '../component/Layout'
 import { useParams } from 'react-router-dom'
 import {default as axios} from 'axios'
 import { useNavigate } from 'react-router-dom'
+import Image from '../component/Image'
+import Button from '../component/Button'
+import Input from '../component/Input'
+import Select from '../component/Select'
 
 export const Reservation  = ()=> {
 
@@ -44,7 +48,7 @@ export const Reservation  = ()=> {
                 <div className="row">
                     <div className="col-md">
                         <div className="img-vehicle">
-                            <img src={dataVehicle.photo} alt="detail-vehicle"/>
+                            <Image photo={dataVehicle.photo} alt="detail-vehicle"/>
                         </div>
                     </div>
                     <div className="col-md">
@@ -57,27 +61,27 @@ export const Reservation  = ()=> {
                         </div>
                         <form>
                             <div className="form-quantity d-flex button-plus-minus">
-                                <button className="plus">+</button>
-                                <input type="number" value="2"/>
-                                <button className="minus">-</button>
+                                <Button btnVarian="plus">+</Button>
+                                <Input typeInput="number" value="2"/>
+                                <Button className="minus">-</Button>
                             </div>
                             <h5>Reservation Date</h5>
                             <div className="mb-3">
-                                <input type="date" className="form-control input-add" placeholder="date"/>
+                                <Input typeInput="date" variantInput="input-add" placeholder="date"/>
                             </div>
                             <div className="select-form d-flex position-relative align-items-center">
-                                <select className="form-select" value="1">
+                                <Select value="1">
                                     <option value="1">1 Day</option>
                                     <option value="2">2 Day</option>
                                     <option value="3">3 Day</option>
-                                </select>
+                                </Select>
                                 <FaChevronDown/>
                             </div>
                         </form>
                     </div>
                 </div>
                 <div className="btn-payment">
-                    <button className="button-filled" onClick={()=>goToPayment(dataVehicle.id)}>Pay now : Rp. 178.000</button>
+                    <Button btnVarian="button-filled" onClick={()=>goToPayment(dataVehicle.id)}>Pay now : Rp. 178.000</Button>
                 </div>
         </section>
     </Layout>

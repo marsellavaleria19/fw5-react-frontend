@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import logoGoogle from '../assets/images/logo-google.png'
 import Footer from '../component/Footer'
 import { useNavigate } from 'react-router-dom'
+import Input from '../component/Input'
+import Button from '../component/Button'
 
 export const Signup = () => {
     const navigate = useNavigate()
@@ -28,19 +30,19 @@ export const Signup = () => {
                             <div className="header-signup col-lg">
                                 <form className="form-login-signup">
                                     <div>
-                                        <input type="text" placeholder="Name" />
+                                        <Input type="text" placeholder="Name" />
                                     </div>
                                     <div>
-                                        <input type="text" placeholder="Email" />
+                                        <Input type="text" placeholder="Email" />
                                     </div>
                                     <div>
-                                        <input type="password" placeholder="Password" />
+                                        <Input type="password" placeholder="Password" />
                                     </div>
                                     <div>
-                                        <button className="button-filled signup">Sign Up</button>
+                                        <Button btnVarian="button-filled mt-4">Sign Up</Button>
                                     </div>
                                     <div>
-                                        <button className="button-google signup"><img src={logoGoogle} alt="Logo"/>Sign Up With Google</button>
+                                        <Button btnVarian="button-google mt-4"><img src={logoGoogle} alt="Logo"/>Sign Up With Google</Button>
                                     </div>
                                     <div className='btn-login-signup'>
                                         <p className="text">Have account?</p>
