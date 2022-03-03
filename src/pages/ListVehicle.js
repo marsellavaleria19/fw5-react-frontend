@@ -3,38 +3,28 @@ import Layout from '../component/Layout';
 import {default as axios} from 'axios';
 import { useNavigate, useParams,useSearchParams } from 'react-router-dom';
 import { FaAngleDoubleDown } from 'react-icons/fa'
+import { getListVehicleByCategory,getListVehicleByUrl } from '../redux/actions/vehicle';
+import { getDetailCategory } from '../redux/actions/category';
+import Image from '../component/Image';
+import Button from '../component/Button';
+import {connect, useSelector } from 'react-redux';
 
+export const ListVehicle = ({getDetailCategory,getListVehicleByCategory,getListVehicleByUrl})=> {
 
-export const ListVehicle = ()=> {
-    const [dataCategory,setDataCategory] = useState({})
+    const {category,vehicle} = useSelector(state=>state)
+
     const [listVehicle,setListVehicle] = useState([])
     const [page,setPage] = useState([])
     const [searchParams,setSearchParams] = useSearchParams()
-    const [vehicle,setVehicle] = useState("");
+    // const [vehicle,setVehicle] = useState("");
     const {id} = useParams()
     const {REACT_APP_URL,REACT_APP_LIMIT_VEHICLE} = process.env 
     
     useEffect(()=>{
-       if(id){
-            getDataCategory();
-            getListVehicle();
-       }else{
-        if(searchParams.get('search')){
-            getDataSearch(searchParams.get('search'))
-        }
-       }
+       getDetailCategory(id)
+       getListVehicleByCategory(id)
     },[]);
 
-    useEffect(()=>{
-    //    if(vehicle){
-           if(vehicle!==searchParams.get('search')){
-             setVehicle(searchParams.get('search'))
-             if(searchParams.get('search')){
-                getDataSearch(searchParams.get('search'))
-            }
-           }
-    //    }
-    })
 
     const navigate = useNavigate();
     
@@ -42,35 +32,19 @@ export const ListVehicle = ()=> {
         navigate(`/category/vehicle/${id}`)
     }
 
-    const getDataCategory = async()=>{
-        const {data} = await axios.get(`${REACT_APP_URL}/categories/${id}`);
-        setDataCategory(data.results);
-    }
+    // const getDataCategory = async()=>{
+    //     const {data} = await axios.get(`${REACT_APP_URL}/categories/${id}`);
+    //     setDataCategory(data.results);
+    // }
 
-    const getDataSearch = async(search)=>{
-        const {data} = await axios.get(`${REACT_APP_URL}/vehicles?search=${search}`);
-        setListVehicle(data.results);
-        setPage(data.pageInfo);
-    }
+    // const getDataSearch = async(search)=>{
+    //     const {data} = await axios.get(`${REACT_APP_URL}/vehicles?search=${search}`);
+    //     setListVehicle(data.results);
+    //     setPage(data.pageInfo);
+    // }
 
     const getNextData = async(url)=>{
-      console.log(url);
-      const {data} = await axios.get(url);
-      console.log(data)
-      setListVehicle([...listVehicle,...data.results])
-    //   if(searchParams.get('search')==null){
-    //     setListVehicle([...listVehicle,...data.results])
-    //   }else{
-    //       setListVehicle(data.results)
-    //   }
-      setPage(data.pageInfo)
-    }
-
-
-    const getListVehicle = async()=>{
-        const {data} = await axios.get(`${REACT_APP_URL}/vehicles/category/${id}?limit=${REACT_APP_LIMIT_VEHICLE}`);
-        setListVehicle(data.results);
-        setPage(data.pageInfo);
+      listVehicle = [...listVehicle,getListVehicleByUrl(url)]
     }
 
     return (
@@ -79,22 +53,22 @@ export const ListVehicle = ()=> {
             <section className="popular-town">
                 <div className="container">
             {
-                listVehicle.length > 0  ? 
+                vehicle.listVehicle.length > 0  ? 
                     <>
                         <div class="title">
                             {
-                                Object.keys(dataCategory).length > 0 &&  <h1 class="section-title mb-2">{dataCategory.name}</h1>
+                                Object.keys(category.listCategory).length > 0 &&  <h1 class="section-title mb-2">{category.listCategory.name}</h1>
                             }
                             
                             <div class="info text-center mb-5">Click item to see details and reservation</div>
                         </div>
                         <div className="row text-center">
                             {
-                                listVehicle.map((item)=>{
+                                vehicle.listVehicle.map((item)=>{
                                     return(
                                         <div  key={String(item.id)} onClick={()=>goToDetail(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
                                             <div class="d-inline-block position-relative">
-                                                <img src={item.photo} className="img-fluid" alt="Popular1" />
+                                                <Image photo={item.photo} photoVarian="img-fluid" alt={`${item.name}`} />
                                                 <div class="text-title-vehicle">
                                                     <div class="vehicle-name">{item.name}</div>
                                                     <div class="location">{item.location}</div>
@@ -106,9 +80,9 @@ export const ListVehicle = ()=> {
                             }
                         </div>
                         {
-                            page.next!==null ? 
+                            vehicle.pageInfo.next!==null ? 
                             <div className='text-center mt-5 mb-5'>
-                                <button onClick={()=>getNextData(page.next)} className='btn btn-next'>Load more <FaAngleDoubleDown/></button>
+                                <Button onClick={()=>getNextData(vehicle.pageInfo.next)} btnVarian='btn-next'>Load more <FaAngleDoubleDown/></Button>
                             </div> : ""
                         }
                     </>   
@@ -116,37 +90,6 @@ export const ListVehicle = ()=> {
                     <div class="no-vehicle text-center">
                         There is no vehicle left
                     </div> 
-            //    listVehicle.map((item)=>{
-            //         if(item!==null){
-            //             return(
-            //                 <section className="popular-town">
-            //                     <div className="container">
-            //                         <div class="title">
-            //                             <h1 class="section-title mb-2">{item.category}</h1>
-            //                             <div class="info text-center mb-5">Click item to see details and reservation</div>
-            //                         </div>
-            //                         <div className="row text-center">
-            //                             <div className="col-sm-6 col-md-4 col-lg-3 mb-4">
-            //                                 <div class="d-inline-block position-relative">
-            //                                     <img src={item.photo} alt="Popular1" />
-            //                                     <div class="text-title-vehicle">
-            //                                         <div class="vehicle-name">{item.name}</div>
-            //                                         <div class="location">{item.location}</div>
-            //                                     </div>
-            //                                 </div>
-            //                             </div>
-            //                         </div>
-            //                     </div>
-            //                 </section>
-            //             )
-            //        }else{
-            //          return(
-            //             <div class="no-vehicle text-center">
-            //                 There is no vehicle left
-            //             </div> 
-            //          )
-            //        }
-            //    })
             }
              </div>
             </section> 
@@ -314,4 +257,8 @@ export const ListVehicle = ()=> {
     )
 }
 
-export default ListVehicle
+const mapStateToProps = state => ({category:state.category,vehicle:state.vehicle})
+
+const mapDispatchToProps = {getDetailCategory,getListVehicleByCategory,getListVehicleByUrl}
+
+export default connect(mapStateToProps,mapDispatchToProps)(ListVehicle)

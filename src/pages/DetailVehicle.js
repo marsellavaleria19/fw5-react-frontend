@@ -9,24 +9,26 @@ import {default as axios} from 'axios'
 import { useParams } from 'react-router-dom'
 import Layout from '../component/Layout'
 import { Link,useNavigate } from 'react-router-dom'
+import { getDetailVehicle } from '../redux/actions/vehicle'
+import { useSelector,connect } from 'react-redux'
 
-export const  DetailVehicle =  ()=> {
+export const  DetailVehicle =  ({getDetailVehicle})=> {
+
+    const {vehicle} = useSelector(state=>state)
 
     const [dataVehicle,setDataVehicle] = useState({})
 
     const {id} = useParams()
     const navigate = useNavigate()
 
-    const {REACT_APP_URL} = process.env 
-
     useEffect(()=>{
-        getDataVehicle();
+        getDetailVehicle(id)
     },[]);
     
-    const getDataVehicle = async()=>{
-        const {data} = await axios.get(`${REACT_APP_URL}/vehicles/${id}`);
-        setDataVehicle(data.results);
-    }
+    // const getDataVehicle = async()=>{
+    //     const {data} = await axios.get(`${REACT_APP_URL}/vehicles/${id}`);
+    //     setDataVehicle(data.results);
+    // }
 
     const goToReservation = (id)=>{
         navigate(`/reservation/${id}`)
@@ -39,7 +41,7 @@ export const  DetailVehicle =  ()=> {
     return (
         <Layout>
             {
-                Object.keys(dataVehicle) ? 
+                Object.keys(vehicle.listVehicle) ? 
                 <section className="detail-vehicle container mb-5">
                     <div onClick={goToDetail} className="header-nav">
                         <FaChevronLeft/>
@@ -48,7 +50,7 @@ export const  DetailVehicle =  ()=> {
                 <div className="row container">
                     <div className="col-md">
                         <div className="img-vehicle">
-                            <img src={dataVehicle.photo} alt="detail-vehicle"/>
+                            <img src={vehicle.listVehicle.photo} alt="detail-vehicle"/>
                         </div>
                         <div className="row-md">
                             <div className="row img-vehicle-detail align-items-center">
@@ -58,10 +60,10 @@ export const  DetailVehicle =  ()=> {
                                     </div>
                                 </div>
                                 <div className="col-4">
-                                    <img src={dataVehicle.photo} className="me-4" alt="Detail Vehicle"/>
+                                    <img src={vehicle.listVehicle.photo} className="me-4" alt="Detail Vehicle"/>
                                 </div>
                                 <div className="col-4">
-                                    <img src={dataVehicle.photo} alt="Detail Vehicle"/>
+                                    <img src={vehicle.listVehicle.photo} alt="Detail Vehicle"/>
                                 </div>
                                 <div className="col-2">
                                     <div className="arrow-button ms-3">
@@ -73,8 +75,8 @@ export const  DetailVehicle =  ()=> {
                     </div>
                     <div className="col-md justify-sm-content-center">
                         <div className="title-vehicle">
-                            <h1>{dataVehicle.name}</h1>
-                            <div className="location">{dataVehicle.location}</div>
+                            <h1>{vehicle.listVehicle.name}</h1>
+                            <div className="location">{vehicle.listVehicle.location}</div>
                         </div>
                         <div className="status-vehicle">
                             <div className="text-success fw-bold mb-2">Available</div>
@@ -82,11 +84,11 @@ export const  DetailVehicle =  ()=> {
                         </div>
                         <div className="detail-info">
                             <div className="mb-2">Capacity : 1 person</div>
-                            <div className="mb-2">Type:{dataVehicle.category}</div>
+                            <div className="mb-2">Type:{vehicle.listVehicle.category}</div>
                             <div>Reservation before 2 PM</div>
                         </div>
                         <div className="price">
-                            <h1 className="text-end">Rp. {dataVehicle.price?.toLocaleString("id")}/day</h1>
+                            <h1 className="text-end">Rp. {vehicle.listVehicle.price?.toLocaleString("id")}/day</h1>
                         </div>
                         <form>
                             <div className="form-quantity d-flex button-plus-minus">
@@ -189,4 +191,8 @@ export const  DetailVehicle =  ()=> {
     )
 }
 
-export default DetailVehicle 
+const mapStateToProps = state => ({vehicle:state.vehicle})
+
+const mapDispatchToProps = {getDetailVehicle}
+
+export default connect(mapStateToProps,mapDispatchToProps)(DetailVehicle)
