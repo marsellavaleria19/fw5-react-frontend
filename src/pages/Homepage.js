@@ -7,6 +7,7 @@ import imgNext from '../assets/images/next.png';
 import {FaChevronRight,FaStar} from 'react-icons/fa'
 import {default as axios} from 'axios';
 import { Link,useNavigate } from 'react-router-dom';
+import Image from '../component/Image';
 
 export const Homepage = ()=> {
     const [listPopular,setListPopular] = useState([])
@@ -43,7 +44,7 @@ export const Homepage = ()=> {
                           return(
                             <div onClick={()=>goToDetail(item.id)} key={String(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
                                 <div className="d-inline-block position-relative">
-                                    <img src={item.photo} className='img-fluid' alt="Popular1" />
+                                    <Image photo={item.photo} photoVarian='img-fluid' alt="Popular1" />
                                     <div className="text-title-vehicle">
                                         <div className="vehicle-name">{item.name}</div>
                                         <div className="location">{item.location}</div>
@@ -112,10 +113,10 @@ export const Homepage = ()=> {
                 </div>
                 <div className="col-md text-center">
                     <div className="d-inline-block position-relative">
-                        <img src={imgTestimoni} alt="Testimonial"/>
+                        <Image photo={imgTestimoni} alt="Testimonial"/>
                         <div className=" position-absolute button-slide">
-                            <img src={imgPrevious} alt="prev"/>
-                            <img src={imgNext} alt="next"/>
+                            <Image photo={imgPrevious} alt="prev"/>
+                            <Image photo={imgNext} alt="next"/>
                         </div>
                     </div>
                 </div>
