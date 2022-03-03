@@ -156,6 +156,22 @@
             border-radius: 8px;
         }
         
+        .button-google {
+            color: black;
+            font-size: 24px;
+            font-weight: 900;
+            width: 447px;
+            height: 79px;
+            border-radius: 10px;
+            background-color: white;
+        }
+        
+        .button-google img {
+            width: 31px;
+            height: 33px;
+            margin-right: 12px;
+        }
+        
         .header-login-signup {
             background-image: url(../images/background-login-signup.jpg);
             background-repeat: no-repeat;
@@ -274,21 +290,6 @@
             height: 79px;
             box-shadow: 0px 0px 20px rgba(248, 161, 112, 0.47);
             border-radius: 10px;
-        }
-        
-        .button-google {
-            color: black;
-            font-size: 24px;
-            font-weight: 900;
-            width: 447px;
-            height: 79px;
-            border-radius: 10px;
-        }
-        
-        .button-google img {
-            width: 31px;
-            height: 33px;
-            margin-right: 12px;
         }
         
         footer.footer {
@@ -705,6 +706,9 @@
         
         .profile-form form div input:focus {
             outline: none;
+            background-color: transparent;
+            box-shadow: unset;
+            border-bottom: 1px solid var(--primary);
         }
         
         .profile-form form div textarea {
