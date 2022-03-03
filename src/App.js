@@ -13,6 +13,7 @@ import History from './pages/History'
 import ProfileLayout from './pages/Profile'
 import Search from './pages/Search'
 
+
 export default class App extends Component {
   render() {
     return (
