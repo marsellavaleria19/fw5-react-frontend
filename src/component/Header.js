@@ -1,6 +1,9 @@
 import React, { Component,useState } from 'react'
 import NavbarLogin from './NavbarLogin'
 import { useNavigate } from 'react-router-dom'
+import Button from './Button'
+import Input from './Input'
+import Select from './Select'
 
 export const Header = ()=> {
     const [filledForms,setFilledForms] = useState(['category_id','location','payment_id','date'])
@@ -38,27 +41,28 @@ export const Header = ()=> {
                         <div className="line"></div>
                         <form onSubmit={handleFilter} className="filter-homepage">
                             <div className="d-md-flex flex-md-wrap mb-md-4">
-                                <select name="location" className="form-select me-4 mb-3" aria-label="Default select example"> 
+                                <Select name="location" selectVarian="me-4 mb-3" aria-label="Default select example"> 
                                     <option value="" style={{display:'none'}}>Location</option>
                                     <option value="Yogyakarta">Yogyakarta</option>
                                     <option value="Bandung">Bandung</option>
-                                </select>
-                                <select name="category_id" className="form-select mb-3" aria-label="Default select example">
+                                </Select>
+                                <Select name="category_id" selectVarian="mb-3" aria-label="Default select example">
                                     <option value="" style={{display:'none'}}>Type</option>
                                     <option value="1">Bike</option>
                                     <option value="2">Cars</option>
                                     <option value="3">Motorbike</option>
-                                </select>
+                                </Select>
                             </div>
                             <div className="d-md-flex flex-md-wrap">
-                                <select name="payment_id" className="form-select me-4 mb-3" aria-label="Default select example">
+                                <Select name="payment_id" selectVarian="me-4 mb-3" aria-label="Default select example">
                                     <option value="" style={{display:'none'}}>Payment</option>
                                     <option value="1">Cash</option>
                                     <option value="2">Transfer</option>
-                                </select>
-                                <input className="form-control" type="date" name="date" />
+                                </Select>
+                                <Input typeInput="date"/>
                             </div>
-                            <button className="button-filled">Explore</button>
+                            <Button btnVarian="button-filled">Explore</Button>
+                            {/* <button className="button-filled">Explore</button> */}
                         </form>
                     </div>
                 </div>

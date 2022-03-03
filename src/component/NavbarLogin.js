@@ -38,11 +38,12 @@ export const NavbarLogin  = () =>{
                     </ul>
                     <div className='row'>
                         <div className="col-lg-6">
-                            <Button styleCss = "button-white" clickFunction={goToLogin} name="Login"/>
+                            <Button  btnVarian="button-white" onClick={goToLogin}>Login</Button>
                             {/* <button className="button-white" onClick={goToLogin}>Login</button> */}
                         </div>
                         <div className="col-lg-6">
-                            <button className="button-filled" onClick={goToSignup}>Register</button>
+                            <Button btnVarian="button-filled" onClick={goToSignup}>Register</Button>
+                            {/* <button className="button-filled" onClick={goToSignup}>Register</button> */}
                         </div>
                     </div>
                 </div>

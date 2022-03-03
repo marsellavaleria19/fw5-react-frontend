@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-export const Button = ({children,btnType,...rest}) => {
+export const Button = ({children,btnVarian,...rest}) => {
     return (
-      <button className={`btn ${btnType}`} {...rest}>{children}</button>
+      <button className={`btn ${btnVarian}`} {...rest}>{children}</button>
     )
 }
 
