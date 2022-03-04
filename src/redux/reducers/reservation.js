@@ -1,5 +1,5 @@
 const dataReservation = {
-    message: null,
+    dataReservation: null,
     isError: false,
     isLoading: false,
     errMessage: null
@@ -15,7 +15,7 @@ const reservation = (state = dataReservation, action) => {
         case 'RESERVATION_FULFILLED':
             {
                 const { data } = action.payload
-                state.message = data.message
+                state.dataReservation = data.results
                 state.isLoading = false
                 state.isError = false
                 return {...state }

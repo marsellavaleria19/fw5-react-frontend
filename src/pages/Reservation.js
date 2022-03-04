@@ -18,6 +18,12 @@ import { useDispatch } from 'react-redux'
 export const Reservation  = ()=> {
 
     const {counter,vehicle,reservation} = useSelector(state=>state)
+    
+    const [totalPayment,setTotalPayment] = useState(0)
+
+    const [day,setDay] = useState(0)
+
+    const [qty,setQty] = useState()
 
     const dispatch = useDispatch()
 
@@ -30,7 +36,9 @@ export const Reservation  = ()=> {
     useEffect(()=>{
         // getDataVehicle();
         dispatch(getDetailVehicle(id))
+        setQty(counter.num)
     },[]);
+
     
     // const getDataVehicle = async()=>{
     //     const {data} = await axios.get(`http://localhost:5000/vehicles/${id}`);
@@ -48,20 +56,36 @@ export const Reservation  = ()=> {
     const countIncrement = (event) =>{
         event.preventDefault()
         dispatch(increment())
+        setQty(counter.num)
     }
 
     const countDecrement = (event) =>{
         event.preventDefault()
         dispatch(decrement())
+        setQty(counter.num)
     }
+
+    const handleChange = (event) =>{
+        let value = event.target.value
+        if(event.target.name=="qty"){
+            setQty(value)
+        }
+        
+        if(event.target.name=="day"){
+            setDay(value)
+        }
+    }
+
 
     const reservationHandle = (event) => {
         event.preventDefault()
         var qty = event.target.elements["qty"].value
         var date = event.target.elements["date"].value
         var day = event.target.elements["day"].value
-        var data = {qty:qty,date:date,day:day,vehicle:vehicle.listVehicle.id,user:1}
+        var data = {qty:qty,date:date,day:day,vehicle:vehicle.listVehicle.id,user:3}
         dispatch(reservationInput(data))
+        console.log(reservation.dataReservation.id)
+        goToPayment(reservation.dataReservation.id)
     }
 
     return (
@@ -85,10 +109,11 @@ export const Reservation  = ()=> {
                         <div className="status-vehicle">
                             <div className="no-prepayment fw-bold">No Prepayment</div>
                         </div>
+
                         <form onSubmit={reservationHandle}>
                             <div className="form-quantity d-flex button-plus-minus">
                                 <Button btnVarian="plus" onClick={countIncrement}>+</Button>
-                                <Input typeInput="number" name="qty" value={counter.num}/>
+                                <Input id="qty" typeInput="number" name="qty" value={qty} onChange={handleChange}/>
                                 <Button className="minus" onClick={countDecrement}>-</Button>
                             </div>
                             <h5>Reservation Date</h5>
@@ -96,7 +121,7 @@ export const Reservation  = ()=> {
                                 <Input typeInput="date" name="date" variantInput="input-add" placeholder="date"/>
                             </div>
                             <div className="select-form d-flex position-relative align-items-center">
-                                <Select name="day">
+                                <Select name="day" onChange={handleChange}>
                                     <option value="" style={{display:'none'}}>Select Day</option>
                                     <option value="1">1 Day</option>
                                     <option value="2">2 Day</option>
@@ -105,7 +130,7 @@ export const Reservation  = ()=> {
                                 <FaChevronDown/>
                             </div>
                             <div className="btn-payment">
-                                <Button type="submit" btnVarian="button-filled">Pay now : Rp. 178.000</Button>
+                                <Button type="submit" btnVarian="button-filled">Pay now : Rp {day!==null ? ((qty*vehicle.listVehicle.price)*day).toLocaleString("id") : 0}</Button>
                             </div>
                         </form>
                     </div>
