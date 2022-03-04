@@ -4,8 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import Button from './Button'
 import Input from './Input'
 import Select from './Select'
+import { useSelector } from 'react-redux'
+import NavbarHomeSearch from './NavbarHomeSearch'
 
 export const Header = ()=> {
+    const {auth} = useSelector(state=>state)
+
     const [filledForms,setFilledForms] = useState(['category_id','location','payment_id','date'])
     const navigate = useNavigate()
     const [dataSearch,setDataSearch] = useState({})
@@ -32,7 +36,7 @@ export const Header = ()=> {
 
     return (
         <header>
-        <NavbarLogin/>
+        {auth.token===null ? <NavbarLogin/> : <NavbarHomeSearch/>}
             <div className="jumbotron">
                 <div className="content">
                     <div className="container">
