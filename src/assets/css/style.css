@@ -247,12 +247,14 @@
             border: none;
             border-radius: 10px;
             padding-left: 20px;
+            color: white;
         }
         
         .form-login-signup div input:focus {
             outline: none;
             color: white;
             padding-left: 20px;
+            background: rgba(255, 255, 255, 0.26);
         }
         
         .form-login-signup div input::placeholder {
