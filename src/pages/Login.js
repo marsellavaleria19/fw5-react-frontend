@@ -1,19 +1,36 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import logoGoogle from '../assets/images/logo-google.png'
 import Footer from '../component/Footer'
-import {Link, useNavigate } from 'react-router-dom'
+import {Link, Navigate, useNavigate } from 'react-router-dom'
 import Button from '../component/Button'
 import Input from '../component/Input'
+import { loginProcess } from '../redux/actions/auth'
+import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 export const Login = () => {
+   
+    const {auth} = useSelector(state=>state)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
-
+    
     const goToSignup = ()=>{
         navigate("/signup");
     }
 
+    const loginHandle = (event)=>{
+        event.preventDefault()
+        var email = event.target.elements["email"].value;
+        var password =  event.target.elements["password"].value;
+        dispatch(loginProcess(email,password))        
+    }
+
     return (
         <>
+        {
+            auth.token!==null && <Navigate to='/home'/>
+        }
         <header className="header-login-signup">
         <div className="header-content">
             <div className="container">
@@ -29,7 +46,13 @@ export const Login = () => {
                         <div className="separator-circle"></div>
                     </div>
                     <div className="header-login col-lg">
-                        <form className="form-login-signup">
+                        {
+                            auth.isError==true && 
+                            <div class="alert alert-danger" role="alert">
+                               {auth.errMessage}
+                          </div>
+                        }
+                        <form onSubmit={loginHandle} className="form-login-signup">
                             <div>
                                 <Input typeInput="text" name="email" placeholder="Email"/>
                             </div>
