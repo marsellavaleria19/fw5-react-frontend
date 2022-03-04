@@ -121,7 +121,7 @@ export const  DetailVehicle =  ()=> {
                             <button className="button-dark btn-chat">Chat Admin</button>
                         </div>
                         <div className="col-lg-5 col-md mb-3">
-                            <button onClick={()=>goToReservation(dataVehicle.id)} className="button-filled btn-reservation">Reservation</button>
+                            <button onClick={()=>goToReservation(vehicle.listVehicle.id)} className="button-filled btn-reservation">Reservation</button>
                         </div>
                         <div className="col-lg-2 col-md-3 mb-3">
                             <button className="button-dark btn-like d-flex justify-content-center align-items-center">
