@@ -19,7 +19,7 @@ export const getListVehicleByCategory = (idCategory) => {
 
 export const getListVehicleByUrl = (url) => {
     return {
-        type: 'GET_VEHICLE',
+        type: 'GET_VEHICLE_NEXT',
         payload: axios.get(`${url}`)
     }
 }
