@@ -29,7 +29,7 @@ export const Login = () => {
     return (
         <>
         {
-            auth.token!==null && <Navigate to='/home'/>
+            auth.token!==null && <Navigate to='/'/>
         }
         <header className="header-login-signup">
         <div className="header-content">
