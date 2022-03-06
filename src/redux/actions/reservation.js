@@ -1,10 +1,9 @@
 import { default as axios } from 'axios'
 import qs from 'qs'
+import AxiosCostum from '../../helpers/AxiosCostum'
 
-const { REACT_APP_URL } = process.env
 
-export const reservationInput = (reservation) => {
-    const url = `${REACT_APP_URL}/histories`
+export const reservationInput = (reservation, token) => {
     var rentStartDate = new Date(reservation.date)
     var tempDay = rentStartDate.getDate() + parseInt(reservation.day)
     var rentEndDate = new Date(new Date().setDate(tempDay))
@@ -16,9 +15,16 @@ export const reservationInput = (reservation) => {
     data.endRentDate = rentEndDate
     data.status = 7
     data.prepayment = 0
-    console.log(data)
     return {
         type: 'RESERVATION',
-        payload: axios.post(url, qs.stringify(data))
+        payload: AxiosCostum(token).post('/histories', qs.stringify(data))
+    }
+}
+
+
+export const getDetailReservation = (id) => {
+    return {
+        type: 'RESERVATION',
+        payload: AxiosCostum().get(`/histories/${id}`)
     }
 }
