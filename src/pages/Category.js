@@ -8,7 +8,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import { connect,useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
-export const Category = ({getListCategory,getListVehicle})=> {
+export const Category = ()=> {
     const {category,vehicle} = useSelector(state=>state)
     const dispatch = useDispatch()
     const [listCategory,setListCategory] = useState([])
@@ -17,15 +17,15 @@ export const Category = ({getListCategory,getListVehicle})=> {
     const {REACT_APP_URL,REACT_APP_LIMIT_CATEGORY} = process.env 
 
     useEffect(()=>{
-        getListCategory()
-        getListVehicle()
+        dispatch(getListCategory())
+        dispatch(getListVehicle())
     },[]);
 
     return (
         <>
             <Layout>
                 {
-                    category.listCategory.map((itemCategory)=>{
+                    category.listCategory.length > 0 ? category.listCategory.map((itemCategory)=>{
                        return (
                         <section className="popular-town">
                             <div className="container">
@@ -57,15 +57,14 @@ export const Category = ({getListCategory,getListVehicle})=> {
                             </div>
                         </section>
                        )
-                    })
+                    }) : 
+                    <div class="no-vehicle text-center">
+                        There is no vehicle left
+                    </div> 
                 }
             </Layout>
       </>
     )
   }
 
-  const mapStateToProps = state => ({category:state.category,vehicle:state.vehicle})
-
-const mapDispatchToProps = {getListCategory,getListVehicle}
-
-  export default connect(mapStateToProps,mapDispatchToProps)(Category)
+  export default Category
