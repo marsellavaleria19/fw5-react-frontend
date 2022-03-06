@@ -5,32 +5,126 @@ import imgDetailVehicle from '../assets/images/detail-vehicle.png'
 import NavbarHomeSearch from '../component/NavbarHomeSearch'
 import Footer from '../component/Footer' 
 import { useNavigate,useParams } from 'react-router-dom'
-import {default as axios} from 'axios'
+import { getDetailReservation } from '../redux/actions/reservation'
+import { paymentUpdate } from '../redux/actions/payment'
+import { useDispatch, useSelector } from 'react-redux'
+import Reservation from './Reservation'
+import Layout from '../component/Layout'
+import Select from '../component/Select'
 
 export const Payment = ()=> {
-    const [dataVehicle,setDataVehicle] = useState({})
 
+    const {reservation,payment} = useSelector(state=>state)
+    const dispatch = useDispatch()
     const {id} = useParams()
+    // const [dataVehicle,setDataVehicle] = useState({})
     
     const navigate = useNavigate()
 
     useEffect(()=>{
-        getDataVehicle();
+        dispatch(getDetailReservation(id))
     },[]);
-    
-    const getDataVehicle = async()=>{
-        const {data} = await axios.get(`http://localhost:5000/vehicles/${id}`);
-        setDataVehicle(data.results);
+
+    useEffect(()=>{
+        if(payment.dataPayment!==null){
+            goToHistory(payment.dataPayment.user_id)
+        }
+    });
+
+    const handlePayment = (event)=>{
+        event.preventDefault()
+        const token = window.localStorage.getItem('token')
+        var paymentMethod = event.target.elements["payment-method"].value
+        dispatch(paymentUpdate(token,reservation.dataReservation.totalPayment,paymentMethod,id))
     }
+    
+    // const getDataVehicle = async()=>{
+    //     const {data} = await axios.get(`http://localhost:5000/vehicles/${id}`);
+    //     setDataVehicle(data.results);
+    // }
 
     const goToPayment = ()=>{
         window.history.back()
     }
 
+    const goToHistory = (id)=>{
+        navigate(`/history/${id}`)
+    }
+
     return (
-      <>
-        <NavbarHomeSearch/>
-        <section className="payment container mb-5">
+      <Layout>
+          {
+               <section className="payment container mb-5">
+                    <div className="header-nav">
+                        <FaChevronLeft/>
+                        <span>Payment</span>
+                    </div>
+                    <form onSubmit={handlePayment}>
+                    <div class="card">
+                        <div class="card-header">
+                            Booking Details
+                        </div>
+                        <div class="card-body">
+                            <div className="row">
+                                <h1>{reservation.dataReservation!==null && reservation.dataReservation.fullName}</h1>
+                                <div className="col-md">
+                                    <div className="text-detail-payment-reservation mt-4">
+                                        <div className='title'>Phone :</div>
+                                        <div className='detail-book' >{reservation.dataReservation!==null && reservation.dataReservation.mobileNumber}</div>
+                                    </div>
+                                    <div className="text-detail-payment-reservation mt-4">
+                                        <div className='title'>Reservation Date :</div>
+                                        <div className='detail-book'>{reservation.dataReservation!==null && `${reservation.dataReservation.rentStartDate}-${reservation.dataReservation.rentEndDate}`}</div>
+                                    </div>
+                                   
+                                </div>
+                                <div className="col-md">
+                                    <div className="payment-transaction text-detail-payment-reservation">
+                                        <div className="text-total-payment mb-4">
+                                            <div>Total : Rp. {reservation.dataReservation!==null && reservation.dataReservation.totalPayment.toLocaleString("id")}</div>
+                                        </div>
+                                        <div className='fw-bold'>Payment Method :</div>
+                                        <div className="select-form payment-method d-flex position-relative align-items-center">
+                                            <Select name="payment-method">
+                                                <option className="select-items">Select Payment Method</option>
+                                                <option className="select-items" value="1">Cash</option>
+                                                <option className="select-items" value="2">Transfer</option>
+                                            </Select>
+                                            <FaChevronDown/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <div className="card mt-4">
+                        <div className="card-header">
+                            Order Details
+                        </div>
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col-md-4">
+                                    <img src={reservation.dataReservation!==null && reservation.dataReservation.photo} className="img-fluid" alt="detail-vehicle"/>
+                                </div>
+                                <div className="col-md">
+                                    <h2>{reservation.dataReservation!==null && reservation.dataReservation.brand}</h2>
+                                    <div className="detail-order justify-content-center mt-3">
+                                        <div className='text'>Qty : {reservation.dataReservation!==null && reservation.dataReservation.qty}</div>
+                                        <div className='text'>Price : Rp. {reservation.dataReservation!==null && reservation.dataReservation.price.toLocaleString("id")}</div>
+                                        <div className='text'>Day : {reservation.dataReservation!==null && reservation.dataReservation.day} days</div>
+                                    </div>
+                                    <div className="total-order fw-bold mt-4">Total : Rp. {reservation.dataReservation!==null && reservation.dataReservation.totalPayment.toLocaleString("id")}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="btn-payment">
+                        <button className="button-filled" type='submit'>Finish payment : <span className="text-danger fw-load">59:30</span></button>
+                    </div>
+                </form>
+                </section>
+          }
+        {/* <section className="payment container mb-5">
             <div className="header-nav">
                 <FaChevronLeft/>
                 <span>Payment</span>
@@ -38,15 +132,15 @@ export const Payment = ()=> {
             <div className="row">
                 <div className="col-md-6 col-lg-4">
                     <div className="img-vehicle">
-                        <img src={dataVehicle.photo} alt="detail-vehicle"/>
+                         <img src={reservation.dataReservation.photo} alt="detail-vehicle"/>
                     </div>
                 </div>
                 <div className="col-md-6 col-lg-4">
                     <div className="title-vehicle">
-                        <h1>{dataVehicle.name}</h1>
-                        <div className="location">{dataVehicle.location}</div>
+                        <h1>{reservation.dataReservation.brand}</h1>
+                        <div className="location">{reservation.dataReservation.location}</div>
                     </div>
-                    <div className="text-status fw-bold mt-4">No Prepayment</div>
+                    <div className="text-status fw-bold mt-4">{reservation.dataReservation.status}</div>
                     <div className="code-payment mt-3">
                         <h1>#FG1209878YZS</h1>
                     </div>
@@ -59,7 +153,7 @@ export const Payment = ()=> {
             <div className="reservation-detail text-detail-payment-reservation mt-4">
                 <div className="row">
                     <div className="col-md-6 col-lg-4">
-                        <div className="qty d-flex align-items-center justify-content-center fw-bold">Qty : 2 bikes</div>
+                        <div className="qty d-flex align-items-center justify-content-center fw-bold">Qty : {reservation.dataReservation.qty}</div>
                     </div>
                     <div className="col-md">
                         <div className="date d-flex justify-content-between align-items-center">
@@ -114,36 +208,12 @@ export const Payment = ()=> {
                         </div>
                     </div>
                 </div>
-                {/* <div className="row">
-                    <div className="col-md-7">
-                        <div className="d-flex">
-                            <label for="inputPassword" className="col-form-label">Payment Code : </label>
-                            <div className="d-flex position-relative payment-code align-items-center">
-                                <input type="text" className="form-control payment-code" value="#FG1209878YZS"/>
-                                <button className="button-dark position-absolute">Copy</button>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div className="col-md align-items-center">
-                        <div className="select-form payment-method d-flex position-relative align-items-center">
-                            <select className="form-select">
-                                <option className="select-items">Select Payment Method</option>
-                                <option className="select-items" value="1">Cash</option>
-                                <option className="select-items" value="2">Transfer</option>
-                            </select>
-                            <FaChevronDown/>
-                        </div>
-                    </div>
-                </div> */}
             </div>
             <div className="btn-payment">
                 <button className="button-filled" onclick="window.location='./detail-vehicle.html';">Finish payment : <span className="text-danger fw-load">59:30</span></button>
             </div>
-        </section>
-        <Footer/>
-      </>
+        </section> */}
+      </Layout>
     )
 }
 
