@@ -2,9 +2,13 @@ import React, { Component, useState,useEffect } from 'react'
 import Layout from '../component/Layout'
 import {default as axios} from 'axios'
 import {useSearchParams } from 'react-router-dom';
+import { getListSearchFilter } from '../redux/actions/search';
 import { eventWrapper } from '@testing-library/user-event/dist/utils';
+import { useDispatch, useSelector } from 'react-redux';
 
 export  const Search = ()=> {
+    const {search} = useSelector(state=>state)
+    const dispatch = useDispatch()
     const [listSearch,setListSearch] = useState([])
     const [page,setPage] = useState([])
     const [searchParams,setSearchParams] = useSearchParams()
@@ -19,7 +23,7 @@ export  const Search = ()=> {
                 dataSearch[item] = searchParams.get(item)
             }
         })
-        getDataSearch(dataSearch);
+        dispatch(getListSearchFilter(dataSearch))
      },[]);
 
      useEffect(()=>{
@@ -27,14 +31,14 @@ export  const Search = ()=> {
             if(searchParams.get(filledParams[3])){
                 dataSearch[filledParams[3]] = searchParams.get(filledParams[3])
                 setSearchParams(dataSearch)
-                getDataSearch(dataSearch)
+                dispatch(getListSearchFilter(dataSearch))
             }
         }else if(dataSearch[filledParams[3]]!==searchParams.get(filledParams[3])){
             dataSearch[filledParams[3]] = searchParams.get(filledParams[3])
             if(searchParams.get(filledParams[3])){
                 dataSearch[filledParams[3]] = searchParams.get(filledParams[3])
                 setSearchParams(dataSearch)
-                getDataSearch(dataSearch)
+                dispatch(getListSearchFilter(dataSearch))
             }
         }
      });
@@ -47,7 +51,8 @@ export  const Search = ()=> {
             }
         })
         setSearchParams(dataSearch)
-        getDataSearch(dataSearch);
+        // getDataSearch(dataSearch);
+        dispatch(getListSearchFilter(dataSearch))
     }
 
     const handleSort = async(event)=>{
@@ -61,36 +66,39 @@ export  const Search = ()=> {
             dataSearch.order = "asc"
         }
         setSearchParams(dataSearch);
-        getDataSearch(dataSearch);
+        // getListSearchFilter(dataSearch)
+        dispatch(getListSearchFilter(dataSearch))
     }
 
-    const getDataSearch = async(dataSearch)=>{
-        const url = (dataSearch)=>{
-            var result = "";
-            filledParams.forEach((item)=>{
-                if(dataSearch[item]){
-                    if(result==""){
-                        result = `${item}=${dataSearch[item]}`;
-                    }else{
-                        result+=`&${item}=${dataSearch[item]}`;
-                    }
-                }
-            })
-            if(dataSearch.sort){
-                if(result==""){
-                    result = `sort=${dataSearch.sort}&order=${dataSearch.order}`
-                }else{
-                    result += `&sort=${dataSearch.sort}&order=${dataSearch.order}`
-                }
-            }
+    // const getDataSearch = async(dataSearch)=>{
+    //     const url = (dataSearch)=>{
+    //         var result = "";
+    //         filledParams.forEach((item)=>{
+    //             if(dataSearch[item]){
+    //                 if(result==""){
+    //                     result = `${item}=${dataSearch[item]}`;
+    //                 }else{
+    //                     result+=`&${item}=${dataSearch[item]}`;
+    //                 }
+    //             }
+    //         })
+    //         if(dataSearch.sort){
+    //             if(result==""){
+    //                 result = `sort=${dataSearch.sort}&order=${dataSearch.order}`
+    //             }else{
+    //                 result += `&sort=${dataSearch.sort}&order=${dataSearch.order}`
+    //             }
+    //         }
 
-            return `http://localhost:5000/search?${result}&limit=16`
-        }
-        const {data} = await axios.get(url(dataSearch));
-        console.log(data)
-        setListSearch(data.results);
-        setPage(data.pageInfo);
-    }
+    //         return `http://localhost:5000/search?${result}&limit=16`
+    //     }
+    //     const {data} = await axios.get(url(dataSearch));
+    //     console.log(data)
+    //     setListSearch(data.results);
+    //     setPage(data.pageInfo);
+    // }
+
+
     return (
         <Layout>
             <div className="search container">
@@ -151,7 +159,9 @@ export  const Search = ()=> {
                
                 <div className="row mb-3">
                     {
-                        listSearch.length > 0 ? listSearch.map((item)=>{
+                        
+                        !search.isError ?
+                        search.listSearch.length > 0 ? search.listSearch.map((item)=>{
                             return(
                                 <div className="col-sm-6 col-md-4 col-lg-3 mb-3">
                                 <div class="card">
@@ -171,7 +181,10 @@ export  const Search = ()=> {
                         <div className="no-vehicle text-center">
                             There is no vehicle left
                          </div> 
-                        
+                         :
+                         <div className="no-vehicle text-center">
+                             {search.errMessage}
+                        </div> 
                     }
 {/*               
                     <div className="col">
