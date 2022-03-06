@@ -1,5 +1,5 @@
 import React, { Component, Profiler, useEffect } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useRoutes } from 'react-router-dom'
 import Homepage from './pages/Homepage'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -12,29 +12,50 @@ import Payment from './pages/Payment'
 import History from './pages/History'
 import ProfileLayout from './pages/Profile'
 import Search from './pages/Search'
-import { useDispatch } from 'react-redux'
-import HomepageAfterLogin from './pages/HomepageAfterLogin'
-
+import {getDataUser } from './redux/actions/auth'
+import { useDispatch,useSelector } from 'react-redux'
+import PrivateRoute from './routers/PrivateRouter'
 
 export const App = () => {
- 
+    const auth = useSelector(state=>state.auth)
+    const dispatch = useDispatch()
+    
+    useEffect(()=>{
+        const token = window.localStorage.getItem('token')
+        if(token){
+          dispatch({
+            type: 'LOGIN_FULFILLED',
+            payload: {
+              data: {
+                results: {
+                  token
+                }
+              }
+            }
+          })
+          dispatch(getDataUser(token))
+        }
+    },[dispatch,auth.token])
+
+  
+
+
     return (
       <BrowserRouter>
         <Routes>
             <Route path="/" element={<Homepage/>}></Route>
-            <Route path="/home" element={<HomepageAfterLogin/>}></Route>
             <Route path="category" element={<Category/>}></Route>
             <Route path="category/:id" element={<ListVehicle/>}></Route>
             <Route path="vehicle" element={<ListVehicle/>}></Route>
             <Route path="category/vehicle/:id" element={<DetailVehicle/>}></Route>
-            <Route path="reservation/:id" element={<Reservation/>}></Route>
-            <Route path="payment/:id" element={<Payment/>}></Route>
             <Route path="search" element={<Search/>}></Route>
-            <Route path="history" element={<History/>}></Route>
+            <Route path="history/:id" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><History/></PrivateRoute>}></Route>
             <Route path="profil" element={<ProfileLayout/>}></Route>
             <Route path="login" element={<Login/>}></Route>
             <Route path="signup" element={<Signup/>}></Route>
             <Route path="forgotpassword" element={<ForgotPassowrd/>}></Route>
+            <Route path="reservation/:id" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Reservation/></PrivateRoute>}></Route>
+            <Route path="payment/:id" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Payment/></PrivateRoute>}></Route>
         </Routes>
       </BrowserRouter>
     )
