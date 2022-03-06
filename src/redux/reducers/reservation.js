@@ -2,7 +2,7 @@ const dataReservation = {
     dataReservation: null,
     isError: false,
     isLoading: false,
-    errMessage: null
+    errMessage: null,
 }
 
 const reservation = (state = dataReservation, action) => {
