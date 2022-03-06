@@ -615,18 +615,37 @@
             text-align: center;
         }
         
-        nav div a img.profile {
+        nav .add-navbar img.profile {
             width: 50px;
             height: 50px;
         }
         
-        nav div a svg {
+        nav .add-navbar button {
+            background-color: transparent;
+            border: none;
+        }
+        
+        nav .add-navbar svg {
             font-size: 40px;
             color: var(--primary);
         }
         
         nav .navbar-toggler-icon {
             color: var(--primary);
+        }
+        
+        nav .dropdown-menu-light {
+            background-color: var(--four);
+            border: 1px solid var(--primary);
+        }
+        
+        nav .dropdown-menu-light .dropdown-item {
+            color: var(--primary);
+            font-family: 'Nunito', serif;
+        }
+        
+        nav .dropdown-menu-light li hr {
+            border: 1px solid var(--primary);
         }
         
         .profile-general {
@@ -986,6 +1005,10 @@
             color: var(--primary);
         }
         
+        .text-detail-payment-reservation .title {
+            font-weight: 900;
+        }
+        
         .reservation-detail .header-nav {
             margin-bottom: 121px;
         }
@@ -1076,6 +1099,15 @@
             margin-bottom: 105px;
         }
         
+        .payment h1 {
+            font-size: 40px;
+            font-weight: 900;
+        }
+        
+        .payment .detail-book {
+            font-size: 20px;
+        }
+        
         .payment .img-vehicle img {
             max-width: 100%;
             height: 317px;
@@ -1090,14 +1122,31 @@
             color: var(--primary);
         }
         
+        .payment .detail-order .text {
+            color: var(--primary);
+            font-size: 20px;
+        }
+        
+        .payment .total-order {
+            color: var(--primary);
+            font-size: 20px;
+        }
+        
         .payment .text-status {
             color: #B8BECD;
             font-size: 32px;
             font-family: 'Nunito', serif;
         }
         
+        .payment .text-total-payment {
+            color: var(--primary);
+            font-size: 32px;
+            font-family: 'Nunito', serif;
+            font-weight: 900;
+        }
+        
         .payment .code-payment h1 {
-            font-size: 36px;
+            font-size: 26px;
             color: var(--primary);
         }
         
@@ -1114,8 +1163,7 @@
             height: 42px;
             font-weight: 700;
         }
-        
-        .payment .qty,
+        /* .payment .qty,
         .payment .date {
             height: 107px;
             border: 1px solid var(--primary);
@@ -1175,7 +1223,7 @@
             font-family: 'Nunito', serif;
             font-size: 24px;
             margin-top: 43px;
-        }
+        } */
         
         .payment-transaction label {
             font-size: 32px;
@@ -1471,6 +1519,25 @@
         .search .card img {
             height: 200px;
             aspect-ratio: 3px;
+        }
+        
+        .card {
+            background-color: var(--four);
+            border: 2px solid var(--third);
+            color: var(--primary);
+            border-radius: 10px;
+            height: 100%;
+        }
+        
+        .card .card-header {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 24px;
+            background-color: var(--third);
+        }
+        
+        .card .card-text {
+            color: var(--primary);
         }
         
         @media(max-width:500px) {
