@@ -4,13 +4,19 @@ import category from "./category";
 import vehicle from "./vehicle";
 import counter from "./counter";
 import reservation from "./reservation";
+import payment from "./payment";
+import history from "./history";
+import search from "./search";
 
 const rootReducer = combineReducers({
     auth,
     category,
     vehicle,
     counter,
-    reservation
+    reservation,
+    payment,
+    history,
+    search
 })
 
 export default rootReducer
