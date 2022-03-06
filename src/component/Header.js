@@ -6,6 +6,7 @@ import Input from './Input'
 import Select from './Select'
 import { useSelector } from 'react-redux'
 import NavbarHomeSearch from './NavbarHomeSearch'
+import Layout from './Layout'
 
 export const Header = ()=> {
     const {auth} = useSelector(state=>state)
@@ -17,7 +18,6 @@ export const Header = ()=> {
    
     const handleFilter = (event)=>{
         event.preventDefault();
-        
         const url = ()=>{
             var result = "";
             filledForms.forEach((item)=>{
@@ -36,7 +36,6 @@ export const Header = ()=> {
 
     return (
         <header>
-        {auth.token===null ? <NavbarLogin/> : <NavbarHomeSearch/>}
             <div className="jumbotron">
                 <div className="content">
                     <div className="container">
@@ -63,9 +62,9 @@ export const Header = ()=> {
                                     <option value="1">Cash</option>
                                     <option value="2">Transfer</option>
                                 </Select>
-                                <Input typeInput="date"/>
+                                <Input typeInput="date" name="date"/>
                             </div>
-                            <Button btnVarian="button-filled">Explore</Button>
+                            <Button btnVarian="button-filled" type="submit">Explore</Button>
                             {/* <button className="button-filled">Explore</button> */}
                         </form>
                     </div>
