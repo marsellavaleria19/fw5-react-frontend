@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import NavbarHomeSearch from '../component/NavbarHomeSearch'
 import Footer from '../component/Footer' 
 import {FaChevronDown} from 'react-icons/fa'
@@ -7,28 +7,63 @@ import {FaAngleRight} from 'react-icons/fa'
 import imgMotorBike1 from '../assets/images/motorbike1.png'
 import imgMotorBike3 from '../assets/images/motorbike3.png'
 import imgCar2 from '../assets/images/car2.png'
+import Layout from '../component/Layout'
+import { useDispatch, useSelector,connect } from 'react-redux'
+import { getListHistory,getListFilterHistory,deleteHistory } from '../redux/actions/history'
+import { useParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
+import Button from '../component/Button'
 
-export default class History extends Component {
-  render() {
+
+export const History  = ({getListHistory})=> {
+
+    const {history,auth} = useSelector(state=>state)
+    const [searchParams,setSearchParams] = useSearchParams()
+    const [isDelete,setIsDelete] = useState()
+    const {id} = useParams()
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+        const token = window.localStorage.getItem("token")
+        getListHistory(token)
+     },[]);
+
+     const handleFillter = async(event)=>{
+        event.preventDefault();
+        const search = event.target.elements['search'].value
+        const token = window.localStorage.getItem("token")
+        //   filledForms.forEach((item)=>{
+        //     if(event.target.elements[item].value){
+        //         dataSearch[item] = event.target.elements[item].value
+        //     }
+        // })
+        setSearchParams({name:search})
+        dispatch(getListFilterHistory(token,search))
+
+    }
+
+    const handleDelete = async(id)=>{
+        const token = window.localStorage.getItem("token")
+        dispatch(deleteHistory(token,id))
+        dispatch(getListHistory(token))
+    }
+    
     return (
-        <>
-            <NavbarHomeSearch/>
+        <Layout>
             <section className="history container mb-5">
                 <div className="row">
                     <div className="col-lg-8 me-4">
-                        <form className="search-filter mb-4">
+                        <form onSubmit={handleFillter} className="search-filter mb-4">
                             <div className="row">
                                 <div className="col-md-8 d-flex position-relative">
-                                    <input className="form-control search-input" type="search" placeholder="Search history" aria-label="Search"/>
+                                    <input className="form-control search-input" type="search" name="search" placeholder="Search history" aria-label="Search"/>
                                     <button className="btn btn-search position-absolute" type="submit"><FaSearch/></button>
                                 </div>
                                 <div className="col-md select-form">
                                     <select className="form-select">
                                         <option>Filter</option>
                                         <option value="1">Tipe</option>
-                                        <option value="2">Date Added</option>
-                                        <option value="3">name</option>
-                                        <option value="4">Favorite Product</option>
+                                        <option value="4"></option>
                                     </select>
                                 </div>
                             </div>
@@ -45,7 +80,26 @@ export default class History extends Component {
                         <div className="week">
                             <div className="title-date">A week ago</div>
                             <ul className="list-group list-week">
-                                <li className="list-group-item d-flex">
+                                {
+                                    history.dataHistory!==null && history.dataHistory.filter((item)=>item.user_id==id).map((item)=>{
+                                        return(
+                                            <li className="list-group-item d-flex">
+                                            <div>
+                                                <img src={item.photo} alt="motorbike"/>
+                                            </div>
+                                            <div className="ms-4">
+                                                <h5 className="card-title">{item.brand}</h5>
+                                                <div className="date">{item.rentStartDate} - {item.rentEndDate}</div>
+                                                <div className="prepayment">Prepayment : Rp. {item.prepayment.toLocaleString("id")}</div>
+                                                <div className="status">{item.status}</div>
+                                            </div>
+                                            <Button btnVarian="button-filled" onClick={()=>handleDelete(item.id)}>Delete</Button>
+                                        </li>
+                                       )
+                                    })
+                                }
+                               
+                                {/* <li className="list-group-item d-flex">
                                     <div>
                                         <img src={imgMotorBike1} alt="motorbike"/>
                                     </div>
@@ -55,8 +109,6 @@ export default class History extends Component {
                                         <div className="prepayment">Prepayment : 245.000</div>
                                         <div className="status">Has been returned</div>
                                     </div>
-
-
                                 </li>
                                 <li className="list-group-item d-flex justify-content-between align-items-center">
                                     <div className="d-flex">
@@ -72,7 +124,7 @@ export default class History extends Component {
                                     </div>
                                     <button className="button-filled">Delete</button>
 
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                     </div>
@@ -101,8 +153,12 @@ export default class History extends Component {
                     </div>
                 </div>
             </section>
-            <Footer/>
-      </>
+      </Layout>
     )
-  }
 }
+
+const mapStateToProps = state => ({history:state.history,auth:state.auth})
+
+const mapDispatchToProps = {getListHistory}
+
+export default connect(mapStateToProps,mapDispatchToProps)(History)
