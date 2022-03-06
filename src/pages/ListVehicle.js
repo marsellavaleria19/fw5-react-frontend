@@ -7,13 +7,14 @@ import { getListVehicleByCategory,getListVehicleByUrl } from '../redux/actions/v
 import { getDetailCategory } from '../redux/actions/category';
 import Image from '../component/Image';
 import Button from '../component/Button';
-import {connect, useSelector } from 'react-redux';
+import {connect, useDispatch, useSelector } from 'react-redux';
 
-export const ListVehicle = ({getDetailCategory,getListVehicleByCategory,getListVehicleByUrl})=> {
+export const ListVehicle = ()=> {
 
     const {category,vehicle} = useSelector(state=>state)
-
+    const dispatch = useDispatch()
     const [listVehicle,setListVehicle] = useState([])
+    const [isNextPage,setIsNextPage] = useState(false)
     const [page,setPage] = useState([])
     const [searchParams,setSearchParams] = useSearchParams()
     // const [vehicle,setVehicle] = useState("");
@@ -21,11 +22,10 @@ export const ListVehicle = ({getDetailCategory,getListVehicleByCategory,getListV
     const {REACT_APP_URL,REACT_APP_LIMIT_VEHICLE} = process.env 
     
     useEffect(()=>{
-       getDetailCategory(id)
-       getListVehicleByCategory(id)
+      dispatch(getDetailCategory(id))
+      dispatch(getListVehicleByCategory(id))
     },[]);
-
-
+    
     const navigate = useNavigate();
     
     const goToDetail = (id)=>{
@@ -43,8 +43,10 @@ export const ListVehicle = ({getDetailCategory,getListVehicleByCategory,getListV
     //     setPage(data.pageInfo);
     // }
 
-    const getNextData = async(url)=>{
-      listVehicle = [...listVehicle,getListVehicleByUrl(url)]
+    const getNextData = (url)=>{
+     dispatch(getListVehicleByUrl(url))
+    //  setListVehicle([...listVehicle,...vehicle.listVehicle])
+
     }
 
     return (
@@ -257,8 +259,4 @@ export const ListVehicle = ({getDetailCategory,getListVehicleByCategory,getListV
     )
 }
 
-const mapStateToProps = state => ({category:state.category,vehicle:state.vehicle})
-
-const mapDispatchToProps = {getDetailCategory,getListVehicleByCategory,getListVehicleByUrl}
-
-export default connect(mapStateToProps,mapDispatchToProps)(ListVehicle)
+export default ListVehicle
