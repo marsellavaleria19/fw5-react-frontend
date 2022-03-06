@@ -15,9 +15,9 @@ import { reservationInput } from '../redux/actions/reservation'
 import { connect, useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 
-export const Reservation  = ()=> {
+export const Reservation  = ({reservationInput})=> {
 
-    const {counter,vehicle,reservation} = useSelector(state=>state)
+    const {counter,vehicle,reservation,auth} = useSelector(state=>state)
     
     const [totalPayment,setTotalPayment] = useState(0)
 
@@ -37,9 +37,18 @@ export const Reservation  = ()=> {
         // getDataVehicle();
         dispatch(getDetailVehicle(id))
         setQty(counter.num)
+        console.log(reservation.dataReservation)
+        if(reservation.dataReservation!==null){
+            goToPayment(reservation.dataReservation.id)
+        }
+
     },[]);
 
-    
+    useEffect(()=>{
+        if(reservation.dataReservation!==null){
+            goToPayment(reservation.dataReservation.id)
+        }
+    });
     // const getDataVehicle = async()=>{
     //     const {data} = await axios.get(`http://localhost:5000/vehicles/${id}`);
     //     setDataVehicle(data.results);
@@ -79,13 +88,15 @@ export const Reservation  = ()=> {
 
     const reservationHandle = (event) => {
         event.preventDefault()
+        const token = window.localStorage.getItem('token')
         var qty = event.target.elements["qty"].value
         var date = event.target.elements["date"].value
         var day = event.target.elements["day"].value
-        var data = {qty:qty,date:date,day:day,vehicle:vehicle.listVehicle.id,user:3}
-        dispatch(reservationInput(data))
-        console.log(reservation.dataReservation.id)
-        goToPayment(reservation.dataReservation.id)
+        var data = {qty:qty,date:date,day:day,vehicle:vehicle.listVehicle.id,user:auth.user!==null && auth.user.id}
+        reservationInput(data,token)
+        // if(!reservation.isError){
+        //     goToPayment(reservation.dataReservation.id)
+        // }
     }
 
     return (
@@ -140,6 +151,6 @@ export const Reservation  = ()=> {
     )
 }
 
-const mapStateToProps = state => ({counter:state.counter})
-
-export default connect(mapStateToProps)(Reservation)
+const mapStateToProps = state => ({counter:state.counter,reservation:state.reservation})
+const mapDispatchToProps = {reservationInput}
+export default connect(mapStateToProps,mapDispatchToProps)(Reservation)
