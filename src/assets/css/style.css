@@ -1381,6 +1381,7 @@
             width: 197px;
             height: 165px;
             border-radius: 20px;
+            object-fit: cover;
         }
         
         .history .list-week h5 {
