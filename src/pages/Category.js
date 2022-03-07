@@ -39,7 +39,7 @@ export const Category = ()=> {
                                 </div>
                                 <div className="row text-center">
                                     {
-                                       vehicle.listVehicle.filter(item=>item.category_id===itemCategory.id).filter((item,index)=>index<REACT_APP_LIMIT_CATEGORY).map((itemVehicle)=>{
+                                       vehicle.listVehicle && vehicle.listVehicle.length > 0 && vehicle.listVehicle.filter(item=>item.category_id===itemCategory.id).filter((item,index)=>index<REACT_APP_LIMIT_CATEGORY).map((itemVehicle)=>{
                                         return(
                                             <div className="col-sm-6 col-md-4 col-lg-3 mb-4">
                                                 <div class="d-inline-block position-relative">
