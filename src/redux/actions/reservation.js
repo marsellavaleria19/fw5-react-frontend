@@ -5,8 +5,16 @@ import AxiosCostum from '../../helpers/AxiosCostum'
 
 export const reservationInput = (reservation, token) => {
     var rentStartDate = new Date(reservation.date)
-    var tempDay = rentStartDate.getDate() + parseInt(reservation.day)
-    var rentEndDate = new Date(new Date().setDate(tempDay))
+    var rentEndDate = null
+    var day = parseInt(reservation.day)
+    var tempDay = 0
+    if (day < 2) {
+        rentEndDate = rentStartDate
+    } else {
+        day = day - 1
+        tempDay = rentStartDate.getDate() + parseInt(day)
+        rentEndDate = new Date(new Date().setDate(tempDay))
+    }
     var data = {}
     data.qty = reservation.qty
     data.idVehicle = reservation.vehicle
