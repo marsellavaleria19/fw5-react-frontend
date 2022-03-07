@@ -17,6 +17,7 @@ export const Payment = ()=> {
     const {reservation,payment} = useSelector(state=>state)
     const dispatch = useDispatch()
     const {id} = useParams()
+    const [control,setControl] = useState(false)
     // const [dataVehicle,setDataVehicle] = useState({})
     
     const navigate = useNavigate()
@@ -26,16 +27,17 @@ export const Payment = ()=> {
     },[]);
 
     useEffect(()=>{
-        if(payment.dataPayment!==null){
+        if(payment.dataPayment!==null && control){
             goToHistory(payment.dataPayment.user_id)
         }
-    });
+    },[payment.dataPayment]);
 
     const handlePayment = (event)=>{
         event.preventDefault()
         const token = window.localStorage.getItem('token')
         var paymentMethod = event.target.elements["payment-method"].value
         dispatch(paymentUpdate(token,reservation.dataReservation.totalPayment,paymentMethod,id))
+        setControl(true)
     }
     
     // const getDataVehicle = async()=>{
