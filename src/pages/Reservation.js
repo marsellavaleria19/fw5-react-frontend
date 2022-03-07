@@ -94,9 +94,9 @@ export const Reservation  = ({reservationInput})=> {
         var day = event.target.elements["day"].value
         var data = {qty:qty,date:date,day:day,vehicle:vehicle.listVehicle.id,user:auth.user!==null && auth.user.id}
         reservationInput(data,token)
-        // if(!reservation.isError){
-        //     goToPayment(reservation.dataReservation.id)
-        // }
+        if(!reservation.isError){
+            goToPayment(reservation.dataReservation.id)
+        }
     }
 
     return (
