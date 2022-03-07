@@ -10,25 +10,39 @@ import imgCar2 from '../assets/images/car2.png'
 import Layout from '../component/Layout'
 import { useDispatch, useSelector,connect } from 'react-redux'
 import { getListHistory,getListFilterHistory,deleteHistory } from '../redux/actions/history'
+import { getListVehicleByMonth } from '../redux/actions/vehicle'
 import { useParams } from 'react-router-dom'
 import { useSearchParams } from 'react-router-dom'
 import Button from '../component/Button'
 
 
-export const History  = ({getListHistory})=> {
+export const History  = ()=> {
 
-    const {history,auth} = useSelector(state=>state)
+    const {history,vehicle} = useSelector(state=>state)
     const [searchParams,setSearchParams] = useSearchParams()
     const [isDelete,setIsDelete] = useState()
     const {id} = useParams()
+    const [control,setControl] = useState(false)
     const dispatch = useDispatch()
-
+    const [show,setShow] = useState(-1)
+   
     useEffect(()=>{
         const token = window.localStorage.getItem("token")
-        getListHistory(token)
+        dispatch(getListHistory(token))
+        dispatch(getListVehicleByMonth())
      },[]);
 
-     const handleFillter = async(event)=>{
+     useEffect(()=>{
+         if(control){
+            const token = window.localStorage.getItem("token")
+            dispatch(getListHistory(token))
+            setControl(false)
+            setShow(false)
+            dispatch(getListVehicleByMonth())
+         }
+     },[control])
+
+     const handleFillter = (event)=>{
         event.preventDefault();
         const search = event.target.elements['search'].value
         const token = window.localStorage.getItem("token")
@@ -39,15 +53,23 @@ export const History  = ({getListHistory})=> {
         // })
         setSearchParams({name:search})
         dispatch(getListFilterHistory(token,search))
-
     }
 
-    const handleDelete = async(id)=>{
+    const handleDelete = (id)=>{
         const token = window.localStorage.getItem("token")
         dispatch(deleteHistory(token,id))
-        dispatch(getListHistory(token))
+        setControl(true)
     }
     
+    const handleButton = (i) =>{
+        setShow(i)
+    }
+
+      
+    const handleButtonLeave = () =>{
+        setShow(-1)
+    }
+
     return (
         <Layout>
             <section className="history container mb-5">
@@ -81,26 +103,29 @@ export const History  = ({getListHistory})=> {
                             <div className="title-date">A week ago</div>
                             <ul className="list-group list-week">
                                 {
-                                    history.dataHistory!==null && history.dataHistory.filter((item)=>item.user_id==id).map((item)=>{
+                                    history.dataHistory!==null && history.dataHistory.filter((item)=>item.user_id==id).map((item,i)=>{
                                         return(
-                                            <div className="row mb-4">
-                                            <div className='col-md-3'>
-                                                <img src={item.photo} alt="motorbike"/>
-                                            </div>
-                                            <div className="col-md">
-                                                <div className="row">
-                                                    <div className="col-md-8">
-                                                        <h5 className="card-title">{item.brand}</h5>
-                                                        <div className="date">{item.rentStartDate} - {item.rentEndDate}</div>
-                                                        <div className="prepayment">Payment : Rp. {item.prepayment.toLocaleString("id")}</div>
-                                                        <div className="status">{item.status}</div>
-                                                    </div>
-                                                    <div className="col-md-4">
-                                                        <Button btnVarian="button-filled" onClick={()=>handleDelete(item.id)}>Delete</Button>
+                                            <div className={`row mb-3`}  onMouseLeave={handleButtonLeave} onMouseEnter={()=>handleButton(i)}>
+                                                <div className="col-md-9">
+                                                    <div className="row detail-order">
+                                                        <div className="col-md-4">
+                                                            <img src={item.photo} alt="motorbike"/>
+                                                        </div>
+                                                        <div className="col-md">
+                                                                <h5 className="card-title">{item.brand}</h5>
+                                                                <div className="date">{item.rentStartDate} - {item.rentEndDate}</div>
+                                                                <div className="prepayment">Payment : Rp. {item.prepayment.toLocaleString("id")}</div>
+                                                                <div className="status">{item.status}</div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                                <div className="col-md-2">
+                                                    
+                                                            {
+                                                                show==i && <Button btnVarian="button-filled" onClick={()=>handleDelete(item.id)}>Delete</Button>  
+                                                            }
+                                                    </div>
+                                                </div>
                                        )
                                     })
                                 }
@@ -137,20 +162,31 @@ export const History  = ({getListHistory})=> {
                     <div className="col-lg new-arrival">
                         <div className="d-flex flex-column align-items-center">
                             <div className="title">New Arrival</div>
-                            <div className="position-relative mb-3">
-                                <img src={imgCar2} alt="Car2"/>
-                                <div className="text-title-vehicle ">
-                                    <div className="vehicle-name">Lamborgini</div>
-                                    <div className="location">South Jakarta</div>
+                                {
+                                    vehicle.listVehicle && vehicle.listVehicle.map((item)=>{
+                                        return(<div className="position-relative mb-3">
+                                            <img src={item.photo} alt="Car2"/>
+                                            <div className="text-title-vehicle ">
+                                                <div className="vehicle-name">{item.name}</div>
+                                                <div className="location">{item.location}</div>
+                                            </div>
+                                        </div>)
+                                    })
+                                }
+                                {/* <div className="position-relative mb-3">
+                                    <img src={imgCar2} alt="Car2"/>
+                                    <div className="text-title-vehicle ">
+                                        <div className="vehicle-name">Lamborgini</div>
+                                        <div className="location">South Jakarta</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="list-img position-relative">
-                                <img src={imgCar2} alt="Car4"/>
-                                <div className="text-title-vehicle">
-                                    <div className="vehicle-name">Jeep White</div>
-                                    <div className="location">Kalimantan</div>
-                                </div>
-                            </div>
+                                <div className="list-img position-relative">
+                                    <img src={imgCar2} alt="Car4"/>
+                                    <div className="text-title-vehicle">
+                                        <div className="vehicle-name">Jeep White</div>
+                                        <div className="location">Kalimantan</div>
+                                    </div>
+                                </div> */}
                             <div className="view-more">
                                 <div>View More</div>
                                 <div className="btn-arrow text-center"><FaChevronDown/></div>
@@ -163,8 +199,4 @@ export const History  = ({getListHistory})=> {
     )
 }
 
-const mapStateToProps = state => ({history:state.history,auth:state.auth})
-
-const mapDispatchToProps = {getListHistory}
-
-export default connect(mapStateToProps,mapDispatchToProps)(History)
+export default History
