@@ -83,18 +83,24 @@ export const History  = ({getListHistory})=> {
                                 {
                                     history.dataHistory!==null && history.dataHistory.filter((item)=>item.user_id==id).map((item)=>{
                                         return(
-                                            <li className="list-group-item d-flex">
-                                            <div>
+                                            <div className="row mb-4">
+                                            <div className='col-md-3'>
                                                 <img src={item.photo} alt="motorbike"/>
                                             </div>
-                                            <div className="ms-4">
-                                                <h5 className="card-title">{item.brand}</h5>
-                                                <div className="date">{item.rentStartDate} - {item.rentEndDate}</div>
-                                                <div className="prepayment">Prepayment : Rp. {item.prepayment.toLocaleString("id")}</div>
-                                                <div className="status">{item.status}</div>
+                                            <div className="col-md">
+                                                <div className="row">
+                                                    <div className="col-md-8">
+                                                        <h5 className="card-title">{item.brand}</h5>
+                                                        <div className="date">{item.rentStartDate} - {item.rentEndDate}</div>
+                                                        <div className="prepayment">Payment : Rp. {item.prepayment.toLocaleString("id")}</div>
+                                                        <div className="status">{item.status}</div>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <Button btnVarian="button-filled" onClick={()=>handleDelete(item.id)}>Delete</Button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <Button btnVarian="button-filled" onClick={()=>handleDelete(item.id)}>Delete</Button>
-                                        </li>
+                                        </div>
                                        )
                                     })
                                 }
