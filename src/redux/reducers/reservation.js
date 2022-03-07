@@ -28,6 +28,10 @@ const reservation = (state = dataReservation, action) => {
                 state.errMessage = data.message
                 return {...state }
             }
+        case 'CLEAR_RESERVATION':
+            {
+                return dataReservation
+            }
         default:
             {
                 return {...state }
