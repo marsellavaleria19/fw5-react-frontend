@@ -25,6 +25,8 @@ export const Reservation  = ({reservationInput})=> {
 
     const [qty,setQty] = useState()
 
+    const [control,setControl] = useState(false)
+
     const dispatch = useDispatch()
 
     const [dataVehicle,setDataVehicle] = useState({})
@@ -38,17 +40,30 @@ export const Reservation  = ({reservationInput})=> {
         dispatch(getDetailVehicle(id))
         setQty(counter.num)
         console.log(reservation.dataReservation)
-        if(reservation.dataReservation!==null){
-            goToPayment(reservation.dataReservation.id)
-        }
+        // if(reservation.dataReservation!==null){
+        //     goToPayment(reservation.dataReservation.id)
+        // }
 
     },[]);
 
+    // useEffect(()=>{
+    //     if(reservation.dataReservation!==null){
+    //         goToPayment(reservation.dataReservation.id)
+    //         dispatch({
+    //             type : 'CLEAR_RESERVATION'
+    //         })
+    //     }
+    // },[reservation.dataReservation]);
+
     useEffect(()=>{
-        if(reservation.dataReservation!==null){
+        if(reservation.dataReservation!==null && control){
             goToPayment(reservation.dataReservation.id)
+            dispatch({
+                type : 'CLEAR_RESERVATION'
+            })
         }
-    });
+    },[reservation.dataReservation]);
+
     // const getDataVehicle = async()=>{
     //     const {data} = await axios.get(`http://localhost:5000/vehicles/${id}`);
     //     setDataVehicle(data.results);
@@ -94,9 +109,13 @@ export const Reservation  = ({reservationInput})=> {
         var day = event.target.elements["day"].value
         var data = {qty:qty,date:date,day:day,vehicle:vehicle.listVehicle.id,user:auth.user!==null && auth.user.id}
         reservationInput(data,token)
-        if(!reservation.isError){
-            goToPayment(reservation.dataReservation.id)
-        }
+        setControl(true)
+        // if(!reservation.isError){
+            // goToPayment(reservation.dataReservation.id)
+            // dispatch({
+            //                 type : 'CLEAR_RESERVATION'
+            // })
+        // }
     }
 
     return (
