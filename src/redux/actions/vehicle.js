@@ -10,6 +10,15 @@ export const getListVehicle = () => {
     }
 }
 
+export const getListVehicleByMonth = () => {
+    var month = new Date().getMonth()
+    console.log(month)
+    return {
+        type: 'GET_VEHICLE',
+        payload: axios.get(`${REACT_APP_URL}/vehicles?month=${month}&limit=3`)
+    }
+}
+
 export const getListVehicleByCategory = (idCategory) => {
     return {
         type: 'GET_VEHICLE',
