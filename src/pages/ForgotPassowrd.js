@@ -1,12 +1,34 @@
-import React, { Component } from 'react'
+import React, { Component,useState,useEffect } from 'react'
 import Footer from '../component/Footer'
 import {FaChevronLeft} from 'react-icons/fa'
+import { forgotPasswordProcess } from '../redux/actions/forgotPassword'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 export const ForgotPassowrd = ()=> {
 
-  const goToBack = ()=>{
-    window.history.back()
-  }
+    const dispatch = useDispatch()
+    const [success,setSuccess] = useState(false)
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        if(success){
+            navigate("/confirmforgotpassword")
+        }
+    },[success])
+
+    const goToBack = ()=>{
+        window.history.back()
+    }
+
+    
+    const forgotPasswordHandle = (event)=>{
+        event.preventDefault()
+        var email = event.target.elements["email"].value;
+        dispatch(forgotPasswordProcess(email))
+        setSuccess(true)        
+    }
+
     return (
       <>
         <header className="header-forgot">
@@ -18,12 +40,12 @@ export const ForgotPassowrd = ()=> {
                     </div>
                 </div>
                 <h1 className="heading">Don't worry, we got your back!</h1>
-                <form>
+                <form onSubmit={forgotPasswordHandle}>
                     <div>
-                        <input type="email" placeholder="Enter your email address" />
+                        <input type="email" name="email" placeholder="Enter your email address" />
                     </div>
                     <div>
-                        <button className="button-send">Send link</button>
+                        <button type="submit" className="button-send">Send link</button>
                     </div>
                 </form>
                 <p className="text">

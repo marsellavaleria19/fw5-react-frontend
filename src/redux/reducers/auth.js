@@ -7,6 +7,7 @@ const dataLogin = {
     isAuthenticated: false,
     isVerify: false,
     isRegister: false,
+    isSubmitEmail: false,
     errMessage: null
 }
 
@@ -75,6 +76,50 @@ const auth = (state = dataLogin, action) => {
                 return {...state }
             }
         case 'VERIFY_USER_REJECTED':
+            {
+                const { data } = action.payload.response
+                state.isLoading = false
+                state.isError = true
+                state.errMessage = data.message
+                return {...state }
+            }
+        case 'FORGOT_PASSWORD_PENDING':
+            {
+                state.isLoading = true
+                return {...state }
+            }
+        case 'FORGOT_PASSWORD_FULFILLED':
+            {
+                const { data } = action.payload
+                state.message = data.message
+                state.isLoading = false
+                state.isError = false
+                state.isSubmitEmail = true
+                return {...state }
+            }
+        case 'FORGOT_PASSWORD_REJECTED':
+            {
+                const { data } = action.payload.response
+                state.isLoading = false
+                state.isError = true
+                state.errMessage = data.message
+                return {...state }
+            }
+        case 'CONFIRM_FORGOT_PASSWORD_PENDING':
+            {
+                state.isLoading = true
+                return {...state }
+            }
+        case 'CONFIRM_FORGOT_PASSWORD_FULFILLED':
+            {
+                const { data } = action.payload
+                state.message = data.message
+                state.isLoading = false
+                state.isError = false
+                state.isVerify = true
+                return {...state }
+            }
+        case 'CONFIRM_FORGOT_PASSWORD_REJECTED':
             {
                 const { data } = action.payload.response
                 state.isLoading = false

@@ -8,10 +8,12 @@ import Category from './pages/Category'
 import ListVehicle from './pages/ListVehicle'
 import DetailVehicle from './pages/DetailVehicle'
 import Reservation from './pages/Reservation'
+import VerifyUser from './pages/VerifyUser'
 import Payment from './pages/Payment'
 import History from './pages/History'
 import ProfileLayout from './pages/Profile'
 import Search from './pages/Search'
+import ConfirmForgotPassowrd from './pages/ConfirmForgotPassword'
 import {getDataUser } from './redux/actions/auth'
 import { useDispatch,useSelector } from 'react-redux'
 import PrivateRoute from './routers/PrivateRouter'
@@ -53,7 +55,9 @@ export const App = () => {
             <Route path="profil" element={<ProfileLayout/>}></Route>
             <Route path="login" element={<Login/>}></Route>
             <Route path="signup" element={<Signup/>}></Route>
+            <Route path='verifyuser' element={<VerifyUser/>}></Route>
             <Route path="forgotpassword" element={<ForgotPassowrd/>}></Route>
+            <Route path="confirmforgotpassword" element={<ConfirmForgotPassowrd/>}></Route>
             <Route path="reservation/:id" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Reservation/></PrivateRoute>}></Route>
             <Route path="payment/:id" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Payment/></PrivateRoute>}></Route>
         </Routes>

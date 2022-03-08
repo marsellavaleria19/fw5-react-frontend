@@ -45,16 +45,14 @@ export const Login = () => {
                         <div className="separator-line"></div>
                         <div className="separator-circle"></div>
                     </div>
-                    <div className="header-login col-lg">
+                    <div className="header-login col-lg">       
+                        <form onSubmit={loginHandle} className="form-login-signup">
                         {
                             auth.isError==true && 
                             <div class="alert alert-danger" role="alert">
                                {auth.errMessage}
                           </div>
                         }
-
-                       
-                        <form onSubmit={loginHandle} className="form-login-signup">
                         {
                             auth.isError==false && auth.isVerify==true && 
                             <div class="alert alert-success" role="alert">
