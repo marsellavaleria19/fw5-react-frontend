@@ -8,7 +8,7 @@ export const reservationInput = (reservation, token) => {
     var rentEndDate = null
     var day = parseInt(reservation.day)
     var tempDay = 0
-    if (day < 2) {
+    if (day == 1) {
         rentEndDate = rentStartDate
     } else {
         day = day - 1
