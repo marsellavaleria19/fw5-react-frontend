@@ -52,7 +52,15 @@ export const Login = () => {
                                {auth.errMessage}
                           </div>
                         }
+
+                       
                         <form onSubmit={loginHandle} className="form-login-signup">
+                        {
+                            auth.isError==false && auth.isVerify==true && 
+                            <div class="alert alert-success" role="alert">
+                               {auth.message}
+                          </div>
+                        }
                             <div>
                                 <Input typeInput="text" name="email" placeholder="Email"/>
                             </div>

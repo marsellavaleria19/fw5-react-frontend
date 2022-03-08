@@ -1,9 +1,12 @@
 const dataLogin = {
     token: null,
+    message: null,
     user: null,
     isError: false,
     isLoading: false,
     isAuthenticated: false,
+    isVerify: false,
+    isRegister: false,
     errMessage: null
 }
 
@@ -32,6 +35,53 @@ const auth = (state = dataLogin, action) => {
                 state.errMessage = data.message
                 return {...state }
             }
+        case 'REGISTER_PENDING':
+            {
+                state.isLoading = true
+                return {...state }
+            }
+        case 'REGISTER_FULFILLED':
+            {
+                const { data } = action.payload
+                console.log("data" + data)
+                state.message = data.message
+                state.isLoading = false
+                state.isError = false
+                state.isRegister = true
+                return {...state }
+            }
+        case 'REGISTER_REJECTED':
+            {
+                const { data } = action.payload.response
+                state.isLoading = false
+                state.isError = true
+                state.errMessage = data.message
+                return {...state }
+            }
+        case 'VERIFY_USER_PENDING':
+            {
+                state.isLoading = true
+                return {...state }
+            }
+        case 'VERIFY_USER_FULFILLED':
+            {
+                const { data } = action.payload
+                console.log(data)
+                state.message = data.message
+                state.isLoading = false
+                state.isError = false
+                state.isVerify = true
+                state.isRegister = false
+                return {...state }
+            }
+        case 'VERIFY_USER_REJECTED':
+            {
+                const { data } = action.payload.response
+                state.isLoading = false
+                state.isError = true
+                state.errMessage = data.message
+                return {...state }
+            }
         case 'LOGIN_PROFILE_PENDING':
             {
                 state.isLoading = true
@@ -49,6 +99,7 @@ const auth = (state = dataLogin, action) => {
                 state.token = null
                 window.localStorage.removeItem('token')
                 state.isAuthenticated = false
+                state.isVerify = false
                 return {...state }
             }
         default:

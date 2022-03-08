@@ -1,45 +1,41 @@
-import React, { Component, useEffect, useState } from 'react'
+import React, { Component,useEffect,useState } from 'react'
 import logoGoogle from '../assets/images/logo-google.png'
 import Footer from '../component/Footer'
 import { useNavigate } from 'react-router-dom'
 import Input from '../component/Input'
 import Button from '../component/Button'
-import { registrationProcess } from '../redux/actions/registration'
-import { useDispatch, useSelector, useStore } from 'react-redux'
+import { verifyProcess} from '../redux/actions/registration'
+import { useDispatch, useStore,connect, useSelector } from 'react-redux'
 
-export const Signup = () => {
+export const VerifyUser = () => {
 
     const {auth} = useSelector(state=>state)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [success,setSuccess] = useState(false)
-    
-    const goToLogin = ()=>{
-        navigate("/login");
-    }
-
+  
     useEffect(()=>{
-        if(auth.isError){
+        if(auth.isRegister){
             dispatch({
-                type : 'REGISTER_REJECTED'
+                type : "REGISTER_FULLFILLED"
             })
         }
-    },[auth.isError])
+    },[auth.isRegister])
 
     useEffect(()=>{
         if(success){
-            navigate("/verifyuser")
+            navigate("/login")
         }
     },[success])
 
-    const signupHandle = (event)=>{
+    const verifyHandle = (event)=>{
         event.preventDefault()
-        var name = event.target.elements["name"].value;
-        var username =  event.target.elements["username"].value;
         var email = event.target.elements["email"].value;
         var password =  event.target.elements["password"].value;
-        dispatch(registrationProcess(name,username,email,password))
-        setSuccess(true)        
+        var code = event.target.elements["code"].value;
+        dispatch(verifyProcess(email,password,code))
+        setSuccess(true)
+
     }
 
     return (
@@ -50,8 +46,6 @@ export const Signup = () => {
                         <div className="row">
                             <div className="header-title col">
                                 <h1 className="heading">Let's Explore<br/>The World</h1>
-                                <p className="text">Don't have account?</p>
-                                <button className="button-dark" onClick={goToLogin}>Login</button>
                             </div>
                             <div className="header-separator col-lg d-lg-flex align-items-center flex-lg-column">
                                 <div className="separator-circle"></div>
@@ -59,34 +53,26 @@ export const Signup = () => {
                                 <div className="separator-circle"></div>
                             </div>
                             <div className="header-signup col-lg">
+                                
+                                <form onSubmit={verifyHandle} className="form-login-signup">
                                 {
-                                    auth.isError===true &&
-                                    <div className="alert alert-danger" role="alert">
-                                    {auth.errMesage}
+                                    auth.isError==false && auth.isRegister && 
+                                    <div className="alert alert-success" role="alert">
+                                    {auth.message}
                                 </div>
                                 }
-                                <form onSubmit={signupHandle} className="form-login-signup">
-                                    <div>
-                                        <Input type="text" name="name" placeholder="Name" />
-                                    </div>
-                                    <div>
-                                        <Input type="text" name="username" placeholder="Username" />
-                                    </div>
                                     <div>
                                         <Input type="text" name="email" placeholder="Email" />
+                                        
                                     </div>
                                     <div>
                                         <Input type="password" name="password" placeholder="Password" />
                                     </div>
                                     <div>
-                                        <Button btnVarian="button-filled mt-4">Sign Up</Button>
+                                        <Input type="text" name="code" placeholder="Code" />
                                     </div>
                                     <div>
-                                        <Button btnVarian="button-google mt-4"><img src={logoGoogle} alt="Logo"/>Sign Up With Google</Button>
-                                    </div>
-                                    <div className='btn-login-signup'>
-                                        <p className="text">Have account?</p>
-                                        <button className="button-dark" onClick={goToLogin}>Login</button>
+                                        <Button btnVarian="button-filled mt-4">Verify</Button>
                                     </div>
                                 </form>
                             </div>
@@ -99,4 +85,4 @@ export const Signup = () => {
     )
 }
 
-export default Signup
+export default VerifyUser
