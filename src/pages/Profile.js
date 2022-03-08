@@ -6,8 +6,12 @@ import {FaPencilAlt} from 'react-icons/fa'
 import Button from '../component/Button'
 import Input from '../component/Input'
 import Image from '../component/Image'
+import { useSelector } from 'react-redux'
+import profileImg from '../assets/images/profile.png'
 
 export const Profile = ()=> {
+    const auth = useSelector(state=>state.auth)
+
     return (
       <>
         <NavbarHome/>
@@ -15,13 +19,13 @@ export const Profile = ()=> {
             <h1 className="title">Profile</h1>
             <div className="text-center">
                 <div className="d-inline-block position-relative">
-                    <Image photo={imgProfile} photoVarian="profile rounded-circle" alt="profile"/>
+                    <Image photo={auth.user!==null && (auth.user.photo==null ? profileImg : auth.user.photo)} photoVarian="profile rounded-circle" alt="profile"/>
                     <Button btnVarian="position-absolute button-edit-profile rounded-circle"><FaPencilAlt/></Button>
                 </div>
                 <div className="profile-detail">
-                    <h1 className="name">Samantha Doe</h1>
-                    <div className="detail">samanthadoe@mail.com</div>
-                    <div className="detail">+62833467823</div>
+                    <h1 className="name">{auth.user!==null && auth.user.fullName}</h1>
+                    <div className="detail">{auth.user!==null && auth.user.email}</div>
+                    <div className="detail">{auth.user!=null && auth.user.mobileNumber}</div>
                     <div className="detail">Has been active since 2013</div>
                 </div>
                 <div className="profile-radio d-flex justify-content-center mb-5">
@@ -47,26 +51,26 @@ export const Profile = ()=> {
             <form className="container">
                 <div className="mb-5">
                     <label for="email">Email</label>
-                    <Input variantInput="d-block w-100" typeInput="text" value="zulaikha17@gmail.com"/>
+                    <Input variantInput="d-block w-100" typeInput="text" value={auth.user!==null && auth.user.email}/>
                 </div>
                 <div className="mb-5">
                     <label for="address">Address</label>
-                    <textarea className="d-block w-100">Iskandar Street no. 67 Block A Near Bus Stop</textarea>
+                    <textarea className="d-block w-100">{auth.user!==null && auth.user.address}</textarea>
                 </div>
                 <div className="mb-5">
                     <label for="mobile-number">Mobile number</label>
-                    <Input variantInput="d-block w-100" typeInput="text" value="(+62)813456782"/>
+                    <Input variantInput="d-block w-100" typeInput="text" value={auth.user!==null && auth.user.mobileNumber}/>
                 </div>
                 <div className="mb-5">
                     <h5>Identity</h5>
                     <div className="row">
                         <div className="col-sm">
                             <label for="mobile-number">Display name</label>
-                            <Input variantInput="d-block w-100" typeInput="text" value="zulaikha"/>
+                            <Input variantInput="d-block w-100" typeInput="text" value={auth.user!==null && auth.user.nickName}/>
                         </div>
                         <div className="col-sm">
                             <label for="mobile-number">Birth date (DD/MM/YY)</label>
-                            <Input variantInput="d-block w-100" typeInput="date" value="03/09/2003"/>
+                            <Input variantInput="d-block w-100" typeInput="date" value={auth.user!==null && auth.user.birthDate}/>
                         </div>
                     </div>
                 </div>
