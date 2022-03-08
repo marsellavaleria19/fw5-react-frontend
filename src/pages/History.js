@@ -106,7 +106,7 @@ export const History  = ()=> {
                                     history.dataHistory!==null && history.dataHistory.filter((item)=>item.user_id==id).map((item,i)=>{
                                         return(
                                             <div className={`row mb-3`}  onMouseLeave={handleButtonLeave} onMouseEnter={()=>handleButton(i)}>
-                                                <div className="col-md-9">
+                                                <div className="col-xxl-9">
                                                     <div className="row detail-order">
                                                         <div className="col-md-4">
                                                             <img src={item.photo} alt="motorbike"/>
@@ -163,7 +163,7 @@ export const History  = ()=> {
                         <div className="d-flex flex-column align-items-center">
                             <div className="title">New Arrival</div>
                                 {
-                                    vehicle.listVehicle && vehicle.listVehicle.map((item)=>{
+                                    vehicle.listVehicle.length > 0 && vehicle.listVehicle.map((item)=>{
                                         return(<div className="position-relative mb-3">
                                             <img src={item.photo} alt="Car2"/>
                                             <div className="text-title-vehicle ">
