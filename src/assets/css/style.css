@@ -660,6 +660,11 @@
             color: var(--primary);
         }
         
+        .profile img {
+            width: 200px;
+            height: 200px;
+        }
+        
         .button-edit-profile {
             border: unset;
             background-color: var(--third);
