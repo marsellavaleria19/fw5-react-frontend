@@ -5,9 +5,14 @@ import {FaRegEnvelope} from 'react-icons/fa'
 import {FaSearch} from 'react-icons/fa'
 import {useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import Button from './Button'
+import { useDispatch, useSelector } from 'react-redux'
+import profileImg from '../assets/images/profile.png'
 
 export const NavbarHome = () => {
     const navigate = useNavigate()
+    const {auth} = useSelector(state=>state)
+    const dispatch = useDispatch() 
 
     const handleSearch = (event)=>{
         event.preventDefault();
@@ -16,6 +21,18 @@ export const NavbarHome = () => {
         navigate(`/search?name=${searchVehicle}`,{replace:true})
         
     }
+
+    const handleLogout = (event)=>{
+        event.preventDefault()
+        dispatch({
+            type : 'LOGOUT'
+        })
+
+        if(auth.token==null){
+            navigate('/login')
+        }
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light">
             <div className="container">
@@ -45,9 +62,18 @@ export const NavbarHome = () => {
                             <FaRegEnvelope/>
                             <span className="position-absolute translate-middle badge-mail border border-light rounded-circle">1</span>
                         </a>
-                        <Link to="/profil">
-                            <img src={profile} className="profile rounded-circle" alt="profile"/>
-                        </Link>
+                        <ul className="navbar-nav">
+                                    <li className="nav-item dropdown">
+                                        <Button className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src = {auth.user!==null && (auth.user.photo==null ? profileImg : auth.user.photo)} className="profile rounded-circle" alt="profile"/>
+                                        </Button>
+                                        <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                                            <li><Link className="dropdown-item" to="/profil">Profile</Link></li>
+                                            <li><hr className="dropdown-divider"/></li>
+                                            <li  className='dropdown-item' onClick={handleLogout}>Logout</li>
+                                        </ul>
+                                    </li>
+                                </ul> 
                     </div>
                 </div>
             </div>
