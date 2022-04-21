@@ -17,10 +17,15 @@ import ConfirmForgotPassowrd from './pages/ConfirmForgotPassword'
 import {getDataUser } from './redux/actions/auth'
 import { useDispatch,useSelector } from 'react-redux'
 import PrivateRoute from './routers/PrivateRouter'
+import { getListCategory } from './redux/actions/category'
 
 export const App = () => {
     const auth = useSelector(state=>state.auth)
     const dispatch = useDispatch()
+    
+    useEffect(()=>{
+      dispatch(getListCategory())
+    },[])
     
     useEffect(()=>{
         const token = window.localStorage.getItem('token')
