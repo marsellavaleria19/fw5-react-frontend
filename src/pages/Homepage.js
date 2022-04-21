@@ -8,22 +8,24 @@ import {default as axios} from 'axios';
 import { Link,useNavigate } from 'react-router-dom';
 import Image from '../component/Image';
 import Layout from '../component/Layout';
+import { getPopularVehicle } from '../redux/actions/vehicle';
+import { useSelector,useDispatch } from 'react-redux';
+import SkeletonComponent from '../component/SkeletonComponent';
+
 
 export const Homepage = ()=> {
+    const {vehicle} = useSelector(state=>state);
     const [listPopular,setListPopular] = useState([])
     const navigate = useNavigate();
-    const {REACT_APP_URL} = process.env 
+    const dispatch = useDispatch();
+    const {REACT_APP_URL,REACT_APP_LIMIT_CATEGORY} = process.env 
  
     useEffect(()=>{
-        getDataPopularTown()
+        dispatch(getPopularVehicle());
     },[]);
     
-    const getDataPopularTown = async()=>{
-        const {data} = await axios.get(`${REACT_APP_URL}/popular?limit=4`);
-        setListPopular(data.results);
-    }
     const goToDetail = (id)=>{
-        navigate(`/category/vehicle/${id}`)
+        navigate(`/category/vehicles/${id}`)
     }
 
     return (
@@ -41,7 +43,9 @@ export const Homepage = ()=> {
                 </div>
                 <div className="row text-center">
                   {
-                      listPopular.map((item)=>{
+                        vehicle.isLoading ?
+                        <SkeletonComponent count={REACT_APP_LIMIT_CATEGORY}/> :
+                        vehicle.listVehiclepopular.length >0 ? vehicle.listVehiclepopular.map((item)=>{
                           return(
                             <div onClick={()=>goToDetail(item.id)} key={String(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
                                 <div className="d-inline-block position-relative">
@@ -53,7 +57,10 @@ export const Homepage = ()=> {
                                 </div>
                             </div>
                           )
-                      })
+                      }) :
+                      <div class="no-vehicle text-center">
+                        There is no vehicle left
+                    </div> 
                   }
                 </div>
             </div>
