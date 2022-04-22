@@ -1,13 +1,15 @@
-import { Route, Navigate } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 
 export const PrivateRouter = ({children,isAuthenticated})=>{
-    if(isAuthenticated){
-        return children  
-    }
-    else if(!isAuthenticated){
-        return <Navigate to="/login" />
-    }
-}
+   if(isAuthenticated){
+      return children;  
+   }
+   else if(!isAuthenticated){
+      return <Navigate to="/login" />;
+   }
+};
 
-export default PrivateRouter
+export default PrivateRouter;
 

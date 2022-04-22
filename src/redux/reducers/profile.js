@@ -1,27 +1,34 @@
-const dataPayment = {
-   dataPayment: null,
+const dataProfile = {
+   dataProfile: null,
    isError: false,
+   isSubmit: false,
    isLoading: false,
-   errMessage: null
+   errMessage: null,
+   message: null
 };
 
-const payment = (state = dataPayment, action) => {
+const profile = (state = dataProfile, action) => {
    switch (action.type) {
-   case 'PAYMENT_PENDING':
+   case 'PROFILE_PENDING':
    {
       state.isLoading = true;
       return {...state };
    }
-   case 'PAYMENT_FULFILLED':
+   case 'PROFILE_FULFILLED':
    {
       const { data } = action.payload;
-      console.log(data);
-      state.dataPayment = data.results;
+      state.dataProfile = data.results;
       state.isLoading = false;
       state.isError = false;
+      state.message = data.message;
+      state.isSubmit = true;
       return {...state };
    }
-   case 'PAYMENT_REJECTED':
+   case 'CLEAR_PROFILE':
+   {
+      return dataProfile;
+   }
+   case 'PROFILE_REJECTED':
    {
       const { data } = action.payload.response;
       state.isLoading = false;
@@ -36,4 +43,4 @@ const payment = (state = dataPayment, action) => {
    }
 };
 
-export default payment;
+export default profile;

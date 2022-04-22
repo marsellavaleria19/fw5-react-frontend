@@ -1,8 +1,10 @@
-import React, { Component,useEffect,useState } from 'react'
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+import React, { Component,useEffect,useState } from 'react';
 import Layout from '../component/Layout';
 import {default as axios} from 'axios';
 import { useNavigate, useParams,useSearchParams } from 'react-router-dom';
-import { FaAngleDoubleDown } from 'react-icons/fa'
+import { FaAngleDoubleDown } from 'react-icons/fa';
 import { getListVehicleByCategory,getListVehicleByUrl } from '../redux/actions/vehicle';
 import { getDetailCategory } from '../redux/actions/category';
 import Image from '../component/Image';
@@ -11,92 +13,92 @@ import {connect, useDispatch, useSelector } from 'react-redux';
 
 export const ListVehicle = ()=> {
 
-    const {category,vehicle} = useSelector(state=>state)
-    const dispatch = useDispatch()
-    const [listVehicle,setListVehicle] = useState([])
-    const [isNextPage,setIsNextPage] = useState(false)
-    const [page,setPage] = useState([])
-    const [searchParams,setSearchParams] = useSearchParams()
-    // const [vehicle,setVehicle] = useState("");
-    const {id} = useParams()
-    const {REACT_APP_URL,REACT_APP_LIMIT_VEHICLE} = process.env 
+   const {category,vehicle} = useSelector(state=>state);
+   const dispatch = useDispatch();
+   const [listVehicle,setListVehicle] = useState([]);
+   const [isNextPage,setIsNextPage] = useState(false);
+   const [page,setPage] = useState([]);
+   const [searchParams,setSearchParams] = useSearchParams();
+   // const [vehicle,setVehicle] = useState("");
+   const {id} = useParams();
+   const {REACT_APP_URL,REACT_APP_LIMIT_VEHICLE} = process.env; 
     
-    useEffect(()=>{
-      dispatch(getDetailCategory(id))
-      dispatch(getListVehicleByCategory(id))
-    },[]);
+   useEffect(()=>{
+      dispatch(getDetailCategory(id));
+      dispatch(getListVehicleByCategory(id,REACT_APP_LIMIT_VEHICLE));
+   },[]);
     
-    const navigate = useNavigate();
+   const navigate = useNavigate();
     
-    const goToDetail = (id)=>{
-        navigate(`/category/vehicle/${id}`)
-    }
+   const goToDetail = (id)=>{
+      navigate(`/category/vehicle/${id}`);
+   };
 
-    // const getDataCategory = async()=>{
-    //     const {data} = await axios.get(`${REACT_APP_URL}/categories/${id}`);
-    //     setDataCategory(data.results);
-    // }
+   // const getDataCategory = async()=>{
+   //     const {data} = await axios.get(`${REACT_APP_URL}/categories/${id}`);
+   //     setDataCategory(data.results);
+   // }
 
-    // const getDataSearch = async(search)=>{
-    //     const {data} = await axios.get(`${REACT_APP_URL}/vehicles?search=${search}`);
-    //     setListVehicle(data.results);
-    //     setPage(data.pageInfo);
-    // }
+   // const getDataSearch = async(search)=>{
+   //     const {data} = await axios.get(`${REACT_APP_URL}/vehicles?search=${search}`);
+   //     setListVehicle(data.results);
+   //     setPage(data.pageInfo);
+   // }
 
-    const getNextData = (url)=>{
-     dispatch(getListVehicleByUrl(url))
-    //  setListVehicle([...listVehicle,...vehicle.listVehicle])
+   const getNextData = (url)=>{
+      dispatch(getListVehicleByUrl(url));
+      //  setListVehicle([...listVehicle,...vehicle.listVehicle])
 
-    }
+   };
 
-    return (
-     <>
-        <Layout>
+   return (
+      <>
+         <Layout>
             <section className="popular-town">
-                <div className="container">
-            {
-                vehicle.listVehicle.length > 0  ? 
-                    <>
-                        <div class="title">
-                            {
-                                Object.keys(category.listCategory).length > 0 &&  <h1 class="section-title mb-2">{category.listCategory.name}</h1>
-                            }
+               <div className="container">
+                  {
+                     vehicle.listVehicle.length > 0  ? 
+                        <>
+                           <div className="title">
+                              {
+                                 Object.keys(category.listCategory).length > 0 &&  <h1 className="section-title mb-2">{category.listCategory.name}</h1>
+                              }
                             
-                            <div class="info text-center mb-5">Click item to see details and reservation</div>
-                        </div>
-                        <div className="row text-center">
-                            {
-                                vehicle.listVehicle.map((item)=>{
+                              <div className="info text-center mb-5">Click item to see details and reservation</div>
+                           </div>
+                           <div className="row text-center">
+                              {
+                                 vehicle.listVehicle.map((item)=>{
                                     return(
-                                        <div  key={String(item.id)} onClick={()=>goToDetail(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
-                                            <div class="d-inline-block position-relative">
-                                                <Image photo={item.photo} photoVarian="img-fluid" alt={`${item.name}`} />
-                                                <div class="text-title-vehicle">
-                                                    <div class="vehicle-name">{item.name}</div>
-                                                    <div class="location">{item.location}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                        {
-                            vehicle.pageInfo.next!==null ? 
-                            <div className='text-center mt-5 mb-5'>
-                                <Button onClick={()=>getNextData(vehicle.pageInfo.next)} btnVarian='btn-next'>Load more <FaAngleDoubleDown/></Button>
-                            </div> : ""
-                        }
-                    </>   
-                       : 
-                    <div class="no-vehicle text-center">
+                                       <div  key={String(item.id)} onClick={()=>goToDetail(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                          <div className="d-inline-block position-relative">
+                                             <Image photo={item.photo} photoVarian="img-fluid" alt={`${item.name}`} />
+                                             <div className="text-title-vehicle">
+                                                <div className="vehicle-name">{item.name}</div>
+                                                <div className="location">{item.location}</div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    );
+                                 })
+                              }
+                           </div>
+                           {
+                              vehicle.pageInfo.next!==null ? 
+                                 <div className='text-center mt-5 mb-5'>
+                                    <Button onClick={()=>getNextData(vehicle.pageInfo.next)} btnVarian='btn-next'>Load more <FaAngleDoubleDown/></Button>
+                                 </div> : ''
+                           }
+                        </>   
+                        : 
+                        <div className="no-vehicle text-center">
                         There is no vehicle left
-                    </div> 
-            }
-             </div>
+                        </div> 
+                  }
+               </div>
             </section> 
-        </Layout>
-        {/* <Layout>
+         </Layout>
+         {/* <Layout>
             <section className="popular-town">
                 <div className="container">
                     <div class="title">
@@ -255,8 +257,8 @@ export const ListVehicle = ()=> {
                 </div>
             </section>
         </Layout> */}
-     </>
-    )
-}
+      </>
+   );
+};
 
-export default ListVehicle
+export default ListVehicle;
