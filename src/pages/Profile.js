@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import NavbarHome from '../component/NavbarHome';
 import Footer from '../component/Footer';
@@ -5,17 +6,21 @@ import {FaPencilAlt} from 'react-icons/fa';
 import Button from '../component/Button';
 import Input from '../component/Input';
 import Image from '../component/Image';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector } from 'react-redux';
 import profileImg from '../assets/images/profile.png';
 import moment from 'moment';
 import { profileProcess } from '../redux/actions/profile';
-import { getDataUser } from '../redux/actions/auth';
+// import { getDataUser } from '../redux/actions/auth';
+import { validation } from '../helpers/validation';
+import ModalLoading from '../component/ModalLoading';
+import ModalNotifError from '../component/ModalNotifError';
+import ModalNotifSuccess from '../component/ModalNotifSuccess';
 
 export const Profile = ()=> {
-   const {auth,profile} = useSelector(state=>state);
+   const {auth} = useSelector(state=>state);
    const [file,setFile] = useState(null);
    const [image,setImage] = useState(null);
-   const [inputProfile,setInputProfile] = useState({
+   var [inputProfile,setInputProfile] = useState({
       email:'',
       address: '',
       gender: '',
@@ -23,39 +28,105 @@ export const Profile = ()=> {
       nickName: '',
       birthDate: ''
    });
-   const [success,setSuccess] = useState(false);
- 
+   const [error,setError] = useState({});
+   const [control,setControl] = useState(false);
+   const [showError,setShowError] = useState(false);
+   const [showSuccess,setShowSuccess] = useState(false);
 
    const dispatch = useDispatch();
 
    useEffect(()=>{
       if(auth.user!==null){
          setImage(auth.user.photo==null ? profileImg : auth.user.photo);
-         const{email,address,gender,mobileNumber,NickName:nickName,birthDate} = auth.user;
-         var birthDateFormat = moment(birthDate).format('YYYY-MM-DD');
-         setInputProfile({email,address,gender,mobileNumber,nickName,birthDate:birthDateFormat});
-         setSuccess(false);
+         const{email,address,gender,mobileNumber,nickName,birthDate} = auth.user;
+         var birthDateFormat = '';
+         if(birthDate!==null){
+            birthDateFormat = moment(birthDate).format('YYYY-MM-DD');
+         }
+
+         inputProfile = {
+            email : email!==null ? email : '',
+            address : address!==null ? address : '',
+            gender : gender!==null ? gender : '',
+            mobileNumber : mobileNumber!==null ? mobileNumber : '',
+            nickName : nickName!==null ? nickName : '',
+            birthDate : birthDateFormat
+         };
+         setInputProfile(inputProfile);
+         setControl(false);
+         setError({});
       }
    },[]);
+   
+   useEffect(()=>{
+      if(auth.isError==true){
+         dispatch({
+            type:'UPDATE_PROFILE_MESSAGE_ERROR'
+         });
+         window.scrollTo(0,0);
+      }
+   },[auth.isError]);
 
    useEffect(()=>{
-      if(profile.dataProfile!==null && success){
-         var token = window.localStorage.getItem('token');
-         const{email,address,gender,mobileNumber,NickName:nickName,birthDate} = profile.dataProfile;
-         var birthDateFormat = moment(birthDate).format('YYYY-MM-DD');
-         setInputProfile({email,address,gender,mobileNumber,nickName,birthDate:birthDateFormat});
-         dispatch(getDataUser(token));
+      if(auth.isUpdatedProfile==true){
          dispatch({
-            type : 'CLEAR_PROFILE'
+            type:'UPDATE_PROFILE_MESSAGE_SUCCESS'
          });
+         window.scrollTo(0,0);
       }
-   },[profile.dataProfile]);
+   },[auth.isUpdatedProfile]);
+
+   useEffect(()=>{
+      if(auth.user!==null){
+         setImage(auth.user.photo==null ? profileImg : auth.user.photo);
+         const{email,address,gender,mobileNumber,nickName,birthDate} = auth.user;
+         var birthDateFormat = '';
+         if(birthDate!==null){
+            birthDateFormat = moment(birthDate).format('YYYY-MM-DD');
+         }
+
+         inputProfile = {
+            email : email!==null ? email : '',
+            address : address!==null ? address : '',
+            gender : gender!==null ? gender : '',
+            mobileNumber : mobileNumber!==null ? mobileNumber : '',
+            nickName : nickName!==null ? nickName : '',
+            birthDate : birthDateFormat
+         };
+        
+         setInputProfile(inputProfile);
+         setError({});
+         setShowSuccess(false);
+         setShowError(false);
+         // console.log(control);
+      }     
+   },[auth.user]);
 
    const handleUpdateProfile = (event)=>{
       event.preventDefault();
-      var token = window.localStorage.getItem('token');
-      dispatch(profileProcess(auth.user.id,inputProfile,file,token));
-      setSuccess(true);
+      var requirement = {
+         email:'required|email',
+         address:'required',
+         gender: 'required',
+         mobileNumber: 'required|phone',
+         nickName: 'required',
+         birthDate: 'required|data'
+      };
+ 
+      var validate = validation(inputProfile,requirement);
+
+      if(file!==null){
+         if(file.size > 2000000){
+            validate = {...validate,...{image:'size of image max 2MB'}};
+         }
+      }
+    
+      if(Object.keys(validate).length == 0){
+         dispatch(profileProcess(auth.user.id,inputProfile,file,auth.token));
+         setControl(true);
+      }else{
+         setError(validate);
+      }
    };
 
    const selectedFile = (e)=>{
@@ -64,7 +135,8 @@ export const Profile = ()=> {
       setImage(URL.createObjectURL(e.target.files[0]));
    };
 
-   const chooseFiles = ()=> {
+   const chooseFiles = (e)=> {
+      e.preventDefault();
       document.getElementById('fileUpload').click();
    };
 
@@ -77,30 +149,26 @@ export const Profile = ()=> {
       }else{
          setInputProfile({...inputProfile});
       }
-     
-        
    };
 
    return (
       <>
          <NavbarHome/>
+         <ModalLoading isLoading={auth.isLoading}/>
+         <ModalNotifError message={auth.errMessage} showModal={auth.isError}/> 
+         <ModalNotifSuccess message={auth.message} showModal={auth.isUpdatedProfile}/>
          <form onSubmit={handleUpdateProfile} encType='multipart/form-data'>
             <section className="profile container">
-               {
-                  profile.success == true && 
-                <div className="alert alert-success" role="alert">
-                   {profile.message}
-                </div>
-               }
                <h1 className="title">Profile</h1>
                <div className="text-center">
                   <div className="d-inline-block position-relative">
                      <Image photo={image} photoVarian="profile rounded-circle" alt="profile"/>
                      <input id="fileUpload" type="file" name="photo" hidden onChange={selectedFile}/>   
-                     <Button btnVarian="position-absolute button-edit-profile rounded-circle" onClick={chooseFiles}><FaPencilAlt/></Button>
+                     <Button btnVarian="position-absolute button-edit-profile rounded-circle" onClick={(e)=>chooseFiles(e)}><FaPencilAlt/></Button>
                   </div>
+                  {error!==null && error.image ? <div className="error">{error.image}</div> : '' }
                   <div className="profile-detail">
-                     <h1 className="name">{auth.user!==null && auth.user.fullName}</h1>
+                     <h1 className="name">{auth.user!==null && (auth.user.nickName==null ? auth.user.fullName : auth.user.nickName)}</h1>
                      <div className="detail">{auth.user!==null && auth.user.email}</div>
                      <div className="detail">{auth.user!=null && auth.user.mobileNumber}</div>
                      <div className="detail">Has been active since 2013</div>
@@ -121,6 +189,7 @@ export const Profile = ()=> {
                         </label>
                      </div>
                   </div>
+                  {error!==null && error.gender ? <div className="error">{error.gender}</div> : '' }
                </div>
             </section>
             <section className="profile-form container">
@@ -129,14 +198,17 @@ export const Profile = ()=> {
                   <div className="mb-5">
                      <label htmlFor="email">Email</label>
                      <Input variantInput="d-block w-100" typeInput="text" name="email" onChange={handleChange} value={inputProfile.email}/>
+                     {error!==null && error.email ? <div className="error">{error.email}</div> : '' }
                   </div>
                   <div className="mb-5">
                      <label htmlFor="address">Address</label>
                      <textarea name="address" className="d-block w-100" onChange={handleChange} value={inputProfile.address}></textarea>
+                     {error!==null && error.address ? <div className="error">{error.address}</div> : '' }
                   </div>
                   <div className="mb-5">
                      <label htmlFor="mobileNumber">Mobile number</label>
                      <Input name="mobileNumber" variantInput="d-block w-100" typeInput="text" onChange={handleChange} value={inputProfile.mobileNumber}/>
+                     {error!==null && error.mobileNumber ? <div className="error">{error.mobileNumber}</div> : '' }
                   </div>
                   <div className="mb-5">
                      <h5>Identity</h5>
@@ -144,10 +216,12 @@ export const Profile = ()=> {
                         <div className="col-sm">
                            <label htmlFor="nickname">Display name</label>
                            <Input name="nickName" variantInput="d-block w-100" typeInput="text" onChange={handleChange} value={inputProfile.nickName}/>
+                           {error!==null && error.nickName ? <div className="error">{error.nickName}</div> : '' }
                         </div>
                         <div className="col-sm">
                            <label htmlFor="birth-date">Birth date (MM/DD/YY)</label>
                            <Input name="birthDate" variantInput="d-block w-100" typeInput="date" onChange={handleChange} value={inputProfile.birthDate}/>
+                           {error!==null && error.birthDate ? <div className="error">{error.birthDate}</div> : '' }
                         </div>
                      </div>
                   </div>
