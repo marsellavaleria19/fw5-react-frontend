@@ -1,36 +1,30 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
 // import { ImSad } from 'react-icons/im';
+import {VscError} from 'react-icons/vsc';
 
-const ModalNotifError = ({ message,id }) => {
-   // const [show, setShow] = useState(false);
-   // const handleClose = () => setShow(false);
-   // useEffect(() => {
-   //    console.log(message);
-   //    if (message) {
-   //       setShow(true);
-   //    } else {
-   //       setShow(false);
-   //    }
-   // }, [message]);
+const ModalNotifError = ({ message,showModal}) => {
+   const [show, setShow] = useState(false);
+   const handleClose = () => setShow(false);
+   useEffect(() => {
+      console.log(message);
+      if (showModal==true) {
+         setShow(true);
+      }
+   });
    return (
       <>
-         {
-            id=='errorModal' && <div className="modal fade" id="errorModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-               <div className="modal-dialog">
-                  <div className="modal-content">
-                     <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Error</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                     </div>
-                     <div className="modal-body">
-                        {message}
-                     </div>
-                  </div>
+         <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" className='modal' centered>
+            <Modal.Header className='modal-custom-header' closeButton />
+            <Modal.Body className='py-5 modal-custom-body'>
+               <div className='text-center'>
+                  <VscError size={100} className='modal-icon'/>
+                  <div className='fs-1 pps fw-bold text-pallet-1'>Error</div>
+                  <div className='fs-4 pps  text-pallet-1'>{message}</div>
                </div>
-            </div>
-         }
-         
+            </Modal.Body>
+         </Modal>
       </>
    );
 };

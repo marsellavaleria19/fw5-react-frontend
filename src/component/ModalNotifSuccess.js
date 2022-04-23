@@ -1,34 +1,25 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
-import { Modal } from 'bootstrap';
-// import { BiCheckCircle } from 'react-icons/bi';
+import React, {useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { BiCheckCircle } from 'react-icons/bi';
 
-const ModalNotifSuccess = ({message}) => {
-   const [show,setShow] = useState(false);
+const ModalNotifSuccess = ({message,showModal}) => {
+   const [show,setShow] = useState(showModal);
    const handleClose = ()=> setShow(false);
    useEffect(()=>{
-      console.log(message);
-      if(message){
+      console.log('masuk!!');
+      if(showModal==true){
          setShow(true);
-      } else {
-         setShow(false);
       }
-   },[message]);
+   });
    return (
       <>
          <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
-            <Modal.Header id='modal-notif'>
-               <Modal.Title id="contained-modal-title-vcenter" className='text-center'> 
-                  <div className='text-center'>
-                     {/* <div className='notif-icon'>
-                        <BiCheckCircle />
-                     </div> */}
-                  </div>
-               </Modal.Title>
-            </Modal.Header>
-            <Modal.Body className='py-5'>
+            <Modal.Header className='modal-custom-header' closeButton />
+            <Modal.Body className='py-5 modal-custom-body'>
                <div className='text-center'>
-                  <div className='fs-1 pps fw-bold text-pallet-1'>Great!</div>
+                  <BiCheckCircle size={100} className='modal-icon'/>
+                  <div className='fs-1 pps fw-bold text-pallet-1'>Success</div>
                   <div className='fs-4 pps  text-pallet-1'>{message}</div>
                </div>
             </Modal.Body>
