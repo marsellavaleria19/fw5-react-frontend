@@ -7,6 +7,7 @@ const dataLogin = {
    isAuthenticated: false,
    isVerify: false,
    isRegister: false,
+   isUpdatedProfile : false,
    isSubmitEmail: false,
    errMessage: null
 };
@@ -136,9 +137,55 @@ const auth = (state = dataLogin, action) => {
    case 'LOGIN_PROFILE_FULFILLED':
    {
       const { data } = action.payload;
+      state.message = data.message;
       state.isLoading = false;
       state.user = data.result;
       return {...state };
+   }
+   case 'LOGIN_PROFILE_REJECTED':
+   {
+      const { data } = action.payload.response;
+      state.isLoading = false;
+      state.isError = true;
+      state.errMessage = data.message;
+      return {...state };
+   }
+   case 'UPDATE_PROFILE_PENDING':
+   {
+      state.isLoading = true;
+      return {...state };
+   }
+   case 'UPDATE_PROFILE_FULFILLED':
+   {
+      const { data } = action.payload;
+      state.isUpdatedProfile  = true;
+      state.message = data.message;
+      state.isLoading = false;
+      state.user = data.result;
+      return {...state };
+   }
+   case 'UPDATE_PROFILE_REJECTED':
+   {
+      const { data } = action.payload.response;
+      state.isLoading = false;
+      state.isError = true;
+      state.isUpdatedProfile = false;
+      state.errMessage = data.message;
+      return {...state };
+   }
+   case 'UPDATE_PROFILE_MESSAGE_SUCCESS':
+   {
+      state.isError = false;
+      state.isUpdatedProfile = false;
+      state.message;
+      return {...state};
+   }
+   case 'UPDATE_PROFILE_MESSAGE_ERROR':
+   {
+      state.isError = false;
+      state.isUpdatedProfile = false;
+      state.errMessage;
+      return {...state};
    }
    case 'LOGOUT':
    {
@@ -147,6 +194,10 @@ const auth = (state = dataLogin, action) => {
       state.isAuthenticated = false;
       state.isVerify = false;
       return {...state };
+   }
+   case 'CLEAR_AUTH':
+   {
+      return dataLogin;
    }
    default:
    {
