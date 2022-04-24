@@ -14,10 +14,13 @@ import History from './pages/History';
 import ProfileLayout from './pages/Profile';
 import Search from './pages/Search';
 import ConfirmForgotPassowrd from './pages/ConfirmForgotPassword';
+import AddVehicle from './pages/AddVehicle';
 import {getDataUser } from './redux/actions/auth';
 import { useDispatch,useSelector } from 'react-redux';
 import PrivateRoute from './routers/PrivateRouter';
 import { getListCategory } from './redux/actions/category';
+import { getListLocation } from './redux/actions/location';
+import { getListPaymentType } from './redux/actions/payment';
 
 export const App = () => {
    const auth = useSelector(state=>state.auth);
@@ -25,8 +28,9 @@ export const App = () => {
     
    useEffect(()=>{
       dispatch(getListCategory());
+      dispatch(getListLocation());
+      dispatch(getListPaymentType());
    },[]);
-
     
    useEffect(()=>{
       const token = window.localStorage.getItem('token');
@@ -63,6 +67,7 @@ export const App = () => {
             <Route path="signup" element={<Signup/>}></Route>
             <Route path='verifyuser' element={<VerifyUser/>}></Route>
             <Route path="forgotpassword" element={<ForgotPassowrd/>}></Route>
+            <Route path="vehicle/add" element={<AddVehicle/>}></Route>
             <Route path="confirmforgotpassword" element={<ConfirmForgotPassowrd/>}></Route>
             <Route path="reservation/:id" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Reservation/></PrivateRoute>}></Route>
             <Route path="payment/:id" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Payment/></PrivateRoute>}></Route>
