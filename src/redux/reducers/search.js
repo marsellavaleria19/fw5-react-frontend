@@ -16,7 +16,7 @@ const search = (state = dataSearch, action) => {
    case 'SEARCH_FILTER_FULFILLED':
    {
       const { data } = action.payload;
-      state.listSearch = data.results;
+      state.listSearch = data.result;
       state.pageInfo = data.pageInfo;
       state.isLoading = false;
       return {...state };

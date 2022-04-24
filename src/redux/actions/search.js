@@ -1,8 +1,8 @@
 import AxiosCostum from '../../helpers/AxiosCostum';
 
 
-export const getListSearchFilter = (dataParams) => {
-   const filledParams = ['category_id', 'location', 'payment_id', 'name', 'date'];
+export const getListSearchFilter = (dataParams='') => {
+   const filledParams = ['category_id', 'location_id', 'payment_id', 'name', 'date'];
    const url = (dataParams) => {
       var result = '';
       filledParams.forEach((item) => {
@@ -26,6 +26,6 @@ export const getListSearchFilter = (dataParams) => {
    };
    return {
       type: 'SEARCH_FILTER',
-      payload: AxiosCostum().get(`/search?${url(dataParams)}&limit=16`)
+      payload: AxiosCostum().get(`/search?${url(dataParams)}`)
    };
 };
