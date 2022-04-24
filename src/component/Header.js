@@ -30,6 +30,10 @@ export const Header = ()=> {
       navigate(url(),{replace:true});
    };
 
+   const goToAddVehicle = ()=>{
+      navigate('/vehicle/add');
+   };
+
    return (
       <header>
          <div className="jumbotron">
@@ -60,7 +64,22 @@ export const Header = ()=> {
                         </Select>
                         <Input typeInput="date" name="date"/>
                      </div>
-                     <Button btnVarian="button-filled" type="submit">Explore</Button>
+                     <div className="row">
+                        <div className="col-sm-2 col-md-4 col-lg-3 col-xl-2">
+                           <Button btnVarian="button-filled" type="submit">Explore</Button>
+                        </div>
+                        {
+                           auth.user!==null && auth.user.role=='admin' &&    <div className="col-sm-2 col-md mb-3 col-lg col-xl">
+                              <Button btnVarian="button-filled" type="button" onClick={goToAddVehicle}>Add Vehicle</Button>
+                           </div>
+                        }
+                     
+                        {/* <div className="col-md-4 mb-3">
+                           {
+                              auth.user!==null && auth.user.role=='admin' && <Button btnVarian="button-filled" onClick={()=>goToAddVehicle}>Edit Password</Button>
+                           }
+                        </div> */}
+                     </div>
                      {/* <button className="button-filled">Explore</button> */}
                   </form>
                </div>
