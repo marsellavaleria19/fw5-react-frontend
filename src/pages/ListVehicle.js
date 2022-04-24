@@ -10,6 +10,7 @@ import { getDetailCategory } from '../redux/actions/category';
 import Image from '../component/Image';
 import Button from '../component/Button';
 import {connect, useDispatch, useSelector } from 'react-redux';
+import ListVehicleComponent from '../component/ListVehicleComponent';
 
 export const ListVehicle = ()=> {
 
@@ -70,15 +71,16 @@ export const ListVehicle = ()=> {
                               {
                                  vehicle.listVehicle.map((item)=>{
                                     return(
-                                       <div  key={String(item.id)} onClick={()=>goToDetail(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
-                                          <div className="d-inline-block position-relative">
-                                             <Image photo={item.photo} photoVarian="img-fluid" alt={`${item.name}`} />
-                                             <div className="text-title-vehicle">
-                                                <div className="vehicle-name">{item.name}</div>
-                                                <div className="location">{item.location}</div>
-                                             </div>
-                                          </div>
-                                       </div>
+                                       <ListVehicleComponent key={item.id} name={item.name} location={item.location} photo={item.photo}/>
+                                       // <div  key={String(item.id)} onClick={()=>goToDetail(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                       //    <div className="d-inline-block position-relative">
+                                       //       <Image photo={item.photo} photoVarian="img-fluid" alt={`${item.name}`} />
+                                       //       <div className="text-title-vehicle">
+                                       //          <div className="vehicle-name">{item.name}</div>
+                                       //          <div className="location">{item.location}</div>
+                                       //       </div>
+                                       //    </div>
+                                       // </div>
                                     );
                                  })
                               }
