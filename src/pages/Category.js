@@ -41,7 +41,7 @@ export const Category = ()=> {
                            {
                               vehicle.listAllVehicle.length > 0 ? vehicle.listAllVehicle.filter((item)=>item.category_id==itemCategory.id).map((item)=>{
                                  return(
-                                    <ListVehicleComponent key={item.id} item={item}/>
+                                    <ListVehicleComponent key={item.id} name={item.name} location={item.location} photo={item.photo}/>
                                  );
                               }) :
                                  <div className="no-vehicle text-center">
