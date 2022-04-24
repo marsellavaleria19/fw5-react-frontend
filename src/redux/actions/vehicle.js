@@ -47,3 +47,21 @@ export const getPopularVehicle = () =>{
       payload : axios.get(`${REACT_APP_URL}/vehicles/popular?limit=4`)
    };
 };
+
+export const addVehicle = (data,token,file=null) =>{
+   const formData = new FormData();
+   formData.append('name', data.name);
+   formData.append('description', data.description);
+   formData.append('location_id', data.location);
+   formData.append('category_id', data.category);
+   formData.append('qty', data.stock);
+   formData.append('price', data.price);
+   formData.append('isAvailable',data.isAvailable);
+   if (file !== null) {
+      formData.append('photo', file);
+   }
+   return {
+      type:'ADD_VEHICLE',
+      payload : AxiosCostum(token).post('/vehicles',formData)
+   };
+};

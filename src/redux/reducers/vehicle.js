@@ -4,7 +4,10 @@ const dataVehicle = {
    listAllVehicle : [],
    pageInfo: {},
    isLoading: false,
-   error: false
+   isSuccess : false,
+   error: false,
+   errMessage : null,
+   message : null
 };
 
 
@@ -67,7 +70,47 @@ const vehicle = (state = dataVehicle, action) => {
    {
       state.isLoading = false;
       state.isError = true;
+      state.isSuccess = false;
       return {...state };
+   }
+   case 'ADD_VEHICLE_PENDING':
+   {
+      state.isLoading = true;
+      return {...state };
+   }
+   case 'ADD_VEHICLE_FULFILLED':
+   {
+      const { data } = action.payload;
+      state.dataVehicle = data.result;
+      state.pageInfo = data.pageInfo;
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.message = data.message;
+
+      return {...state };
+   }
+   case 'ADD_VEHICLE_REJECTED':
+   {
+      const {data} = action.payload.response;
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.errMessage = data.message;
+      return {...state };
+   }
+   case 'VEHICLE_MESSAGE_SUCCESS':
+   {
+      state.isError = false;
+      state.isSuccess = false;
+      state.message;
+      return {...state};
+   }
+   case 'VEHICLE_MESSAGE_ERROR':
+   {
+      state.isError = false;
+      state.isSuccess = false;
+      state.errMessage;
+      return {...state};
    }
    case 'CLEAR_VEHICLE':
    {
