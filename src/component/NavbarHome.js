@@ -48,7 +48,7 @@ export const NavbarHome = () => {
                      <a className="nav-link">About</a>
                   </li>
                </ul>
-               <div className="add-navbar d-flex justify-content-center">
+               <div className="add-navbar d-flex justify-content-center align-items-center">
                   <a href="#" className="position-relative mx-5">
                      <FaRegEnvelope/>
                      <span className="position-absolute translate-middle badge-mail border border-light rounded-circle">1</span>
