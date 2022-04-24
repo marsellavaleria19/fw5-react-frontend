@@ -8,6 +8,7 @@ import payment from './payment';
 import history from './history';
 import search from './search';
 import profile from './profile';
+import location from './location';
 
 const rootReducer = combineReducers({
    auth,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
    payment,
    history,
    search,
-   profile
+   profile,
+   location
 });
 
 export default rootReducer;
