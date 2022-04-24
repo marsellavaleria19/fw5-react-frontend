@@ -1,5 +1,6 @@
 const dataPayment = {
    dataPayment: null,
+   listPaymentType : [],
    isError: false,
    isLoading: false,
    errMessage: null
@@ -27,6 +28,25 @@ const payment = (state = dataPayment, action) => {
       state.isLoading = false;
       state.isError = true;
       state.errMessage = data.message;
+      return {...state };
+   }
+   case 'GET_PAYMENT_TYPE_PENDING':
+   {
+      state.isLoading = true;
+      return {...state };
+   }
+   case 'GET_PAYMENT_TYPE_FULFILLED':
+   {
+      const { data } = action.payload;
+      state.listPaymentType = data.result;
+      state.pageInfo = data.pageInfo;
+      state.isLoading = false;
+      return {...state };
+   }
+   case 'GET_PAYMENT_TYPE_REJECTED':
+   {
+      state.isLoading = false;
+      state.isError = true;
       return {...state };
    }
    default:

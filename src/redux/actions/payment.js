@@ -10,3 +10,10 @@ export const paymentUpdate = (token, payment, paymentId, id) => {
       payload: AxiosCostum(token).patch(`/histories/${id}`, param)
    };
 };
+
+export const getListPaymentType = () => {
+   return {
+      type: 'GET_PAYMENT_TYPE',
+      payload: AxiosCostum().get('/payment-types?limit=20')
+   };
+};
