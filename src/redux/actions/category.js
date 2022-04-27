@@ -10,7 +10,7 @@ export const getListCategory = () => {
 
 export const getDetailCategory = (id) => {
    return {
-      type: 'GET_CATEGORY',
+      type: 'GET_DETAIL_CATEGORY',
       payload: AxiosCostum().get((`/categories/${id}`))
    };
 };

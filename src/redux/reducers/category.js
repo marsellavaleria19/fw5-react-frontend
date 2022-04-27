@@ -1,5 +1,6 @@
 const dataCategory = {
    listCategory: [],
+   dataCategory : null,
    pageInfo: {},
    isLoading: false,
    error: false
@@ -21,6 +22,25 @@ const category = (state = dataCategory, action) => {
       return {...state };
    }
    case 'GET_CATEGORY_REJECTED':
+   {
+      state.isLoading = false;
+      state.isError = true;
+      return {...state };
+   }
+   case 'GET_DETAIL_CATEGORY_PENDING':
+   {
+      state.isLoading = true;
+      return {...state };
+   }
+   case 'GET_DETAIL_CATEGORY_FULFILLED':
+   {
+      const { data } = action.payload;
+      state.dataCategory = data.result;
+      state.pageInfo = data.pageInfo;
+      state.isLoading = false;
+      return {...state };
+   }
+   case 'GET_DETAIL_CATEGORY_REJECTED':
    {
       state.isLoading = false;
       state.isError = true;
