@@ -3,7 +3,8 @@ const dataHistory = {
    isError: false,
    isLoading: false,
    errMessage: null,
-   message: null
+   message: null,
+   listHistory : []
 };
 
 const history = (state = dataHistory, action) => {
@@ -16,7 +17,7 @@ const history = (state = dataHistory, action) => {
    case 'HISTORY_FULFILLED':
    {
       const { data } = action.payload;
-      state.dataHistory = data.results;
+      state.listHistory = data.result;
       state.isLoading = false;
       state.isError = false;
       state.message = data.message;
@@ -28,6 +29,7 @@ const history = (state = dataHistory, action) => {
       state.isLoading = false;
       state.isError = true;
       state.errMessage = data.message;
+      state.listHistory = [];
       return {...state };
    }
    default:
