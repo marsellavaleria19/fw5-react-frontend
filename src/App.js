@@ -21,6 +21,10 @@ import PrivateRoute from './routers/PrivateRouter';
 import { getListCategory } from './redux/actions/category';
 import { getListLocation } from './redux/actions/location';
 import { getListPaymentType } from './redux/actions/payment';
+import EditVehicle from './pages/EditVehicle';
+import { getListStatus } from './redux/actions/status';
+import { getListHistory,getListHistoryByUserId } from './redux/actions/history';
+import { getPopularVehicle } from './redux/actions/vehicle';
 
 export const App = () => {
    const auth = useSelector(state=>state.auth);
@@ -30,8 +34,27 @@ export const App = () => {
       dispatch(getListCategory());
       dispatch(getListLocation());
       dispatch(getListPaymentType());
+      dispatch(getListStatus());
+      dispatch(getPopularVehicle());
+      // dispatch({
+      //    type:'REFRESH_DATA_VEHICLE'
+      // });
    },[]);
-    
+  
+   useEffect(()=>{
+      if(auth.user!==null){
+         if(auth.user.role=='admin'){
+            dispatch(getListHistory(auth.token));
+         }else{
+            dispatch(getListHistoryByUserId(auth.token,auth.user.id));
+         }
+      }
+      
+      // dispatch({
+      //    type:'REFRESH_DATA_VEHICLE'
+      // });
+   },[auth.user]);
+
    useEffect(()=>{
       const token = window.localStorage.getItem('token');
       if(token){
@@ -59,15 +82,16 @@ export const App = () => {
             <Route path="category" element={<Category/>}></Route>
             <Route path="category/:id" element={<ListVehicle/>}></Route>
             <Route path="vehicle" element={<ListVehicle/>}></Route>
-            <Route path="category/vehicle/:id" element={<DetailVehicle/>}></Route>
+            <Route path="vehicle/:id" element={<DetailVehicle/>}></Route>
             <Route path="search" element={<Search/>}></Route>
-            <Route path="history/:id" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><History/></PrivateRoute>}></Route>
+            <Route path="history" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><History/></PrivateRoute>}></Route>
             <Route path="profil" element={<ProfileLayout/>}></Route>
             <Route path="login" element={<Login/>}></Route>
             <Route path="signup" element={<Signup/>}></Route>
             <Route path='verifyuser' element={<VerifyUser/>}></Route>
             <Route path="forgotpassword" element={<ForgotPassowrd/>}></Route>
             <Route path="vehicle/add" element={<AddVehicle/>}></Route>
+            <Route path="vehicle/edit" element={<EditVehicle/>}></Route>
             <Route path="confirmforgotpassword" element={<ConfirmForgotPassowrd/>}></Route>
             <Route path="reservation/:id" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Reservation/></PrivateRoute>}></Route>
             <Route path="payment/:id" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Payment/></PrivateRoute>}></Route>
