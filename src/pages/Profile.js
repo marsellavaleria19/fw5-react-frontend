@@ -30,9 +30,12 @@ export const Profile = ()=> {
    });
    const [error,setError] = useState({});
    const [control,setControl] = useState(false);
-   const [showError,setShowError] = useState(false);
-   const [showSuccess,setShowSuccess] = useState(false);
-
+   const [showModalError,setShowModalError] = useState(false);
+   const [showModalSuccess,setShowModalSuccess] = useState(false);
+   const [showModalLoading,setShowModalLoading] = useState(false);
+   const handleCloseLoading = () => setShowModalLoading(false);
+   const handleCloseError = () => setShowModalError(false);
+   const handleCloseSuccess = () => setShowModalSuccess(false);
    const dispatch = useDispatch();
 
    useEffect(()=>{
@@ -57,24 +60,26 @@ export const Profile = ()=> {
          setError({});
       }
    },[]);
-   
+  
+   //handle  show success modal
    useEffect(()=>{
-      if(auth.isError==true){
-         dispatch({
-            type:'UPDATE_PROFILE_MESSAGE_ERROR'
-         });
-         window.scrollTo(0,0);
+      setShowModalLoading(auth.isLoading);
+      if(auth.isLoading==false && control==true){
+         if(auth.isError){
+            setShowModalError(true);
+         }else{
+            setShowModalSuccess(true);
+         }
+         setControl(false);
       }
-   },[auth.isError]);
+   },[auth.isLoading]);
 
+   //handle show success modal after close
    useEffect(()=>{
-      if(auth.isUpdatedProfile==true){
-         dispatch({
-            type:'UPDATE_PROFILE_MESSAGE_SUCCESS'
-         });
+      if(showModalSuccess==false || showModalError==false){
          window.scrollTo(0,0);
       }
-   },[auth.isUpdatedProfile]);
+   },[showModalSuccess,showModalError]);
 
    useEffect(()=>{
       if(auth.user!==null){
@@ -96,8 +101,6 @@ export const Profile = ()=> {
         
          setInputProfile(inputProfile);
          setError({});
-         setShowSuccess(false);
-         setShowError(false);
          // console.log(control);
       }     
    },[auth.user]);
@@ -115,9 +118,19 @@ export const Profile = ()=> {
  
       var validate = validation(inputProfile,requirement);
 
+      console.log(file);
+      const typeImage = [
+         'image/jpeg',
+         'image/jpg',
+         'image/png',
+         'image/gif'
+      ];
+ 
       if(file!==null){
          if(file.size > 2000000){
             validate = {...validate,...{image:'size of image max 2MB'}};
+         }else if (!typeImage.includes(file.type)) {
+            validate = {...validate,...{image:'Format image must be .jpg/.jpeg/.gif/.png'}};
          }
       }
     
@@ -126,6 +139,7 @@ export const Profile = ()=> {
          setControl(true);
       }else{
          setError(validate);
+         window.scrollTo(0,0);
       }
    };
 
@@ -154,9 +168,9 @@ export const Profile = ()=> {
    return (
       <>
          <NavbarHome/>
-         <ModalLoading isLoading={auth.isLoading}/>
-         <ModalNotifError message={auth.errMessage} showModal={auth.isError}/> 
-         <ModalNotifSuccess message={auth.message} showModal={auth.isUpdatedProfile}/>
+         <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
+         <ModalNotifError message={auth.errMessage} show={showModalError} close={handleCloseError}/> 
+         <ModalNotifSuccess message={auth.message} show={showModalSuccess} close={handleCloseSuccess}/>
          <form onSubmit={handleUpdateProfile} encType='multipart/form-data'>
             <section className="profile container">
                <h1 className="title">Profile</h1>
