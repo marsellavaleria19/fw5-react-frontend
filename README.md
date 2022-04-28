@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+<div align="center">
+   <img src=https://user-images.githubusercontent.com/44119106/165676684-1c93b7fe-7b04-40f4-8f34-31ed661adbce.png />
+</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1>RVRental</h1>
+<p>RVRental is a website for renting various types of vehicles. Here, users can easily rent various types of vehicles.</p>
+<br>
+</div>
 
-## Available Scripts
+## 📍 About
 
-In the project directory, you can run:
+Repository Frontend - RVRental
 
-### `npm start`
+<br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📌 How To Install?
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Clone This Repo
 
-### `npm test`
+```
+git clone https://github.com/marsellavaleria19/fw5-react-frontend.git
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Go To Folder Repo
 
-### `npm run build`
+```
+cd fw5-react-frontend
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Install Module
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Type ``` npm run start ``` To Start The Project
 
-### `npm run eject`
+<br>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🔎 Preview Pages
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  <span>
+      <img src="https://user-images.githubusercontent.com/44119106/165675717-a6da1d56-55d4-47e6-baec-6cc26fefb519.png" alt="ttps://user-images.githubusercontent.com/44119106/165675717-a6da1d56-55d4-47e6-baec-6cc26fefb519.png" width="415"/>
+    <img src="https://user-images.githubusercontent.com/44119106/165675970-fec4828f-6af3-4bfa-8f68-3312768dbb69.png" width="415"/>
+    <img src="https://user-images.githubusercontent.com/44119106/165676184-88c80128-a9ad-4adc-bc56-35e61cba3fff.png" width="415"/>
+    <br/>
+  </span>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+<br>
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## ✍️ RVRental - Backend Repository
 
-## Learn More
+<https://github.com/marsellavaleria19/rvrental-backend>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<br>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## ⛏️ Built Using
 
-### Code Splitting
+- [Axios](https://www.npmjs.com/package/axios)
+- [Bootstrap](https://www.npmjs.com/package/bootstrap)
+- [react-icons](https://www.npmjs.com/package/react-icons)
+- [react-redux](https://www.npmjs.com/package/react-redux)
+- [redux](https://www.npmjs.com/package/redux)
+- [redux-logger](https://www.npmjs.com/package/redux-logger)
+- [redux-promise-middleware](https://www.npmjs.com/package/redux-promise-middleware)
+- [react-bootstrap](https://react-bootstrap.github.io/)
+- [react-elastic-carousel](https://www.npmjs.com/package/react-elastic-carousel)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<br>
