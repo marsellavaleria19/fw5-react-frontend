@@ -17,6 +17,11 @@ const counter = (state = dataCounter, action) => {
       }
       break;
    }
+   case 'CLEAR_COUNTER':
+   {
+      state.num = 0;
+      return {...state};
+   }
    default:
    {
       return {...state };
