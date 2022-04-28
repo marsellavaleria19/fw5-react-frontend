@@ -17,7 +17,7 @@ const profile = (state = dataProfile, action) => {
    case 'PROFILE_FULFILLED':
    {
       const { data } = action.payload;
-      state.dataProfile = data.results;
+      state.dataProfile = data.result;
       state.isLoading = false;
       state.isError = false;
       state.message = data.message;

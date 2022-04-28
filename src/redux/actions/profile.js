@@ -1,6 +1,6 @@
 import AxiosCostum from '../../helpers/AxiosCostum';
 
-export const profileProcess = (id, data, file, token) => {
+export const profileProcess = (id, data, file=null, token) => {
    const formData = new FormData();
    formData.append('email', data.email);
    formData.append('address', data.address);
@@ -12,7 +12,7 @@ export const profileProcess = (id, data, file, token) => {
       formData.append('photo', file);
    }
    return {
-      type: 'PROFILE',
+      type: 'UPDATE_PROFILE',
       payload: AxiosCostum(token).patch(`/users/${id}`, formData)
    };
 };
