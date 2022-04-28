@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
-import React, {useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import logoGoogle from '../assets/images/logo-google.png';
 import Footer from '../component/Footer';
 import {Link, Navigate, useNavigate } from 'react-router-dom';
@@ -9,8 +9,9 @@ import Input from '../component/Input';
 import { loginProcess } from '../redux/actions/auth';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-// import { validation } from '../helpers/validation';
-// import ModalNotifError from '../component/ModalNotifError';
+import { validation } from '../helpers/validation';
+import ModalNotifError from '../component/ModalNotifError';
+import ModalNotifSuccess from '../component/ModalNotifSuccess';
 // import ModalNotifSuccess from '../component/ModalNotifSuccess';
 
 export const Login = () => {
@@ -21,6 +22,14 @@ export const Login = () => {
    const [error,setError] = useState({});
    const [control,setControl] = useState(false);
    
+
+   useEffect(()=>{
+      dispatch({
+         type:'CLEAR_AUTH'
+      });
+      setError({});
+      setControl(false);
+   },[]);
 
    const goToSignup = ()=>{
       navigate('/signup');
@@ -38,14 +47,14 @@ export const Login = () => {
          email : 'required|email',
          password : 'required'
       };
-      // var validate = validation(data,requirment);
-      // if(Object.keys(validate).length == 0){
-      //     dispatch(loginProcess(email,password)); 
-      //     setControl(true);
-      // }
-      // console.log(validate);
-      // setError(validate);
-      dispatch(loginProcess(email,password));
+      var validate = validation(data,requirment);
+      if(Object.keys(validate).length == 0){
+         dispatch(loginProcess(email,password)); 
+         setControl(true);
+         setError({});
+      }else{
+         setError(validate);
+      }
    };
 
    return (
@@ -71,16 +80,10 @@ export const Login = () => {
                         <form onSubmit={loginHandle} className="form-login-signup">
                            {
                               auth.isError==true &&
-                              // <ModalNotifError message={auth.errMessage}/> 
-                            <div className="alert alert-danger" role="alert">
-                               {auth.errMessage}
-                            </div>
-                           }
-                           {
-                              auth.isError==false && auth.isVerify==true && 
-                              <div className="alert alert-success" role="alert">
-                                 {auth.message}
-                              </div>
+                              <>
+                                 <ModalNotifError message={auth.errMessage}/> 
+                              </>
+                            
                            }
                            <div>
                               <Input typeInput="text" name="email" placeholder="Email"/>
