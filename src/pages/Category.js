@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import ListVehicleComponent from '../component/ListVehicleComponent';
+import SkeletonComponent from '../component/SkeletonComponent';
 
 export const Category = ()=> {
    const {category,vehicle} = useSelector(state=>state);
@@ -15,12 +16,21 @@ export const Category = ()=> {
 
    useEffect(()=>{
       dispatch({
-         type : 'CLEAR_VEHICLE'
+         type:'CLEAR_VEHICLE'
       });
       category.listCategory.length > 0 && category.listCategory.map((itemCategory)=>{
          dispatch(getListVehicleByCategory(itemCategory.id,REACT_APP_LIMIT_CATEGORY));
       });
-   },[]);
+   },[category.listCategory]);
+
+   // useEffect(()=>{
+   //    dispatch({
+   //       type:'CLEAR_VEHICLE'
+   //    });
+   //    category.listCategory.length > 0 && category.listCategory.map((itemCategory)=>{
+   //       dispatch(getListVehicleByCategory(itemCategory.id,REACT_APP_LIMIT_CATEGORY));
+   //    });     
+   // },[category.listCategory]);
  
    return (
       <Layout>
@@ -39,14 +49,16 @@ export const Category = ()=> {
                         </div>
                         <div className="row text-center">
                            {
-                              vehicle.listAllVehicle.length > 0 ? vehicle.listAllVehicle.filter((item)=>item.category_id==itemCategory.id).map((item)=>{
-                                 return(
-                                    <ListVehicleComponent key={item.id} name={item.name} location={item.location} photo={item.photo}/>
-                                 );
-                              }) :
-                                 <div className="no-vehicle text-center">
+                              vehicle.isLoading ?
+                                 <SkeletonComponent count={REACT_APP_LIMIT_CATEGORY}/> :
+                                 vehicle.listAllVehicle.length > 0 ? vehicle.listAllVehicle.filter((item)=>item.category_id==itemCategory.id).map((item)=>{
+                                    return(
+                                       <ListVehicleComponent key={item.id} name={item.name} location={item.location} photo={item.photo}/>
+                                    );
+                                 }) :
+                                    <div className="no-vehicle text-center">
                                       There is no vehicle left
-                                 </div> 
+                                    </div> 
                            }
                            {/* <ListVehicleComponent category={itemCategory} list={listCategoryVehicle}/> */}
                         </div>
