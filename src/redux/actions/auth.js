@@ -15,3 +15,11 @@ export const getDataUser = (token) => {
       payload: AxiosCostum(token).get('/profile')
    };
 };
+
+export const changePasswordProcess = (dataSend,token) => {
+   const data = { 'password':dataSend.password , 'newPassword': dataSend['new password'],'confirmNewPassword':dataSend['confirm new password'] };
+   return {
+      type: 'CHANGE_PASSWORD',
+      payload: AxiosCostum(token).post('/auth/changepassword', qs.stringify(data))
+   };
+};

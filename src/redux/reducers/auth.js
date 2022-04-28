@@ -173,19 +173,27 @@ const auth = (state = dataLogin, action) => {
       state.errMessage = data.message;
       return {...state };
    }
-   case 'UPDATE_PROFILE_MESSAGE_SUCCESS':
+   case 'CHANGE_PASSWORD_PENDING':
    {
-      state.isError = false;
-      state.isUpdatedProfile = false;
-      state.message;
-      return {...state};
+      state.isLoading = true;
+      return {...state };
    }
-   case 'UPDATE_PROFILE_MESSAGE_ERROR':
+   case 'CHANGE_PASSWORD_FULFILLED':
    {
-      state.isError = false;
+      const { data } = action.payload;
+      state.isUpdatedProfile  = true;
+      state.message = data.message;
+      state.isLoading = false;
+      return {...state };
+   }
+   case 'CHANGE_PASSWORD_REJECTED':
+   {
+      const { data } = action.payload.response;
+      state.isLoading = false;
+      state.isError = true;
       state.isUpdatedProfile = false;
-      state.errMessage;
-      return {...state};
+      state.errMessage = data.message;
+      return {...state };
    }
    case 'LOGOUT':
    {
