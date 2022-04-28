@@ -1,20 +1,20 @@
 /* eslint-disable react/prop-types */
-import React, {useEffect, useState } from 'react';
+import React from 'react';
 import { Modal } from 'react-bootstrap';
 import { BiCheckCircle } from 'react-icons/bi';
 
-const ModalNotifSuccess = ({message,showModal}) => {
-   const [show,setShow] = useState(showModal);
-   const handleClose = ()=> setShow(false);
-   useEffect(()=>{
-      console.log('masuk!!');
-      if(showModal==true){
-         setShow(true);
-      }
-   });
+const ModalNotifSuccess = ({message,show,close}) => {
+   // const [show,setShow] = useState(showModal);
+   // const handleClose = ()=> setShow(false);
+   // useEffect(()=>{
+   //    console.log('masuk!!');
+   //    if(showModal==true){
+   //       setShow(true);
+   //    }
+   // });
    return (
       <>
-         <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
+         <Modal show={show} onHide={close} aria-labelledby="contained-modal-title-vcenter" centered>
             <Modal.Header className='modal-custom-header' closeButton />
             <Modal.Body className='py-5 modal-custom-body'>
                <div className='text-center'>
