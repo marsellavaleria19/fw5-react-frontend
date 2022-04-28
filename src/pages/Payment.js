@@ -1,40 +1,89 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect,useState } from 'react';
 import {FaChevronDown} from 'react-icons/fa';
 import {FaChevronLeft} from 'react-icons/fa';
 import { useNavigate,useParams } from 'react-router-dom';
 import { getDetailReservation } from '../redux/actions/reservation';
 import { paymentUpdate } from '../redux/actions/payment';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector,connect,useDispatch } from 'react-redux';
 import Layout from '../component/Layout';
 import Select from '../component/Select';
+import Button from '../component/Button';
+import { validation } from '../helpers/validation';
+import ModalNotifSuccess from '../component/ModalNotifSuccess';
+import ModalNotifError from '../component/ModalNotifError';
+import ModalLoading from '../component/ModalLoading';
+import { getListHistory,getListHistoryByUserId } from '../redux/actions/history';
+import { getPopularVehicle } from '../redux/actions/vehicle';
 
-export const Payment = ()=> {
+export const Payment = ({paymentUpdate,getDetailReservation})=> {
 
-   const {reservation,payment} = useSelector(state=>state);
-   const dispatch = useDispatch();
+   const {reservation,payment,paymentType,auth} = useSelector(state=>state);
    const {id} = useParams();
    const [control,setControl] = useState(false);
+   const [error,setError] = useState({});
+   const dispatch  = useDispatch();
    // const [dataVehicle,setDataVehicle] = useState({})
     
    const navigate = useNavigate();
 
    useEffect(()=>{
-      dispatch(getDetailReservation(id));
+      console.log(reservation);
+      getDetailReservation(id);
+      setError({});
    },[]);
 
    useEffect(()=>{
       if(payment.dataPayment!==null && control){
-         goToHistory(payment.dataPayment.user_id);
+         if(auth.user!==null){
+            if(auth.user.role=='admin'){
+               dispatch(getListHistory(auth.token));
+            }else{
+               dispatch(getListHistoryByUserId(auth.token,auth.user.id));
+            }
+         }
+         dispatch(getPopularVehicle());
+         goToHistory();
       }
    },[payment.dataPayment]);
 
    const handlePayment = (event)=>{
       event.preventDefault();
-      const token = window.localStorage.getItem('token');
       var paymentMethod = event.target.elements['payment-method'].value;
-      dispatch(paymentUpdate(token,reservation.dataReservation.totalPayment,paymentMethod,id));
-      setControl(true);
+      var data= {
+         'payment method' : paymentMethod
+      };
+
+      var requirement = {
+         'payment method' : 'choose'
+      };
+
+      var validate = validation(data,requirement);
+
+      if(Object.keys(validate).length == 0){
+         paymentUpdate(auth.token,reservation.dataReservation.totalPayment,paymentMethod,id);
+         setControl(true);
+      }else{
+         setError(validate);
+      }
    };
+
+   useEffect(()=>{
+      if(payment.isError==true){
+         dispatch({
+            type:'PAYMENT_MESSAGE_ERROR'
+         });
+         window.scrollTo(0,0);
+      }
+   },[payment.isError]);
+
+   useEffect(()=>{
+      if(payment.isSuccess==true){
+         dispatch({
+            type:'PAYMENT_MESSAGE_SUCCESS'
+         });
+      }
+   },[payment.isSuccess]);
     
    // const getDataVehicle = async()=>{
    //     const {data} = await axios.get(`http://localhost:5000/vehicles/${id}`);
@@ -42,8 +91,14 @@ export const Payment = ()=> {
    // }
 
 
-   const goToHistory = (id)=>{
-      navigate(`/history/${id}`);
+   const goToHistory = ()=>{
+      navigate('/history');
+   };
+
+   const copyCodeHandle = async()=>{
+      var copyText = document.getElementById('codePayment').innerHTML;
+      await navigator.clipboard.writeText(copyText);
+      alert('Text copied!');
    };
 
    return (
@@ -54,6 +109,9 @@ export const Payment = ()=> {
                   <FaChevronLeft/>
                   <span>Payment</span>
                </div>
+               <ModalLoading showModal={payment.isLoading}/>
+               <ModalNotifError message={payment.errMessage} showModal={payment.isError}/> 
+               <ModalNotifSuccess message={payment.message} showModal={payment.isSuccess}/>
                <form onSubmit={handlePayment}>
                   <div className="card">
                      <div className="card-header">
@@ -61,17 +119,23 @@ export const Payment = ()=> {
                      </div>
                      <div className="card-body">
                         <div className="row">
-                           <h1>{reservation.dataReservation!==null && reservation.dataReservation.fullName}</h1>
+                           <h1>{reservation.dataReservation!==null && reservation.dataReservation.fullname}</h1>
                            <div className="col-md">
                               <div className="text-detail-payment-reservation mt-4">
                                  <div className='title'>Phone :</div>
-                                 <div className='detail-book' >{reservation.dataReservation!==null && reservation.dataReservation.mobileNumber}</div>
+                                 <div className='detail-book' >{reservation.dataReservation!==null && reservation.dataReservation.mobilePhone}</div>
                               </div>
                               <div className="text-detail-payment-reservation mt-4">
                                  <div className='title'>Reservation Date :</div>
                                  <div className='detail-book'>{reservation.dataReservation!==null && `${reservation.dataReservation.rentStartDate}-${reservation.dataReservation.rentEndDate}`}</div>
                               </div>
-                                   
+                              <div className="text-detail-payment-reservation mt-4">
+                                 <div className='d-md-flex justify-content-between'>
+                                    <div className='title'> Payment Code:</div>
+                                    <div className='code-payment' id="codePayment">{reservation.dataReservation!==null && reservation.dataReservation.bookingCode}</div>
+                                    <Button btnVarian={'btn-copy-code'} onClick={copyCodeHandle}>Copy</Button>
+                                 </div>
+                              </div>
                            </div>
                            <div className="col-md">
                               <div className="payment-transaction text-detail-payment-reservation">
@@ -81,12 +145,20 @@ export const Payment = ()=> {
                                  <div className='fw-bold'>Payment Method :</div>
                                  <div className="select-form payment-method d-flex position-relative align-items-center">
                                     <Select name="payment-method">
-                                       <option className="select-items">Select Payment Method</option>
-                                       <option className="select-items" value="1">Cash</option>
-                                       <option className="select-items" value="2">Transfer</option>
+                                       <option className="select-items" value={''}>Select Payment Method</option>
+                                       {
+                                          paymentType.listPaymentType.length > 0 && paymentType.listPaymentType.map((item)=>{
+                                             return (
+                                                <option key={item.id} className="select-items" value={item.id}>{item.payment}</option>
+                                             );
+                                          })
+                                       }
+                                       {/* <option className="select-items" value="1">Cash</option>
+                                       <option className="select-items" value="2">Transfer</option> */}
                                     </Select>
                                     <FaChevronDown/>
                                  </div>
+                                 {error!==null && error['payment method'] ? <div className="error">{error['payment method']}</div> : '' }
                               </div>
                            </div>
                         </div> 
@@ -212,4 +284,6 @@ export const Payment = ()=> {
    );
 };
 
-export default Payment;
+const mapStateToProps = state => ({reservation:state.reservation,payment:state.payment});
+const mapDispatchToProps = {paymentUpdate,getDetailReservation};
+export default connect(mapStateToProps,mapDispatchToProps)(Payment);

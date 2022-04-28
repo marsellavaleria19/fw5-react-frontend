@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState,useEffect } from 'react';
 import {FaChevronDown} from 'react-icons/fa';
@@ -11,49 +12,56 @@ import Input from '../component/Input';
 import Select from '../component/Select';
 import { increment,decrement } from '../redux/actions/counter';
 import { getDetailVehicle } from '../redux/actions/vehicle';
-import { reservationInput } from '../redux/actions/reservation';
+import { saveDataReservation} from '../redux/actions/reservation';
 import { connect, useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { validation } from '../helpers/validation';
+import ModalNotifError from '../component/ModalNotifError';
+import ModalLoading from '../component/ModalLoading';
+import ModalNotifSuccess from '../component/ModalNotifSuccess';
 
-export const Reservation  = ({reservationInput})=> {
+export const Reservation  = ()=> {
 
    const {counter,vehicle,reservation,auth} = useSelector(state=>state);
     
    const [day,setDay] = useState(0);
 
-   const [qty,setQty] = useState();
+   const [qty,setQty] = useState(0);
 
-   const [control,setControl] = useState(false);
+   const [error,setError] = useState({});
 
    const dispatch = useDispatch();
 
    const {id} = useParams();
-    
+   
+   const [control,setControl] = useState(false);
+
+   const [showModalSuccess, setShowModalSuccess] = useState(false);
+   const handleShowModalSuccess = ()=>setShowModalSuccess(true);
+   const handleCloseSuccess = () => setShowModalSuccess(false);
+
    const navigate = useNavigate();
 
    useEffect(()=>{
-      // getDataVehicle();
+      dispatch({
+         type : 'CLEAR_RESERVATION'
+      });
       dispatch(getDetailVehicle(id));
       setQty(counter.num);
       console.log(reservation.dataReservation);
-      // if(reservation.dataReservation!==null){
-      //     goToPayment(reservation.dataReservation.id)
-      // }
-
    },[]);
 
-   // useEffect(()=>{
-   //     if(reservation.dataReservation!==null){
-   //         goToPayment(reservation.dataReservation.id)
-   //         dispatch({
-   //             type : 'CLEAR_RESERVATION'
-   //         })
-   //     }
-   // },[reservation.dataReservation]);
+   useEffect(()=>{
+      if(reservation.dataReservation!==null){
+         dispatch({
+            type : 'CLEAR_RESERVATION'
+         });
+      }
+   },[reservation.dataReservation]);
 
    useEffect(()=>{
       if(reservation.dataReservation!==null && control){
-         goToPayment(reservation.dataReservation.id);
+         navigate(`/payment/${reservation.dataReservation.id}`);
          dispatch({
             type : 'CLEAR_RESERVATION'
          });
@@ -69,10 +77,6 @@ export const Reservation  = ({reservationInput})=> {
       window.history.back();
    };
 
-   const goToPayment = (id)=>{
-      navigate(`/payment/${id}`);
-   };
-
    const countIncrement = (event) =>{
       event.preventDefault();
       dispatch(increment());
@@ -81,9 +85,20 @@ export const Reservation  = ({reservationInput})=> {
 
    const countDecrement = (event) =>{
       event.preventDefault();
-      dispatch(decrement());
-      setQty(counter.num);
+      if(qty > 0){
+         dispatch(decrement());
+         setQty(counter.num);
+      }
    };
+
+   useEffect(()=>{
+      if(reservation.isError==true){
+         dispatch({
+            type:'RESERVATION_MESSAGE_ERROR'
+         });
+         window.scrollTo(0,0);
+      }
+   },[reservation.isError]);
 
    const handleChange = (event) =>{
       let value = event.target.value;
@@ -99,13 +114,27 @@ export const Reservation  = ({reservationInput})=> {
 
    const reservationHandle = (event) => {
       event.preventDefault();
-      const token = window.localStorage.getItem('token');
-      var qty = event.target.elements['qty'].value;
+      event.preventDefault();
+      var quantity = event.target.elements['qty'].value;
       var date = event.target.elements['date'].value;
       var day = event.target.elements['day'].value;
-      var data = {qty:qty,date:date,day:day,vehicle:vehicle.listVehicle.id,user:auth.user!==null && auth.user.id};
-      reservationInput(data,token);
-      setControl(true);
+      var data = {quantity:quantity,date:date,day:day};
+   
+      const requirement = {
+         quantity : 'required|number|grather0',
+         date : 'required|date',
+         day : 'required'
+
+      };
+      const validate = validation(data,requirement);
+      if(Object.keys(validate).length == 0){
+         const dataSend = {qty:quantity,date:date,day:day,vehicle:vehicle.dataVehicle.id,user:auth.user!==null && auth.user};
+         dispatch(saveDataReservation(dataSend,auth.token));
+         setControl(true);
+      }else{
+         setError(validate);
+      }
+
       // if(!reservation.isError){
       // goToPayment(reservation.dataReservation.id)
       // dispatch({
@@ -122,15 +151,17 @@ export const Reservation  = ({reservationInput})=> {
                <span>Reservation</span>
             </div>
             <div className="row">
+               <ModalLoading showModal={reservation.isLoading}/>
+               <ModalNotifError message={reservation.errMessage} showModal={reservation.isError}/> 
                <div className="col-md">
-                  <div className="img-vehicle">
-                     <Image photo={vehicle.listVehicle.photo} alt="detail-vehicle"/>
+                  <div>
+                     <Image photo={vehicle.dataVehicle.photo} photoVarian={'img-vehicle'} alt="detail-vehicle"/>
                   </div>
                </div>
                <div className="col-md">
                   <div className="title-vehicle">
-                     <h1>{vehicle.listVehicle.name}</h1>
-                     <div className="location">{vehicle.listVehicle.location}</div>
+                     <h1>{vehicle.dataVehicle.name}</h1>
+                     <div className="location">{vehicle.dataVehicle.location}</div>
                   </div>
                   <div className="status-vehicle">
                      <div className="no-prepayment fw-bold">No Prepayment</div>
@@ -142,9 +173,11 @@ export const Reservation  = ({reservationInput})=> {
                         <Input id="qty" typeInput="number" name="qty" value={qty} onChange={handleChange}/>
                         <Button className="minus" onClick={countDecrement}>-</Button>
                      </div>
+                     {error!==null && error.quantity ? <div className="error">{error.quantity}</div> : '' }
                      <h5>Reservation Date</h5>
                      <div className="mb-3">
                         <Input typeInput="date" name="date" variantInput="input-add" placeholder="date"/>
+                        {error!==null && error.date ? <div className="error">{error.date}</div> : '' }
                      </div>
                      <div className="select-form d-flex position-relative align-items-center">
                         <Select name="day" onChange={handleChange}>
@@ -155,9 +188,11 @@ export const Reservation  = ({reservationInput})=> {
                         </Select>
                         <FaChevronDown/>
                      </div>
+                     {error!==null && error.day ? <div className="error">{error.day}</div> : '' }
                      <div className="btn-payment">
-                        <Button type="submit" btnVarian="button-filled">Pay now : Rp {day!==null ? ((qty*vehicle.listVehicle.price)*day).toLocaleString('id') : 0}</Button>
+                        <Button type="submit" btnVarian="button-filled">Pay now : Rp {day!==null ? ((qty*vehicle.dataVehicle.price)*day).toLocaleString('id') : 0}</Button>
                      </div>
+                     <ModalNotifSuccess show={showModalSuccess} close={handleCloseSuccess} message={reservation.errMessage}/> 
                   </form>
                </div>
             </div>
@@ -167,5 +202,4 @@ export const Reservation  = ({reservationInput})=> {
 };
 
 const mapStateToProps = state => ({counter:state.counter,reservation:state.reservation});
-const mapDispatchToProps = {reservationInput};
-export default connect(mapStateToProps,mapDispatchToProps)(Reservation);
+export default connect(mapStateToProps)(Reservation);
