@@ -11,7 +11,7 @@ export const getListHistory = (token) => {
 export const getListHistoryByUserId = (token,id) => {
    return {
       type: 'HISTORY',
-      payload: AxiosCostum(token).get(`/histories/user/${id}`)
+      payload: AxiosCostum(token).get(`/histories/user/${id}?sort=id&order=desc`)
    };
 };
 
@@ -43,7 +43,6 @@ export const getListHistoryFilterByUserId = (dataParams='',id,token) => {
 
    const filledParams = ['category_id', 'location', 'status_id', 'search', 'date'];
 
-   console.log(token);
    console.log('data params',dataParams);
    const url = (dataParams) => {
       var result = '';
@@ -68,8 +67,15 @@ export const getListHistoryFilterByUserId = (dataParams='',id,token) => {
 };
 
 export const deleteHistory = (token, id) => {
+   console.log(token);
    return {
-      type: 'HISTORY',
+      type: 'HISTORY_DELETE',
       payload: AxiosCostum(token).delete(`/histories/${id}`)
+   };
+};
+
+export const getDataHistory = () => {
+   return {
+      type: 'GET_HISTORY',
    };
 };
