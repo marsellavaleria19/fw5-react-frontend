@@ -6,11 +6,12 @@ import {default as axios} from 'axios';
 import { useNavigate, useParams,useSearchParams } from 'react-router-dom';
 import { FaAngleDoubleDown } from 'react-icons/fa';
 import { getListVehicleByCategory,getListVehicleByUrl } from '../redux/actions/vehicle';
-import { getDetailCategory } from '../redux/actions/category';
+import { getDetailCategory,getDataCategory } from '../redux/actions/category';
 import Image from '../component/Image';
 import Button from '../component/Button';
 import {connect, useDispatch, useSelector } from 'react-redux';
 import ListVehicleComponent from '../component/ListVehicleComponent';
+import { getDataVehicle } from '../redux/actions/vehicle';
 
 export const ListVehicle = ()=> {
 
@@ -20,6 +21,8 @@ export const ListVehicle = ()=> {
    const [isNextPage,setIsNextPage] = useState(false);
    const [page,setPage] = useState([]);
    const [searchParams,setSearchParams] = useSearchParams();
+   const [show,setShow] = useState(-1);
+
    // const [vehicle,setVehicle] = useState("");
    const {id} = useParams();
    const {REACT_APP_URL,REACT_APP_LIMIT_VEHICLE} = process.env; 
@@ -31,25 +34,17 @@ export const ListVehicle = ()=> {
     
    const navigate = useNavigate();
     
-   const goToDetail = (id)=>{
-      navigate(`/category/vehicle/${id}`);
+   const goToDetail = (item)=>{
+      dispatch(getDataVehicle(item));
+      dispatch({
+         type:'CLEAR_COUNTER'
+      });
+      navigate(`/vehicle/${item.id}`);
    };
-
-   // const getDataCategory = async()=>{
-   //     const {data} = await axios.get(`${REACT_APP_URL}/categories/${id}`);
-   //     setDataCategory(data.results);
-   // }
-
-   // const getDataSearch = async(search)=>{
-   //     const {data} = await axios.get(`${REACT_APP_URL}/vehicles?search=${search}`);
-   //     setListVehicle(data.results);
-   //     setPage(data.pageInfo);
-   // }
 
    const getNextData = (url)=>{
       dispatch(getListVehicleByUrl(url));
       //  setListVehicle([...listVehicle,...vehicle.listVehicle])
-
    };
 
    return (
@@ -71,16 +66,16 @@ export const ListVehicle = ()=> {
                               {
                                  vehicle.listVehicle.map((item)=>{
                                     return(
-                                       <ListVehicleComponent key={item.id} name={item.name} location={item.location} photo={item.photo}/>
-                                       // <div  key={String(item.id)} onClick={()=>goToDetail(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
-                                       //    <div className="d-inline-block position-relative">
-                                       //       <Image photo={item.photo} photoVarian="img-fluid" alt={`${item.name}`} />
-                                       //       <div className="text-title-vehicle">
-                                       //          <div className="vehicle-name">{item.name}</div>
-                                       //          <div className="location">{item.location}</div>
-                                       //       </div>
-                                       //    </div>
-                                       // </div>
+                                       <ListVehicleComponent key={item.id} name={item.name} location={item.location} photo={item.photo} onClick={()=>goToDetail(item)}/>
+                                    // <div  key={String(item.id)} onClick={()=>goToDetail(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                    //    <div className="d-inline-block position-relative">
+                                    //       <Image photo={item.photo} photoVarian="img-fluid" alt={`${item.name}`} />
+                                    //       <div className="text-title-vehicle">
+                                    //          <div className="vehicle-name">{item.name}</div>
+                                    //          <div className="location">{item.location}</div>
+                                    //       </div>
+                                    //    </div>
+                                    // </div>
                                     );
                                  })
                               }
