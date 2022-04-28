@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/images/logo3.png';
+import logo from '../assets/images/logo-rv-3.png';
 import {FaRegEnvelope} from 'react-icons/fa';
 import {FaSearch} from 'react-icons/fa';
 import {useNavigate } from 'react-router-dom';
