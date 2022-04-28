@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/images/logo3.png';
+import logo from '../assets/images/logo-rv-3.png';
 import { Link,useNavigate } from 'react-router-dom';
 import Button from './Button';
 
@@ -16,7 +16,7 @@ export const NavbarLogin  = () =>{
       <nav className="navbar navbar-expand-lg navbar-light">
          <div className="container">
             <Link class="navbar-brand" to="/">
-               <img src={logo} alt="Logo"/>
+               <img src={logo} alt="Logo" width="300" height="200"/>
             </Link>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                <span className="navbar-toggler-icon"></span>

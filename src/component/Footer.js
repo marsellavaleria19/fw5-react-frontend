@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from '../assets/images/logo3.png';
+import logo from '../assets/images/logo-rv-3.png';
 import {FaTwitter, FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube} from 'react-icons/fa';
 
 
@@ -11,7 +11,7 @@ export class Footer extends Component {
                <div className="row text">
                   <div className="col">
                      <div>
-                        <img src={logo} alt="Logo" width="100" height="100"/>
+                        <img src={logo} alt="Logo" width="300" height="200"/>
                      </div>
                      <div className="description">
                         Plan and book your perfect trip with expert advice, travel tips for vehicle information from us
