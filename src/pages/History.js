@@ -5,7 +5,7 @@ import {FaSearch} from 'react-icons/fa';
 import {FaAngleRight} from 'react-icons/fa';
 import Layout from '../component/Layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { getListHistory,getListHistoryByUserId,deleteHistory,getListHistoryFilter, getListHistoryFilterByUserId } from '../redux/actions/history';
+import { getListHistory,getListHistoryByUserId,deleteHistory,getListHistoryFilter, getListHistoryFilterByUserId,getDataHistory } from '../redux/actions/history';
 import { getListVehicleByMonth } from '../redux/actions/vehicle';
 import { useParams } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
@@ -13,10 +13,12 @@ import {Animated} from 'react-animated-css';
 import Button from '../component/Button';
 import NotFound from '../component/NotFound';
 import moment from 'moment';
-
+import ModalConfitmation from '../component/ModalConfirmation';
+import ModalNotifSuccess from '../component/ModalNotifSuccess';
+import ModalNotifError from '../component/ModalNotifError';
+import ModalLoading from '../component/ModalLoading';
 
 export const History  = ()=> {
-
    const {history,vehicle,auth,category,status} = useSelector(state=>state);
    const [searchParams,setSearchParams] = useSearchParams();
    const [isDelete,setIsDelete] = useState();
@@ -27,23 +29,57 @@ export const History  = ()=> {
    const [show,setShow] = useState(-1);
    const [filledParams,setFilledParams] = useState(['category_id','status_id','date']);
    const [dataSearch,setDataSearch] = useState({});
+   const [showModal, setShowModal] = useState(false);
+   const handleShowModal = ()=>setShowModal(true);
+   const handleClose = () => setShowModal(false);
    
+  
    useEffect(()=>{
-      if(auth?.user!==null){
-         if(auth.user.role=='admin'){
-            dispatch(getListHistory(auth.token));
-         }else{
-            dispatch(getListHistoryByUserId(auth.token,auth.user.id));
-         }
-      }
+      dispatch({
+         type:'GET_HISTORY'
+      });
+      dispatch({
+         type:'GET_DATA_VEHICLE_POPULAR'
+      });
+      setControl(false);
    },[]);
 
    useEffect(()=>{
-      if(history.listHistory.length > 0 && control==true){
-         setListHistory(history.listHistory);
+      if(history.listHistory.length > 0 && control){
+         dispatch({
+            type:'GET_HISTORY'
+         });
+         dispatch({
+            type:'GET_DATA_VEHICLE_POPULAR'
+         });
+         setControl(false);
       }
    },[history.listHistory]);
 
+   useEffect(()=>{
+      if(history.isError==true){
+         dispatch({
+            type:'HISTORY_MESSAGE_ERROR'
+         });
+         window.scrollTo(0,0);
+      }
+   },[history.isError]);
+
+   useEffect(()=>{
+      if(history.isSuccess==true){
+         dispatch({
+            type:'HISTORY_MESSAGE_SUCCESS'
+         });
+         setShowModal(false);
+         // if(auth.user.role=='admin'){
+         //    dispatch(getListHistory(auth.token));
+         // }else{
+         //    dispatch(getListHistoryByUserId(auth.token,auth.user.id));
+         // }
+      }
+   },[history.isSuccess]);
+
+   
    const handleSearch = (event)=>{
       event.preventDefault();
       dataSearch['search'] = event.target.elements['search'].value;
@@ -98,8 +134,13 @@ export const History  = ()=> {
    // }
 
    const handleDelete = (id)=>{
-      const token = window.localStorage.getItem('token');
-      dispatch(deleteHistory(token,id));
+      console.log(id);
+      dispatch(deleteHistory(auth.token,id));
+      if(auth.user.role=='admin'){
+         dispatch(getListHistory(auth.token));
+      }else{
+         dispatch(getListHistoryByUserId(auth.token,auth.user.id));
+      }
       setControl(true);
    };
     
@@ -169,6 +210,8 @@ export const History  = ()=> {
                   <div className='mt-3'>
                      <Button btnVarian={'button-filled w-100 fs-4'} onClick={handleReset}>Reset</Button>
                   </div>
+                  <ModalNotifError message={history.errMessage} showModal={history.isError}/> 
+                  <ModalNotifSuccess message={history.message} showModal={history.isSuccess}/>
                   <div className="today">
                      <div className="title-date mb-4">Today</div>
                      <div className="d-flex flex-md-wrap justify-content-between list-today">
@@ -182,32 +225,40 @@ export const History  = ()=> {
                      <div className="title-date">A week ago</div>
                      <ul className="list-group list-week">
                         {
-                           history.listHistory.length>0 ? history.listHistory.map((item,i)=>{
-                              return(
-                                 <div className={'d-md-flex justify-content-between mb-3'} key={item.id} onMouseLeave={handleButtonLeave} onMouseEnter={()=>handleButton(i)}>
-                                    <div className="list-item">
-                                       <div className="d-flex detail-order">
-                                          <img src={item.photo} alt="motorbike"/>
-                                          <div className='ms-3'>
-                                             <h5 className="card-title">{item.brand}</h5>
-                                             <div className="date">{moment(item.rentStartDate).format('DD MMM YYYY')} - {moment(item.rentEndDate).format('DD MMM YYYY')}</div>
-                                             <div className="prepayment">Payment : Rp. {item.prepayment.toLocaleString('id')}</div>
-                                             <div className="status">{item.status}</div>
+                           history.isLoading ? 
+                              <ModalLoading showModal={history.isLoading}/> :
+                              history.listHistory.length>0 ? history.listHistory.map((item,i)=>{
+                                 return(
+                                    <div className={'d-md-flex justify-content-between mb-3'} key={item.id} onMouseLeave={handleButtonLeave} onMouseEnter={()=>handleButton(i)}>
+                                       <div className="list-item">
+                                          <div className="d-flex detail-order">
+                                             <img src={item.photo} alt="motorbike"/>
+                                             <div className='ms-3'>
+                                                <h5 className="card-title">{item.brand}</h5>
+                                                <div className="date">{moment(item.rentStartDate).format('DD MMM YYYY')} - {moment(item.rentEndDate).format('DD MMM YYYY')}</div>
+                                                <div className="prepayment">Payment : Rp. {item.prepayment.toLocaleString('id')}</div>
+                                                <div className="status">{item.status}</div>
+                                             </div>
                                           </div>
                                        </div>
+                                       <div>
+                                          {
+                                             show==i && 
+                                          <>
+                                             <Animated animationIn='fadeIn' animationOut='fadeOut'>
+                                                <Button btnVarian="button-filled" onClick={handleShowModal}>Delete</Button>  
+                                             </Animated>
+                                             <ModalConfitmation title={'Delete'} show={showModal} message={'Do you really want to delete this data? This data cannot restore.'} functionHandle={()=>handleDelete(item.id)} close={handleClose} button={'Delete'}/>    
+                                          </>
+                                      
+                                          }
+                                       </div>
+                                    
                                     </div>
-                                    <div>
-                                       {
-                                          show==i && 
-                                          <Animated animationIn='fadeIn' animationOut='fadeOut'>
-                                             <Button btnVarian="button-filled" onClick={()=>handleDelete(item.id)}>Delete</Button>  
-                                          </Animated>
-                                       }
-                                    </div>    
-                                 </div>
-                              );
-                           }) :
-                              <NotFound/>
+                               
+                                 );
+                              }) :
+                                 <NotFound/>
                         }
                                
                         {/* <li className="list-group-item d-flex">
