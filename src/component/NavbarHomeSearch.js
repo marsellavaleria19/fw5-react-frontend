@@ -81,7 +81,9 @@ export const NavbarHomeSearch = () => {
                                  <img src = {auth.user!==null && (auth.user.photo==null ? profileImg : auth.user.photo)} className="profile rounded-circle" alt="profile"/>
                               </Button>
                               <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
-                                 <li><Link className="dropdown-item" to="/profil">Profile</Link></li>
+                                 <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
+                                 <li><Link className="dropdown-item" to="/change-password">Change Password</Link></li>
+                                 <li><Link className="dropdown-item" to="/verify-user">Verify User</Link></li>
                                  <li><hr className="dropdown-divider"/></li>
                                  <li  className='dropdown-item' onClick={handleLogout}>Logout</li>
                               </ul>
