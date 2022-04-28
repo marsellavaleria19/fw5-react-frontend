@@ -14,3 +14,10 @@ export const getDetailCategory = (id) => {
       payload: AxiosCostum().get((`/categories/${id}`))
    };
 };
+
+export const getDataCategory = (category) =>{
+   return{
+      type : 'GET_DATA_CATEGORY',
+      payload : category
+   };
+};

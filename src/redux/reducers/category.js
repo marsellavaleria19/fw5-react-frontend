@@ -46,6 +46,12 @@ const category = (state = dataCategory, action) => {
       state.isError = true;
       return {...state };
    }
+   case 'GET_DATA_CATEGORY':
+   {
+      state.dataCategory = action.payload;
+      state.isLoading = false;
+      return {...state };
+   }
    default:
    {
       return {...state };
