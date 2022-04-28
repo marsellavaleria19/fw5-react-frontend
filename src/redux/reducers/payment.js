@@ -17,7 +17,7 @@ const payment = (state = dataPayment, action) => {
    {
       const { data } = action.payload;
       console.log(data);
-      state.dataPayment = data.results;
+      state.dataPayment = data.result;
       state.isLoading = false;
       state.isError = false;
       return {...state };
@@ -48,6 +48,22 @@ const payment = (state = dataPayment, action) => {
       state.isLoading = false;
       state.isError = true;
       return {...state };
+   }
+   case 'PAYMENT_MESSAGE_SUCCESS':
+   {
+      state.isError = false;
+      state.isSuccess = false;
+      state.isLoading = false;
+      state.message;
+      return state;
+   }
+   case 'PAYMENT_MESSAGE_ERROR':
+   {
+      state.isError = false;
+      state.isSuccess = false;
+      state.isLoading = false;
+      state.errMessage;
+      return state;
    }
    default:
    {
