@@ -1,21 +1,21 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Modal } from 'react-bootstrap';
 // import { ImSad } from 'react-icons/im';
 import {VscError} from 'react-icons/vsc';
 
-const ModalNotifError = ({ message,showModal}) => {
-   const [show, setShow] = useState(false);
-   const handleClose = () => setShow(false);
-   useEffect(() => {
-      console.log(message);
-      if (showModal==true) {
-         setShow(true);
-      }
-   });
+const ModalNotifError = ({ message,show,close}) => {
+   // const [show, setShow] = useState(false);
+   // const handleClose = () => setShow(false);
+   // useEffect(() => {
+   //    console.log(message);
+   //    if (showModal==true) {
+   //       setShow(true);
+   //    }
+   // });
    return (
       <>
-         <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" className='modal' centered>
+         <Modal show={show} onHide={close} aria-labelledby="contained-modal-title-vcenter" className='modal' centered>
             <Modal.Header className='modal-custom-header' closeButton />
             <Modal.Body className='py-5 modal-custom-body'>
                <div className='text-center'>
