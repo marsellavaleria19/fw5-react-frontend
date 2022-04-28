@@ -13,10 +13,12 @@ import Layout from '../component/Layout';
 import { getPopularVehicle } from '../redux/actions/vehicle';
 import { useSelector,useDispatch } from 'react-redux';
 import SkeletonComponent from '../component/SkeletonComponent';
+import Button from '../component/Button';
+import {FaPlus} from 'react-icons/fa';
 
 
 export const Homepage = ()=> {
-   const {vehicle} = useSelector(state=>state);
+   const {vehicle,auth} = useSelector(state=>state);
    const [listPopular,setListPopular] = useState([]);
    const navigate = useNavigate();
    const dispatch = useDispatch();
@@ -30,6 +32,10 @@ export const Homepage = ()=> {
       navigate(`/category/vehicles/${id}`);
    };
 
+   const goToAddVehicle = ()=>{
+      navigate('/vehicle/add');
+   };
+
    return (
       <Layout>
          <Header/>
@@ -37,7 +43,14 @@ export const Homepage = ()=> {
             <div className="container">
                <div className="row d-flex align-items-center header">
                   <div className="col">
-                     <h1 className="section-title">Popular in town</h1>
+                     <div className='d-flex align-item-center'>
+                        {
+                           auth.user!==null && auth.user.role=='admin' && 
+                     <Button btnVarian="button-filled button-add-vehicle me-2" type="button" onClick={goToAddVehicle}><FaPlus/></Button>
+                        }
+                        <h1 className="section-title">Popular in town</h1>
+                     </div>
+                   
                   </div>
                   <div className="col text-end">
                      <Link className="section-link-view" to="/category">View all<FaChevronRight/></Link>
