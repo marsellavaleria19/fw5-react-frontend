@@ -18,7 +18,7 @@ Repository Frontend - RVRental
 - Clone This Repo
 
 ```
-git clone https://github.com/marsellavaleria19/fw5-react-frontend.git
+git clone https://github.com/marsellavaleria19/rvrental-frontend.git
 ```
 
 - Go To Folder Repo
