@@ -15,6 +15,7 @@ import { validation } from '../helpers/validation';
 import ModalLoading from '../component/ModalLoading';
 import ModalNotifError from '../component/ModalNotifError';
 import ModalNotifSuccess from '../component/ModalNotifSuccess';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export const Profile = ()=> {
    const {auth} = useSelector(state=>state);
@@ -37,6 +38,7 @@ export const Profile = ()=> {
    const handleCloseError = () => setShowModalError(false);
    const handleCloseSuccess = () => setShowModalSuccess(false);
    const dispatch = useDispatch();
+   const navigate = useNavigate();
 
    useEffect(()=>{
       if(auth.user!==null){
@@ -165,6 +167,16 @@ export const Profile = ()=> {
       }
    };
 
+   const goToChangePassword = (event)=>{
+      event.preventDefault();
+      navigate('/change-password');
+   };
+
+   const goToHomePage = (event)=>{
+      event.preventDefault();
+      navigate('/');
+   };
+
    return (
       <>
          <NavbarHome/>
@@ -244,10 +256,10 @@ export const Profile = ()=> {
                         <Button type="submit" btnVarian="button-filled">Save Change</Button>
                      </div>
                      <div className="col-md-4 mb-3">
-                        <Button btnVarian="button-dark">Edit Password</Button>
+                        <Button btnVarian="button-dark" onClick={goToChangePassword}>Edit Password</Button>
                      </div>
                      <div className="col-md-4 mb-3">
-                        <Button btnVarian="button-gray">Cancel</Button>
+                        <Button btnVarian="button-gray" onClick={goToHomePage}>Cancel</Button>
                      </div>
                   </div>
                </div>
