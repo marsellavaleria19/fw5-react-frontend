@@ -1,22 +1,19 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { useEffect, useState } from 'react';
 import { Modal, Spinner } from 'react-bootstrap';
 
-const ModalLoading = ({ isLoading = false }) => {
-   const [show, setShow] = useState(false);
-   const handleClose = () => setShow(false);
+const ModalLoading = ({show,close}) => {
+   // const [show, setShow] = useState(false);
+   // const handleClose = () => setShow(false);
 
-   useEffect(() => {
-      if (isLoading) {
-         setShow(true);
-      } else {
-         setShow(false);
-      }
-   }, [isLoading]);
+   // useEffect(() => {
+   //    if (showModal==true) {
+   //       setShow(true);
+   //    }
+   // });
    return (
       <>
-         <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
+         <Modal show={show} onHide={close} aria-labelledby="contained-modal-title-vcenter" centered>
             <Modal.Header className='modal-custom-header' closeButton />
             <Modal.Body className="modal-custom-body">
                <div className='text-center'>
