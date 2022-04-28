@@ -25,6 +25,7 @@ import EditVehicle from './pages/EditVehicle';
 import { getListStatus } from './redux/actions/status';
 import { getListHistory,getListHistoryByUserId } from './redux/actions/history';
 import { getPopularVehicle } from './redux/actions/vehicle';
+import ChangePasswordLayout from './pages/ChangePassword';
 
 export const App = () => {
    const auth = useSelector(state=>state.auth);
@@ -85,7 +86,8 @@ export const App = () => {
             <Route path="vehicle/:id" element={<DetailVehicle/>}></Route>
             <Route path="search" element={<Search/>}></Route>
             <Route path="history" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><History/></PrivateRoute>}></Route>
-            <Route path="profil" element={<ProfileLayout/>}></Route>
+            <Route path="profile" element={<ProfileLayout/>}></Route>
+            <Route path="change-password" element={<ChangePasswordLayout/>}></Route>
             <Route path="login" element={<Login/>}></Route>
             <Route path="signup" element={<Signup/>}></Route>
             <Route path='verifyuser' element={<VerifyUser/>}></Route>
