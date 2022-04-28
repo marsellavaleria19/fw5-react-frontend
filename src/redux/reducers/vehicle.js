@@ -7,7 +7,8 @@ const dataVehicle = {
    isSuccess : false,
    error: false,
    errMessage : null,
-   message : null
+   message : null,
+   dataVehicle : null
 };
 
 
@@ -73,6 +74,40 @@ const vehicle = (state = dataVehicle, action) => {
       state.isSuccess = false;
       return {...state };
    }
+   case 'GET_DETAIL_VEHICLE_PENDING':
+   {
+      state.isLoading = true;
+      return {...state };
+   }
+   case 'GET_DETAIL_VEHICLE_FULFILLED':
+   {
+      const { data } = action.payload;
+      state.dataVehicle = data.result;
+      state.isLoading = false;
+      return {...state };
+   }
+   case 'GET_DETAIL_VEHICLE_REJECTED':
+   {
+      state.isLoading = false;
+      state.isError = true;
+      return {...state };
+   }
+   case 'GET_DATA_VEHICLE':
+   {
+      console.log(action.payload);
+      state.dataVehicle = action.payload;
+      state.isLoading = false;
+      return {...state };
+   }
+   case 'GET_DATA_VEHICLE_POPULAR':
+   {
+      state.listVehiclepopular;
+      return {...state };
+   }
+   case 'REFRESH_DATA_VEHICLE':
+   {
+      return dataVehicle.dataVehicle;
+   }
    case 'ADD_VEHICLE_PENDING':
    {
       state.isLoading = true;
@@ -98,10 +133,36 @@ const vehicle = (state = dataVehicle, action) => {
       state.errMessage = data.message;
       return {...state };
    }
+   case 'UPDATE_VEHICLE_PENDING':
+   {
+      state.isLoading = true;
+      return {...state };
+   }
+   case 'UPDATE_VEHICLE_FULFILLED':
+   {
+      const { data } = action.payload;
+      state.dataVehicle = data.result;
+      state.pageInfo = data.pageInfo;
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.message = data.message;
+   
+      return {...state };
+   }
+   case 'UPDATE_VEHICLE_REJECTED':
+   {
+      const {data} = action.payload.response;
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.errMessage = data.message;
+      return {...state };
+   }
    case 'VEHICLE_MESSAGE_SUCCESS':
    {
       state.isError = false;
       state.isSuccess = false;
+      state.isLoading = false;
       state.message;
       return {...state};
    }
@@ -109,9 +170,11 @@ const vehicle = (state = dataVehicle, action) => {
    {
       state.isError = false;
       state.isSuccess = false;
+      state.isLoading = false;
       state.errMessage;
       return {...state};
    }
+   
    case 'CLEAR_VEHICLE':
    {
       return dataVehicle;

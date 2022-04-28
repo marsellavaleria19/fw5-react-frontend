@@ -36,8 +36,8 @@ export const getListVehicleByUrl = (url) => {
 
 export const getDetailVehicle = (id) => {
    return {
-      type: 'GET_VEHICLE',
-      payload: axios.get(`${REACT_APP_URL}/vehicles/${id}`)
+      type: 'GET_DETAIL_VEHICLE',
+      payload: AxiosCostum().get(`/vehicles/${id}`)
    };
 };
 
@@ -45,6 +45,19 @@ export const getPopularVehicle = () =>{
    return {
       type:'GET_VEHICLE_POPULAR',
       payload : axios.get(`${REACT_APP_URL}/vehicles/popular?limit=4`)
+   };
+};
+
+export const getDataVehicle = (data) =>{
+   return{
+      type : 'GET_DATA_VEHICLE',
+      payload : data
+   };
+};
+
+export const getDataVehiclePopular = () =>{
+   return{
+      type : 'GET_DATA_VEHICLE_POPULAR',
    };
 };
 
@@ -56,12 +69,37 @@ export const addVehicle = (data,token,file=null) =>{
    formData.append('category_id', data.category);
    formData.append('qty', data.stock);
    formData.append('price', data.price);
-   formData.append('isAvailable',data.isAvailable);
+   formData.append('isAvailable',data['is available']);
    if (file !== null) {
       formData.append('photo', file);
    }
    return {
       type:'ADD_VEHICLE',
       payload : AxiosCostum(token).post('/vehicles',formData)
+   };
+};
+
+export const updateVehicle = (data,id,token,file=null) =>{
+   const formData = new FormData();
+   formData.append('name', data.name);
+   formData.append('description', data.description);
+   formData.append('location_id', data.location);
+   formData.append('category_id', data.category);
+   formData.append('qty', data.stock);
+   formData.append('price', data.price);
+   formData.append('isAvailable',data['is available']);
+   if (file !== null) {
+      formData.append('photo', file);
+   }
+   return {
+      type:'UPDATE_VEHICLE',
+      payload : AxiosCostum(token).patch(`/vehicles/${id}`,formData)
+   };
+};
+
+export const deleteVehicle = (id,token) =>{
+   return {
+      type:'UPDATE_VEHICLE',
+      payload : AxiosCostum(token).delete(`/vehicles/${id}`)
    };
 };
