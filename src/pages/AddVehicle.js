@@ -17,59 +17,64 @@ import ModalNotifSuccess from '../component/ModalNotifSuccess';
 import Select from '../component/Select';
 import {FaChevronDown,FaChevronLeft} from 'react-icons/fa';
 import { addVehicle } from '../redux/actions/vehicle';
+import LayoutProfile from '../component/LayoutProfile';
 
 export const AddVehicle = ()=> {
    const {auth,category,location,vehicle} = useSelector(state=>state);
    const [file,setFile] = useState(null);
    const [image,setImage] = useState(null);
-   var [inputVehicle,setInputVehicle] = useState({
-      name:'',
-      category: '',
-      location: '',
-      price: 0,
-      stock: 0,
-      description : '',
-      'is available' : ''
-   });
    const [error,setError] = useState({});
    const [control,setControl] = useState(false);
+   var [stock,setStock] = useState(0);
+   const [showModalError,setShowModalError] = useState(false);
+   const [showModalSuccess,setShowModalSuccess] = useState(false);
+   const [showModalLoading,setShowModalLoading] = useState(false);
+   const handleCloseLoading = () => setShowModalLoading(false);
+   const handleCloseError = () => setShowModalError(false);
+   const handleCloseSuccess = () => setShowModalSuccess(false);
  
    const dispatch = useDispatch();
    
    useEffect(()=>{
       setImage(photoImg);
-      dispatch({
-         type:'CLEAR_VEHICLE'
-      });
+      setControl(false);
+      setError({});
    },[]);
 
    const cancelHandle = ()=>{
       window.history.back();
    };
 
+   //handle  show success modal
    useEffect(()=>{
-      if(vehicle.isError==true){
-         dispatch({
-            type:'VEHICLE_MESSAGE_ERROR'
-         });
-         window.scrollTo(0,0);
+      setShowModalLoading(vehicle.isLoading);
+      if(vehicle.isLoading==false && control==true){
+         if(vehicle.isError){
+            setShowModalError(true);
+         }else{
+            setShowModalSuccess(true);
+         }
+         setControl(false);
       }
-   },[vehicle.isError]);
+   },[vehicle.isLoading]);
 
+   //handle show success modal after close
    useEffect(()=>{
-      if(vehicle.isSuccess==true){
-         dispatch({
-            type:'VEHICLE_MESSAGE_SUCCESS'
-         });
-         console.log(vehicle.isLoading);
+      if(showModalSuccess==false || showModalError==false){
          window.scrollTo(0,0);
       }
-   },[vehicle.isSuccess]);
+   },[showModalSuccess,showModalError]);
+
 
    const AddVehicle = (event)=>{
       event.preventDefault();
-      inputVehicle.price = inputVehicle.price.toString();
-      inputVehicle.stock = inputVehicle.stock.toString();
+      const filled = ['name','category','location','price','stock','description','is available'];
+      const data = {};
+      filled.forEach((item)=>{
+         data[item] = event.target.elements[item].value;
+      });
+      data.stock = data.stock.toString();
+      console.log(data);
       var requirement = {
          name:'required',
          category : 'choose',
@@ -79,24 +84,19 @@ export const AddVehicle = ()=> {
          description : 'required',
          'is available' : 'choose'
       };
-      var validate = validation(inputVehicle,requirement);
+      var validate = validation(data,requirement);
       if(file!==null){
          if(file.size > 2000000){
             validate = {...validate,...{image:'size of image max 2MB'}};
          }
       }
-      console.log(inputVehicle,file);
       if(Object.keys(validate).length == 0){
-         dispatch(addVehicle(inputVehicle,auth.token,file));
+         dispatch(addVehicle(data,auth.token,file));
          setControl(true);
-         setInputVehicle({
-            name:'',
-            category: '',
-            location: '',
-            price: 0,
-            stock: 0,
-            description : ''
-         });
+         document.getElementById('form-vehicle').reset();
+         setStock(0);
+         setImage(photoImg);
+         setError({});
       }else{
          setError(validate);
       }
@@ -115,15 +115,15 @@ export const AddVehicle = ()=> {
 
    const incrementQty = (e)=> {
       e.preventDefault();
-      inputVehicle.stock = parseInt(inputVehicle.stock)+1;
-      setInputVehicle({...inputVehicle});
+      stock = stock+1;
+      setStock(stock);
    };
 
    const decrementQty = (e)=> {
       e.preventDefault();
-      if(parseInt(inputVehicle.stock) >0){
-         inputVehicle.stock = parseInt(inputVehicle.stock)-1;
-         setInputVehicle({...inputVehicle});
+      if(stock>0){
+         stock = stock-1;
+         setStock(stock);
       }
     
    };
@@ -131,27 +131,24 @@ export const AddVehicle = ()=> {
    const handleChange = (event)=>{
       event.preventDefault();
       let value = event.target.value;
-      let nameOfInput = event.target.name;
-      setInputVehicle({...inputVehicle,[nameOfInput]:value});
+      setStock(value);
    };
 
    return (
-      <>
-         <NavbarHome/>
-         
-         <ModalLoading showModal={vehicle.isLoading}/>
-         <ModalNotifError message={vehicle.errMessage} showModal={vehicle.isError}/> 
-         <ModalNotifSuccess message={vehicle.message} showModal={vehicle.isSuccess}/>
+      <LayoutProfile>
+         <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
+         <ModalNotifError message={vehicle.errMessage} show={showModalError} close={handleCloseError}/> 
+         <ModalNotifSuccess message={vehicle.message} show={showModalSuccess} close={handleCloseSuccess}/>
          <div className='container'>
             <div className="header-nav">
                <FaChevronLeft/>
                <span>Add new item</span>
             </div>
-            <form onSubmit={AddVehicle} encType='multipart/form-data'>
+            <form id="form-vehicle" onSubmit={AddVehicle} encType='multipart/form-data'>
                <div className='row mt-5'>
                   <div className='col-md'>
                      <div className="mb-4">
-                        <Input variantInput="d-block w-100 input-line" typeInput="text" name="name" placeholder="Name (max up to 50 words)" onChange={handleChange} value={inputVehicle.name}/>
+                        <Input variantInput="d-block w-100 input-line" typeInput="text" name="name" placeholder="Name (max up to 50 words)"/>
                         {error!==null && error.name ? <div className="error">{error.name}</div> : '' }
                      </div>
                      <div>
@@ -164,7 +161,7 @@ export const AddVehicle = ()=> {
                      <div className="mb-4">
                         <label className='label-form-line' htmlFor="location">Location</label>
                         <div className='select-form d-flex position-relative align-items-center'>
-                           <Select name="location" onChange={handleChange}>
+                           <Select name="location">
                               <option value="" style={{display:'none'}}>Select Location</option>
                               {
                                  location.listLocation.length > 0 && location.listLocation.map((item)=>{
@@ -179,18 +176,18 @@ export const AddVehicle = ()=> {
                         {error!==null && error.location ? <div className="error">{error.location}</div> : '' }
                      </div>
                      <div className="mb-4">
-                        <textarea name="description" className="w-100 textarea-line" placeholder="Description (max up to 150 words)" onChange={handleChange} value={inputVehicle.description}></textarea>
+                        <textarea name="description" className="w-100 textarea-line" placeholder="Description (max up to 150 words)"></textarea>
                         {error!==null && error.description ? <div className="error">{error.description}</div> : '' }
                      </div>
                      <div className="mb-4">
                         <label className='label-form-line' htmlFor="price">Price</label>
-                        <Input variantInput="d-block w-100 input-no-line" typeInput="number" name="price" placeholder="Price" onChange={handleChange} value={inputVehicle.price}/>
+                        <Input variantInput="d-block w-100 input-no-line" typeInput="number" name="price" placeholder="Price"/>
                         {error!==null && error.price ? <div className="error">{error.price}</div> : '' }
                      </div>
                      <div className="mb-4">
-                        <label className='label-form-line' htmlFor="location">Status</label>
+                        <label className='label-form-line' htmlFor="isAvailable">Status</label>
                         <div className='select-form d-flex position-relative align-items-center'>
-                           <Select name="is available" onChange={handleChange}>
+                           <Select name="is available">
                               <option value="" style={{display:'none'}}>Select Status</option>
                               <option value={1}>Available</option>
                               <option value={0}>Full Booked</option>
@@ -204,7 +201,7 @@ export const AddVehicle = ()=> {
                            <label className='label-form-line' htmlFor="stock">Stock</label>
                            <div className="form-quantity-item d-flex button-plus-minus">
                               <Button btnVarian="plus" onClick={(e)=>incrementQty(e)}>+</Button>
-                              <Input typeInput="number" name="stock" value={inputVehicle.stock} onChange={handleChange}/>
+                              <Input typeInput="number" name="stock" value={stock} onChange={handleChange}/>
                               <Button btnVarian="minus" onClick={(e)=>decrementQty(e)}>-</Button>
                            </div>
                         </div>
@@ -215,7 +212,7 @@ export const AddVehicle = ()=> {
                <div className="mt-3 mb-5 row">
                   <div className="col-md-5 mb-3">
                      <div className='select-form-item d-flex position-relative align-items-center'>
-                        <Select name="category" onChange={handleChange}>
+                        <Select name="category">
                            <option value="" style={{display:'none'}}>Add item to</option>
                            {
                               category.listCategory.length > 0 && category.listCategory.map((item)=>{
@@ -323,8 +320,7 @@ export const AddVehicle = ()=> {
             </section>
          </form> */}
          </div>
-         <Footer/>
-      </>
+      </LayoutProfile>
    );
 };
 
