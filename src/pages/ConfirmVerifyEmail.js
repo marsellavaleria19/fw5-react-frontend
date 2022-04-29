@@ -11,6 +11,7 @@ import ModalNotifError from '../component/ModalNotifError';
 import ModalNotifSuccess from '../component/ModalNotifSuccess';
 import { useNavigate } from 'react-router-dom';
 import PinInput from 'react-pin-input';
+import LayoutProfile from '../component/LayoutProfile';
 
 export const ConfirmVerifyEmail = ()=> {
    const {auth} = useSelector(state=>state);
@@ -51,7 +52,7 @@ export const ConfirmVerifyEmail = ()=> {
       if(showModalSuccess==false && auth.user.isVerified==1){
          goToHomePage();
       }
-   },[showModalSuccess,showModalError]);
+   },[showModalSuccess]);
 
    const goToHomePage = ()=>{
       navigate('/');
@@ -83,8 +84,7 @@ export const ConfirmVerifyEmail = ()=> {
    };
  
    return (
-      <>
-         <NavbarHome/>
+      <LayoutProfile>
          <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
          <ModalNotifError message={auth.errMessage} show={showModalError} close={handleCloseError}/> 
          <ModalNotifSuccess message={auth.message} show={showModalSuccess} close={handleCloseSuccess}/>
@@ -112,7 +112,7 @@ export const ConfirmVerifyEmail = ()=> {
                      </div>
                      <div className="mt-5 row mb-5 justify-content-center">
                         <div className="col-md-4 mb-3">
-                           <Button type="submit" btnVarian="button-filled">Send Code</Button>
+                           <Button type="submit" btnVarian="button-filled">Submit</Button>
                         </div>
                         <div className="col-md-4">
                            <Button btnVarian="button-gray" onClick={goToHomePage}>Cancel</Button>
@@ -122,8 +122,7 @@ export const ConfirmVerifyEmail = ()=> {
                </div>
             </form>
          </section>
-         <Footer/>
-      </>
+      </LayoutProfile>
    );
 };
 

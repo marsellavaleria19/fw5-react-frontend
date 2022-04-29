@@ -11,6 +11,7 @@ import ModalLoading from '../component/ModalLoading';
 import ModalNotifError from '../component/ModalNotifError';
 import ModalNotifSuccess from '../component/ModalNotifSuccess';
 import { useNavigate } from 'react-router-dom';
+import LayoutProfile from '../component/LayoutProfile';
 
 export const VerifyEmail = ()=> {
    const {auth} = useSelector(state=>state);
@@ -75,8 +76,7 @@ export const VerifyEmail = ()=> {
    };
  
    return (
-      <>
-         <NavbarHome/>
+      <LayoutProfile>
          <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
          <ModalNotifError message={auth.errMessage} show={showModalError} close={handleCloseError}/> 
          <ModalNotifSuccess message={auth.message} show={showModalSuccess} close={handleCloseSuccess} button="Confirmation Email" functionHandle={goToConfirmationEmail}/>
@@ -102,8 +102,7 @@ export const VerifyEmail = ()=> {
                </div>
             </form>
          </section>
-         <Footer/>
-      </>
+      </LayoutProfile>
    );
 };
 
