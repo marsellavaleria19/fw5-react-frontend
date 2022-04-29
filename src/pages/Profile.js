@@ -16,6 +16,7 @@ import ModalLoading from '../component/ModalLoading';
 import ModalNotifError from '../component/ModalNotifError';
 import ModalNotifSuccess from '../component/ModalNotifSuccess';
 import { Navigate, useNavigate } from 'react-router-dom';
+import LayoutProfile from '../component/LayoutProfile';
 
 export const Profile = ()=> {
    const {auth} = useSelector(state=>state);
@@ -178,8 +179,7 @@ export const Profile = ()=> {
    };
 
    return (
-      <>
-         <NavbarHome/>
+      <LayoutProfile>
          <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
          <ModalNotifError message={auth.errMessage} show={showModalError} close={handleCloseError}/> 
          <ModalNotifSuccess message={auth.message} show={showModalSuccess} close={handleCloseSuccess}/>
@@ -265,9 +265,7 @@ export const Profile = ()=> {
                </div>
             </section>
          </form>
-
-         <Footer/>
-      </>
+      </LayoutProfile>
    );
 };
 
