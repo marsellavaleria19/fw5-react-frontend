@@ -8,7 +8,7 @@ import Category from './pages/Category';
 import ListVehicle from './pages/ListVehicle';
 import DetailVehicle from './pages/DetailVehicle';
 import Reservation from './pages/Reservation';
-import VerifyUser from './pages/VerifyUser';
+import VerifyEmail from './pages/VerifyEmail';
 import Payment from './pages/Payment';
 import History from './pages/History';
 import ProfileLayout from './pages/Profile';
@@ -26,6 +26,7 @@ import { getListStatus } from './redux/actions/status';
 import { getListHistory,getListHistoryByUserId } from './redux/actions/history';
 import { getPopularVehicle } from './redux/actions/vehicle';
 import ChangePasswordLayout from './pages/ChangePassword';
+import ConfirmVerifyEmailLayout from './pages/ConfirmVerifyEmail';
 
 export const App = () => {
    const auth = useSelector(state=>state.auth);
@@ -90,7 +91,8 @@ export const App = () => {
             <Route path="change-password" element={<ChangePasswordLayout/>}></Route>
             <Route path="login" element={<Login/>}></Route>
             <Route path="signup" element={<Signup/>}></Route>
-            <Route path='verifyuser' element={<VerifyUser/>}></Route>
+            <Route path='verify-email' element={<VerifyEmail/>}></Route>
+            <Route path='confirm-verify-email' element={<ConfirmVerifyEmailLayout/>}></Route>
             <Route path="forgotpassword" element={<ForgotPassowrd/>}></Route>
             <Route path="vehicle/add" element={<AddVehicle/>}></Route>
             <Route path="vehicle/edit" element={<EditVehicle/>}></Route>
