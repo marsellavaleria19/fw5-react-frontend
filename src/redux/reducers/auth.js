@@ -71,10 +71,10 @@ const auth = (state = dataLogin, action) => {
       const { data } = action.payload;
       console.log(data);
       state.message = data.message;
+      state.user = data.result;
       state.isLoading = false;
       state.isError = false;
       state.isVerify = true;
-      state.isRegister = false;
       return {...state };
    }
    case 'VERIFY_USER_REJECTED':
@@ -85,6 +85,31 @@ const auth = (state = dataLogin, action) => {
       state.errMessage = data.message;
       return {...state };
    }
+
+   case 'VERIFY_USER_EMAIL_PENDING':
+   {
+      state.isLoading = true;
+      return {...state };
+   }
+   case 'VERIFY_USER_EMAIL_FULFILLED':
+   {
+      const { data } = action.payload;
+      console.log(data);
+      state.message = data.message;
+      state.user;
+      state.isLoading = false;
+      state.isError = false;
+      return {...state };
+   }
+   case 'VERIFY_USER_EMAIL_REJECTED':
+   {
+      const { data } = action.payload.response;
+      state.isLoading = false;
+      state.isError = true;
+      state.errMessage = data.message;
+      return {...state };
+   }
+
    case 'FORGOT_PASSWORD_PENDING':
    {
       state.isLoading = true;
