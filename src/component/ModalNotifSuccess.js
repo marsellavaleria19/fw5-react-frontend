@@ -2,8 +2,9 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import { BiCheckCircle } from 'react-icons/bi';
+import Button from './Button';
 
-const ModalNotifSuccess = ({message,show,close}) => {
+const ModalNotifSuccess = ({message,show,close,button=null,functionHandle}) => {
    // const [show,setShow] = useState(showModal);
    // const handleClose = ()=> setShow(false);
    // useEffect(()=>{
@@ -23,7 +24,14 @@ const ModalNotifSuccess = ({message,show,close}) => {
                   <div className='fs-4 pps  text-pallet-1'>{message}</div>
                </div>
             </Modal.Body>
+            {
+               button!==null &&
+                  <Modal.Footer className='modal-custom-body'>
+                     <Button btnVarian={'button-filled fw-bold w-100'} onClick={functionHandle}>{button}</Button>
+                  </Modal.Footer>
+            }
          </Modal>
+        
       </>
    );
 };
