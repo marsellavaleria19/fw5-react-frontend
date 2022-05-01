@@ -12,6 +12,7 @@ import Button from '../component/Button';
 import {connect, useDispatch, useSelector } from 'react-redux';
 import ListVehicleComponent from '../component/ListVehicleComponent';
 import { getDataVehicle } from '../redux/actions/vehicle';
+import photoImage from '../assets/images/image-photo.png';
 
 export const ListVehicle = ()=> {
 
@@ -25,7 +26,7 @@ export const ListVehicle = ()=> {
 
    // const [vehicle,setVehicle] = useState("");
    const {id} = useParams();
-   const {REACT_APP_URL,REACT_APP_LIMIT_VEHICLE} = process.env; 
+   const {REACT_APP_LIMIT_VEHICLE} = process.env; 
     
    useEffect(()=>{
       dispatch(getDetailCategory(id));
@@ -66,7 +67,7 @@ export const ListVehicle = ()=> {
                               {
                                  vehicle.listVehicle.map((item)=>{
                                     return(
-                                       <ListVehicleComponent key={item.id} name={item.name} location={item.location} photo={item.photo} onClick={()=>goToDetail(item)}/>
+                                       <ListVehicleComponent key={item.id} name={item.name} location={item.location} photo={item.photo!==null ? item.photo : photoImage} onClick={()=>goToDetail(item)}/>
                                     // <div  key={String(item.id)} onClick={()=>goToDetail(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
                                     //    <div className="d-inline-block position-relative">
                                     //       <Image photo={item.photo} photoVarian="img-fluid" alt={`${item.name}`} />
