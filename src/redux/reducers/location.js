@@ -1,6 +1,9 @@
 const dataLocation = {
    listLocation: [],
+   dataLocation : null,
    pageInfo: {},
+   message : null,
+   errMessage : null,
    isLoading: false,
    error: false
 };
@@ -24,6 +27,27 @@ const location = (state = dataLocation, action) => {
    {
       state.isLoading = false;
       state.isError = true;
+      return {...state };
+   }
+   case 'DATA_LOCATION_PENDING':
+   {
+      state.isLoading = true;
+      return {...state };
+   }
+   case 'DATA_LOCATION_FULFILLED':
+   {
+      const { data } = action.payload;
+      state.dataLocation = data.result;
+      state.message = data.message;
+      state.isLoading = false;
+      return {...state };
+   }
+   case 'DATA_LOCATION_REJECTED':
+   {
+      const {data} = action.payload.response;
+      state.isLoading = false;
+      state.isError = true;
+      state.errMessage = data.message;
       return {...state };
    }
    default:
