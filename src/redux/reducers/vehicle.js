@@ -142,7 +142,6 @@ const vehicle = (state = dataVehicle, action) => {
    {
       const { data } = action.payload;
       state.dataVehicle = data.result;
-      state.pageInfo = data.pageInfo;
       state.isLoading = false;
       state.isSuccess = true;
       state.message = data.message;
@@ -158,21 +157,27 @@ const vehicle = (state = dataVehicle, action) => {
       state.errMessage = data.message;
       return {...state };
    }
-   case 'VEHICLE_MESSAGE_SUCCESS':
+   case 'DELETE_VEHICLE_PENDING':
    {
-      state.isError = false;
-      state.isSuccess = false;
-      state.isLoading = false;
-      state.message;
-      return {...state};
+      state.isLoading = true;
+      return {...state };
    }
-   case 'VEHICLE_MESSAGE_ERROR':
+   case 'DELETE_VEHICLE_FULFILLED':
    {
-      state.isError = false;
-      state.isSuccess = false;
+      const { data } = action.payload;
       state.isLoading = false;
-      state.errMessage;
-      return {...state};
+      state.dataVehicle;
+      state.message = data.message;
+      
+      return {...state };
+   }
+   case 'DELETE_VEHICLE_REJECTED':
+   {
+      const {data} = action.payload.response;
+      state.isLoading = false;
+      state.isError = true;
+      state.errMessage = data.message;
+      return {...state };
    }
    
    case 'CLEAR_VEHICLE':
