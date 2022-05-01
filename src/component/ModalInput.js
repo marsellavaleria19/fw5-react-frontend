@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
-import Button from './Button';
 
 const ModalInput = ({title,children,show,close}) => {
    useEffect(()=>{
@@ -18,10 +17,10 @@ const ModalInput = ({title,children,show,close}) => {
                   {children}
                </div>
             </Modal.Body>
-            <Modal.Footer className="modal-custom-body">
+            {/* <Modal.Footer className="modal-custom-body">
                <Button btnVarian={'button-delete-item'}>Close</Button>
                <Button btnVarian={'button-filled fw-bold'}>Save changes</Button>
-            </Modal.Footer>
+            </Modal.Footer> */}
          </Modal>
       </>
    );
