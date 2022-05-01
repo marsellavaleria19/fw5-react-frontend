@@ -19,6 +19,10 @@ import Select from '../component/Select';
 import {FaChevronDown,FaChevronLeft} from 'react-icons/fa';
 import { updateVehicle,deleteVehicle } from '../redux/actions/vehicle';
 import { useNavigate } from 'react-router-dom';
+import LayoutProfile from '../component/LayoutProfile';
+import { addCategory,getListCategory } from '../redux/actions/category';
+import { addLocation,getListLocation } from '../redux/actions/location';
+import ModalInput from '../component/ModalInput';
 
 export const EditVehicle = ()=> {
    const {auth,category,location,vehicle} = useSelector(state=>state);
@@ -39,6 +43,18 @@ export const EditVehicle = ()=> {
    const handleClose = () => setShow(false);
    const [control,setControl] = useState(false);
    const navigate = useNavigate();
+   const [showModalError,setShowModalError] = useState(false);
+   const [showModalSuccess,setShowModalSuccess] = useState(false);
+   const [showModalLoading,setShowModalLoading] = useState(false);
+   const [showModalInputLocation,setShowModalInputLocation] = useState(false);
+   const [showModalInputCategory,setShowModalInputCategory] = useState(false);
+   var [messageError,setMessageError] = useState('');
+   var [messageSuccess,setMessageSuccess] = useState('');
+   const handleCloseModalLocation= ()=> setShowModalInputLocation(false);
+   const handleCloseModalCategory= ()=> setShowModalInputCategory(false);
+   const handleCloseLoading = () => setShowModalLoading(false);
+   const handleCloseError = () => setShowModalError(false);
+   const handleCloseSuccess = () => setShowModalSuccess(false);
  
    const dispatch = useDispatch();
    
@@ -46,7 +62,6 @@ export const EditVehicle = ()=> {
       if(vehicle.dataVehicle!==null){
          setImage(vehicle.dataVehicle.photo==null ? photoImg : vehicle.dataVehicle.photo);
          const{category_id,isAvailable,location_id,name,photo,price,qty} = vehicle.dataVehicle;
-         console.log(vehicle.dataVehicle);
          inputVehicle = {
             name:name,
             category: category_id,
@@ -57,7 +72,6 @@ export const EditVehicle = ()=> {
             'is available' : isAvailable
          };
          setInputVehicle(inputVehicle);
-         console.log(inputVehicle);
          setControl(false);
          setError({});
       }
@@ -67,30 +81,74 @@ export const EditVehicle = ()=> {
       window.history.back();
    };
 
+   //handle  show success modal
    useEffect(()=>{
-      if(vehicle.isError==true){
-         dispatch({
-            type:'VEHICLE_MESSAGE_ERROR'
-         });
-         window.scrollTo(0,0);
+      setShowModalLoading(vehicle.isLoading);
+      if(vehicle.isLoading==false && control==true){
+         if(vehicle.isError){
+            messageError = vehicle.errMessage;
+            setMessageError(messageError);
+            setShowModalError(true);
+         }else{
+            messageSuccess = vehicle.message;
+            setMessageSuccess(messageSuccess);
+            setShowModalSuccess(true);
+         }
+         setControl(false);
       }
-   },[vehicle.isError]);
+   },[vehicle.isLoading]);
 
    useEffect(()=>{
-      if(vehicle.isSuccess==true){
-         dispatch({
-            type:'VEHICLE_MESSAGE_SUCCESS'
-         });
-         window.scrollTo(0,0);
-
+      setShowModalLoading(location.isLoading);
+      setShowModalInputLocation(false);
+      if(location.isLoading==false && control==true){
+         if(location.isError){
+            messageError = location.errMessage;
+            setMessageError(messageError);
+            setShowModalError(true);
+         }else{
+            dispatch(getListLocation());
+            messageSuccess = location.message;
+            setMessageSuccess(messageSuccess);
+            setShowModalSuccess(true);
+            inputVehicle.location  = location.dataLocation.id;
+            setInputVehicle(inputVehicle);
+         }
+         setControl(false);
       }
-   },[vehicle.isSuccess]);
+   },[location.isLoading]);
+
+   useEffect(()=>{
+      setShowModalLoading(category.isLoading);
+      setShowModalInputCategory(false);
+      if(category.isLoading==false && control==true){
+         if(category.isError){
+            messageError = category.errMessage;
+            setMessageError(messageError);
+            setShowModalError(true);
+         }else{
+            dispatch(getListCategory());
+            messageSuccess = category.message;
+            setMessageSuccess(messageSuccess);
+            setShowModalSuccess(true);
+            inputVehicle.category = category.dataCategory.id;
+            setInputVehicle(inputVehicle);
+         }
+         setControl(false);
+      }
+   },[category.isLoading]);
+
+   //handle show success modal after close
+   useEffect(()=>{
+      if(showModalSuccess==false || showModalError==false){
+         window.scrollTo(0,0);
+      }
+   },[showModalSuccess,showModalError]);
 
    useEffect(()=>{
       if(vehicle.dataVehicle!==null){
          setImage(vehicle.dataVehicle.photo==null ? photoImg : vehicle.dataVehicle.photo);
          const{category_id,isAvailable,location_id,name,photo,price,qty} = vehicle.dataVehicle;
-         console.log(vehicle.dataVehicle);
          inputVehicle = {
             name:name,
             category: category_id,
@@ -101,18 +159,15 @@ export const EditVehicle = ()=> {
             'is available' : isAvailable
          };
          setInputVehicle(inputVehicle);
-         console.log(inputVehicle);
          setControl(false);
          setError({});
          // console.log(control);
       }     
    },[vehicle.dataVehicle]);
 
-   useEffect(()=>{
-      if(control==true){
-         navigate(`/category/${inputVehicle.category}`);
-      }
-   },[control]);
+   const goToVehicle = ()=>{
+      navigate(`/category/${inputVehicle.category}`);
+   };
 
    const updateVehicleHandle = (event)=>{
       event.preventDefault();
@@ -121,7 +176,7 @@ export const EditVehicle = ()=> {
       inputVehicle.location = inputVehicle.location.toString();
       inputVehicle.category = inputVehicle.category.toString();
       inputVehicle['is available'] = inputVehicle['is available'].toString();
-      console.log(inputVehicle);
+      // console.log(inputVehicle);
       var requirement = {
          name:'required',
          category : 'choose',
@@ -137,7 +192,7 @@ export const EditVehicle = ()=> {
             validate = {...validate,...{image:'size of image max 2MB'}};
          }
       }
-      console.log(inputVehicle,file);
+      console.log(inputVehicle);
       if(Object.keys(validate).length == 0){
          dispatch(updateVehicle(inputVehicle,vehicle.dataVehicle.id,auth.token,file));
          setControl(true);
@@ -150,6 +205,7 @@ export const EditVehicle = ()=> {
       event.preventDefault();
       dispatch((deleteVehicle(vehicle.dataVehicle.id,auth.token)));
       setControl(true);
+      setShow(false);
    };
 
    const selectedFile = (e)=>{
@@ -182,15 +238,67 @@ export const EditVehicle = ()=> {
       event.preventDefault();
       let value = event.target.value;
       let nameOfInput = event.target.name;
+      console.log(nameOfInput);
+      console.log(value);
       setInputVehicle({...inputVehicle,[nameOfInput]:value});
+      if(nameOfInput=='location' && value==0){
+         setShowModalInputLocation(true);
+      }
+
+      if(nameOfInput=='category' && value==0){
+         setShowModalInputCategory(true);
+      }
+   };
+
+   const addLocationHandle = (event)=>{
+      event.preventDefault();
+      const location = event.target.elements['location'].value;
+      const data = {
+         location : location
+      };
+
+      const requirement = {
+         location:'required'
+      };
+
+      const validate = validation(data,requirement);
+      if(Object.keys(validate).length == 0){
+         dispatch(addLocation(auth.token,data));
+         setControl(true);
+      }else{
+         setError(validate);
+      }
+   };
+
+   const addCategoryHandle = (event)=>{
+      event.preventDefault();
+      const category = event.target.elements['category'].value;
+      const data = {
+         category : category
+      };
+
+      const requirement = {
+         category:'required'
+      };
+
+      const validate = validation(data,requirement);
+      if(Object.keys(validate).length == 0){
+         dispatch(addCategory(auth.token,data));
+         setControl(true);
+      }else{
+         setError(validate);
+      }
    };
 
    return (
-      <>
-         <NavbarHome/>
-         <ModalLoading showModal={vehicle.isLoading}/>
-         <ModalNotifError message={vehicle.errMessage} showModal={vehicle.isError}/> 
-         <ModalNotifSuccess message={vehicle.message} showModal={vehicle.isSuccess}/>
+      <LayoutProfile>
+         <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
+         {
+            messageError!=='' && <ModalNotifError message={messageError} show={showModalError} close={handleCloseError}/> 
+         }
+         {
+            messageSuccess!=='' && <ModalNotifSuccess message={messageSuccess} show={showModalSuccess} close={handleCloseSuccess}/>
+         }
          <div className='container'>
             <div className="header-nav">
                <div className='row'>
@@ -234,6 +342,7 @@ export const EditVehicle = ()=> {
                                     );
                                  })
                               }
+                              <option value={0}>+ Add Location</option>
                            </Select>
                            <FaChevronDown/>
                         </div>
@@ -285,6 +394,7 @@ export const EditVehicle = ()=> {
                                  );
                               })
                            }
+                           <option value={0}>+ Add Category</option>
                         </Select>
                         <FaChevronDown/>
                      </div>
@@ -295,6 +405,30 @@ export const EditVehicle = ()=> {
                   </div>
                </div>
             </form>
+            <ModalInput title="Add Location" show={showModalInputLocation} close={handleCloseModalLocation}>
+               <form onSubmit={addLocationHandle}>
+                  <div className="mb-5 mt-4">
+                     <Input variantInput="d-block w-100 input-line" typeInput="text" name="location" placeholder="Location"/>
+                     {error!==null && error.location ? <div className="error">{error.location}</div> : '' }
+                  </div>
+                  <div className='text-end'>
+                     <Button btnVarian={'button-delete-item'} onClick={handleCloseModalLocation}>Close</Button>
+                     <Button type="submit" btnVarian={'button-filled fw-bold ms-3'}>Save changes</Button>
+                  </div>
+               </form>
+            </ModalInput>
+            <ModalInput title="Add Category" show={showModalInputCategory} close={handleCloseModalCategory}>
+               <form onSubmit={addCategoryHandle}>
+                  <div className="mb-5 mt-4">
+                     <Input variantInput="d-block w-100 input-line" typeInput="text" name="category" placeholder="Category"/>
+                     {error!==null && error.category ? <div className="error">{error.category}</div> : '' }
+                  </div>
+                  <div className='text-end'>
+                     <Button btnVarian={'button-delete-item'} onClick={handleCloseModalCategory}>Close</Button>
+                     <Button type="submit" btnVarian={'button-filled fw-bold ms-3'}>Save changes</Button>
+                  </div>
+               </form>
+            </ModalInput>
             {/* <form onSubmit={handleUpdateProfile} encType='multipart/form-data'>
             <section className="profile container">
                <div className="text-center">
@@ -384,8 +518,7 @@ export const EditVehicle = ()=> {
             </section>
          </form> */}
          </div>
-         <Footer/>
-      </>
+      </LayoutProfile>
    );
 };
 
