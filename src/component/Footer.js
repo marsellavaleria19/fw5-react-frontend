@@ -11,12 +11,12 @@ export class Footer extends Component {
                <div className="row text">
                   <div className="col">
                      <div>
-                        <img src={logo} alt="Logo" width="300" height="200"/>
+                        <img src={logo} alt="Logo" width="200" height="200"/>
                      </div>
                      <div className="description">
                         Plan and book your perfect trip with expert advice, travel tips for vehicle information from us
                      </div>
-                     <div className="copyright">©2020 PT Renvi. All rights reserved</div>
+                     <div className="copyright">©2020 PT RV Rental. All rights reserved</div>
                   </div>
                   <div className="col-md-2">
                      <h5>Destination</h5>
