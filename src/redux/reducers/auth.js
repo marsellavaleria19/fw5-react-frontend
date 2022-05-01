@@ -26,7 +26,6 @@ const auth = (state = dataLogin, action) => {
       state.isLoading = false;
       state.isError = false;
       state.message = data.message;
-      window.localStorage.setItem('token', state.token);
       state.isAuthenticated = true;
       return {...state };
    }
@@ -223,7 +222,7 @@ const auth = (state = dataLogin, action) => {
    case 'LOGOUT':
    {
       state.token = null;
-      window.localStorage.removeItem('token');
+      state.user = null;
       state.isAuthenticated = false;
       state.isVerify = false;
       return {...state };
