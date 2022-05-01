@@ -1,8 +1,8 @@
 import qs from 'qs';
 import AxiosCostum from '../../helpers/AxiosCostum';
 
-export const registrationProcess = (name, username, email, password) => {
-   const data = { 'fullName': name, 'username': username, 'email': email, 'password': password };
+export const registrationProcess = (dataSend) => {
+   const data = { 'fullName': dataSend.name, 'username': dataSend.username, 'email': dataSend.email,'mobileNumber':dataSend['mobile number'],'password': dataSend.password };
    return {
       type: 'REGISTER',
       payload: AxiosCostum().post('/auth/register', qs.stringify(data))
