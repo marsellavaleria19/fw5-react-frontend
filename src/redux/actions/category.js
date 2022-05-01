@@ -1,5 +1,5 @@
 import AxiosCostum from '../../helpers/AxiosCostum';
-
+import qs from 'qs';
 
 export const getListCategory = () => {
    return {
@@ -19,5 +19,15 @@ export const getDataCategory = (category) =>{
    return{
       type : 'GET_DATA_CATEGORY',
       payload : category
+   };
+};
+
+export const addCategory = (token,dataSend) =>{
+   const data = {
+      name : dataSend.category
+   };
+   return {
+      type:'GET_DETAIL_CATEGORY',
+      payload : AxiosCostum(token).post('/categories',qs.stringify(data))
    };
 };

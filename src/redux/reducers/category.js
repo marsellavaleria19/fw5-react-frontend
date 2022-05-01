@@ -3,6 +3,8 @@ const dataCategory = {
    dataCategory : null,
    pageInfo: {},
    isLoading: false,
+   message : null,
+   errMessage : null,
    error: false
 };
 
@@ -36,14 +38,16 @@ const category = (state = dataCategory, action) => {
    {
       const { data } = action.payload;
       state.dataCategory = data.result;
-      state.pageInfo = data.pageInfo;
       state.isLoading = false;
+      state.message = data.message;
       return {...state };
    }
    case 'GET_DETAIL_CATEGORY_REJECTED':
    {
+      const {data} = action.payload.response;
       state.isLoading = false;
       state.isError = true;
+      state.errMessage = data.message;
       return {...state };
    }
    case 'GET_DATA_CATEGORY':
