@@ -99,7 +99,7 @@ export const updateVehicle = (data,id,token,file=null) =>{
 
 export const deleteVehicle = (id,token) =>{
    return {
-      type:'UPDATE_VEHICLE',
+      type:'DELETE_VEHICLE',
       payload : AxiosCostum(token).delete(`/vehicles/${id}`)
    };
 };
