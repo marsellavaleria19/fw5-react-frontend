@@ -22,6 +22,7 @@ import { useDispatch } from 'react-redux';
 import Image from '../component/Image';
 import Carousel from 'react-elastic-carousel';
 import { getDataVehicle } from '../redux/actions/vehicle';
+import photoImage from '../assets/images/image-photo.png';
 
 const  DetailVehicle =  ()=> {
 
@@ -103,14 +104,14 @@ const  DetailVehicle =  ()=> {
             <div className='row'>
                <div className='col-md'>
                   <div>
-                     <Image photo={photo} photoVarian={'img-vehicle'}/>
+                     <Image photo={photo!==null ? photo : photoImage } photoVarian={'img-vehicle'}/>
                   </div>
                   <div>
-                     <Carousel itemsToShow={2} pagination={false}>
-                        <Image photo={imgDetailVehicle} photoVarian="img-vehicle-detail me-4" alt="Detail Vehicle" onClick={()=>setPhoto(imgDetailVehicle)}/>
-                        <Image photo={imgPopular1} photoVarian="img-vehicle-detail me-4" alt="Detail Vehicle" onClick={()=>setPhoto(imgPopular1)}/>
-                        <Image photo={imgPopular2} photoVarian="img-vehicle-detail me-4" alt="Detail Vehicle" onClick={()=>setPhoto(imgPopular2)}/>
-                        <Image photo={imgPopular3} photoVarian="img-vehicle-detail" alt="Detail Vehicle" onClick={()=>setPhoto(imgPopular3)}/>
+                     <Carousel itemsToShow={2}  pagination={false}>
+                        <Image photo={photo!==null ? photo : photoImage} photoVarian="img-vehicle-detail me-4" alt="Detail Vehicle" onClick={()=>setPhoto(imgDetailVehicle)}/>
+                        <Image photo={photo!==null ? photo : photoImage} photoVarian="img-vehicle-detail me-4" alt="Detail Vehicle" onClick={()=>setPhoto(imgPopular1)}/>
+                        <Image photo={photo!==null ? photo : photoImage} photoVarian="img-vehicle-detail me-4" alt="Detail Vehicle" onClick={()=>setPhoto(imgPopular2)}/>
+                        <Image photo={photo!==null ? photo : photoImage} photoVarian="img-vehicle-detail" alt="Detail Vehicle" onClick={()=>setPhoto(imgPopular3)}/>
                      </Carousel>
                   </div>
                   {/* <div className="d-flex align-items-center">
@@ -147,7 +148,7 @@ const  DetailVehicle =  ()=> {
                      <div>Reservation before 2 PM</div>
                   </div>
                   <div className="price">
-                     <h1 className="text-end">Rp. {dataVehicle?.price?.toLocaleString('id')}/day</h1>
+                     <h1 className="text-end">Rp. {dataVehicle?.price?.toLocaleString('id-ID')}/day</h1>
                   </div>
                   <form>
                      <div className="form-quantity d-flex button-plus-minus">
