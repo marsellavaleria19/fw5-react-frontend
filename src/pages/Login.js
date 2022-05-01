@@ -71,7 +71,7 @@ export const Login = () => {
                         <p className="text">Don't have account?</p>
                         <Button btnVarian="button-dark" onClick={goToSignup}>Sign Up</Button>
                      </div>
-                     <div className="header-separator col-lg d-lg-flex align-items-center flex-lg-column">
+                     <div className="header-separator col-lg d-lg-flex align-items-center flex-lg-column mb-5">
                         <div className="separator-circle"></div>
                         <div className="separator-line"></div>
                         <div className="separator-circle"></div>
@@ -98,7 +98,7 @@ export const Login = () => {
                               <Button type="submit" data-bs-toggle="modal" data-bs-target="#errorModal" btnVarian="button-filled p-4 login">Login</Button>
                            </div>
                            <div>
-                              <Button btnVarian="button-google mt-4"><img src={logoGoogle} alt="Logo"/>Login With Google</Button>
+                              <Button btnVarian="button-google mt-4 mb-5"><img src={logoGoogle} alt="Logo"/>Login With Google</Button>
                            </div>
                            <div className='btn-login-signup'>
                               <p className="text">Don't have account?</p>
