@@ -53,6 +53,7 @@ export const NavbarHome = () => {
                      <FaRegEnvelope/>
                      <span className="position-absolute translate-middle badge-mail border border-light rounded-circle">1</span>
                   </a>
+                  {auth.user!==null && auth.user.fullName}
                   <ul className="navbar-nav">
                      <li className="nav-item dropdown">
                         <Button className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
