@@ -11,11 +11,28 @@ import profile from './profile';
 import location from './location';
 import status from './status';
 import paymentType from './paymentTypes';
+import storage from 'redux-persist/lib/storage';
+import {persistReducer} from 'redux-persist';
 
+const persistForAuth = {
+   key: 'auth',
+   storage: storage,
+};
+
+const persistForCategory = {
+   key : 'category',
+   storage : storage,
+};
+
+const persistForVehicle = {
+   key : 'vehicle',
+   storage : storage,
+};
+ 
 const rootReducer = combineReducers({
-   auth,
-   category,
-   vehicle,
+   auth : persistReducer(persistForAuth,auth),
+   category : persistReducer(persistForCategory,category),
+   vehicle : persistReducer(persistForVehicle,vehicle),
    counter,
    reservation,
    payment,
