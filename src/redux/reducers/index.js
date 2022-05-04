@@ -29,14 +29,24 @@ const persistForVehicle = {
    storage : storage,
 };
  
+const persistForReservation = {
+   key : 'reservation',
+   storage : storage,
+};
+
+const persistForHistory = {
+   key : 'history',
+   storage : storage,
+};
+
 const rootReducer = combineReducers({
    auth : persistReducer(persistForAuth,auth),
    category : persistReducer(persistForCategory,category),
    vehicle : persistReducer(persistForVehicle,vehicle),
    counter,
-   reservation,
+   reservation : persistReducer(persistForReservation,reservation),
    payment,
-   history,
+   history:persistReducer(persistForHistory,history),
    search,
    profile,
    location,
