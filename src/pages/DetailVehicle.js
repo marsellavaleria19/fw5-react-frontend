@@ -23,6 +23,10 @@ import Image from '../component/Image';
 import Carousel from 'react-elastic-carousel';
 import { getDataVehicle } from '../redux/actions/vehicle';
 import photoImage from '../assets/images/image-photo.png';
+import auth from '../redux/reducers/auth';
+import ModalConfitmation from '../component/ModalConfirmation';
+import ModalInput from '../component/ModalInput';
+import {AiFillWarning} from 'react-icons/ai';
 
 const  DetailVehicle =  ()=> {
 
@@ -34,6 +38,8 @@ const  DetailVehicle =  ()=> {
    const [dataVehicle,setDataVehicle] = useState({});
 
    const [photo,setPhoto] = useState(imgDetailVehicle);
+   const [showModal,setShowModal] = useState(false);
+   const handleCloseModal = () => setShowModal(false);
  
    const {id} = useParams();
    console.log(id);
@@ -71,7 +77,7 @@ const  DetailVehicle =  ()=> {
    // }
 
    const goToReservation = (id)=>{
-      navigate(`/reservation/${id}`);
+      navigate('/reservation');
    };
 
    const goToEditVehicle = ()=>{
@@ -94,6 +100,37 @@ const  DetailVehicle =  ()=> {
       dispatch(decrement());
       setQty(counter.num);
    };
+
+   const reservationHandle = ()=>{
+      if(auth.user.isVerified==1){
+         goToReservation(dataVehicle.id);
+      }else{
+         setShowModal(true);
+      }
+   };
+
+   const showButtonHandle = ()=>{
+      if(auth.user.role=='admin'){
+         return (
+            <Button btnVarian={'button-save-item fs-4 fw-bold'} onClick={goToEditVehicle}>Edit Item</Button>
+         );
+      }else{
+         return (
+            <div className="row">
+               <div className="col-lg-5 col-md-4 mb-3">
+                  <button className="button-dark btn-chat">Chat Admin</button>
+               </div>
+               <div className="col-lg-5 col-md mb-3">
+                  <button onClick={reservationHandle} className="button-filled btn-reservation">Reservation</button>
+               </div>
+               <div className="col-lg-2 col-md-3 mb-3">
+                  <button className="button-dark btn-like d-flex justify-content-center align-items-center">
+                     <FaHeart/>Like</button>
+               </div>
+            </div>
+         );
+      }
+   };
    return (
       <Layout>
          <div className="detail-vehicle container mb-5">
@@ -101,6 +138,17 @@ const  DetailVehicle =  ()=> {
                <FaChevronLeft/>
                <span>Detail</span>
             </div>
+            <ModalInput title="Verify Email" show={showModal} close={handleCloseModal}>
+               <div>
+                  <AiFillWarning size={100} className='modal-icon'/>
+               </div>
+               <div className='fs-1 pps fw-bold text-pallet-1'>Warning</div>
+               <div className='fs-5 pps  text-pallet-1'>Your account not verified. Please do verify to enjoy our product.</div>
+               <div className='text-end mt-5'>
+                  <Button btnVarian={'button-delete-item'} onClick={handleCloseModal}>Close</Button>
+                  <Button type="button" btnVarian={'button-filled fw-bold ms-3'} onClick={()=>navigate('/verify-email')}>Verify Email</Button>
+               </div>
+            </ModalInput>
             <div className='row'>
                <div className='col-md'>
                   <div>
@@ -173,23 +221,7 @@ const  DetailVehicle =  ()=> {
                </div>
             </div>
             <div className="button-detail">
-               {
-                  auth.user?.role=='admin' ?
-                     <Button btnVarian={'button-save-item fs-4 fw-bold'} onClick={goToEditVehicle}>Edit Item</Button> :
-                     <div className="row">
-                        <div className="col-lg-5 col-md-4 mb-3">
-                           <button className="button-dark btn-chat">Chat Admin</button>
-                        </div>
-                        <div className="col-lg-5 col-md mb-3">
-                           <button onClick={()=>goToReservation(dataVehicle.id)} className="button-filled btn-reservation">Reservation</button>
-                        </div>
-                        <div className="col-lg-2 col-md-3 mb-3">
-                           <button className="button-dark btn-like d-flex justify-content-center align-items-center">
-                              <FaHeart/>Like</button>
-                        </div>
-                     </div>
-               }
-              
+               {showButtonHandle()}
             </div>
             {/* <div className='row'>
                   <div className="col-md">
