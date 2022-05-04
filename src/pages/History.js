@@ -29,56 +29,49 @@ export const History  = ()=> {
    const [show,setShow] = useState(-1);
    const [filledParams,setFilledParams] = useState(['category_id','status_id','date']);
    const [dataSearch,setDataSearch] = useState({});
-   const [showModal, setShowModal] = useState(false);
+   var [messageError,setMessageError] = useState('');
+   var [messageSuccess,setMessageSuccess] = useState('');
+   const [showModalError,setShowModalError] = useState(false);
+   const [showModalSuccess,setShowModalSuccess] = useState(false);
+   const [showModalLoading,setShowModalLoading] = useState(false);
+   const handleCloseLoading = () => setShowModalLoading(false);
+   const handleCloseError = () => setShowModalError(false);
+   const handleCloseSuccess = () => setShowModalSuccess(false);
+   const [showModal,setShowModal] = useState(false);
    const handleShowModal = ()=>setShowModal(true);
-   const handleClose = () => setShowModal(false);
+   const handleCloseModal = ()=>setShowModal(false);
    
-  
    useEffect(()=>{
-      dispatch({
-         type:'GET_HISTORY'
-      });
-      dispatch({
-         type:'GET_DATA_VEHICLE_POPULAR'
-      });
-      setControl(false);
-   },[]);
-
-   useEffect(()=>{
-      if(history.listHistory.length > 0 && control){
-         dispatch({
-            type:'GET_HISTORY'
-         });
-         dispatch({
-            type:'GET_DATA_VEHICLE_POPULAR'
-         });
-         setControl(false);
+      if(history.listHistory.length > 0 && control==true){
+         dispatch(getListHistoryByUserId(auth.token,auth.user.id));
       }
    },[history.listHistory]);
 
+   //handle  show success modal
    useEffect(()=>{
-      if(history.isError==true){
-         dispatch({
-            type:'HISTORY_MESSAGE_ERROR'
-         });
+      setShowModal(false);
+      setShowModalLoading(history.isLoading);
+     
+      if(history.isLoading==false && control==true){
+         if(history.isError){
+            messageError = history.errMessage;
+            setMessageError(messageError);
+            setShowModalError(true);
+         }else{
+            messageSuccess = history.message;
+            setMessageSuccess(messageSuccess);
+            setShowModalSuccess(true);
+         }
+         setControl(false);
+      }
+   },[history.isLoading]);
+
+   //handle show success modal after close
+   useEffect(()=>{
+      if(showModalSuccess==false || showModalError==false){
          window.scrollTo(0,0);
       }
-   },[history.isError]);
-
-   useEffect(()=>{
-      if(history.isSuccess==true){
-         dispatch({
-            type:'HISTORY_MESSAGE_SUCCESS'
-         });
-         setShowModal(false);
-         // if(auth.user.role=='admin'){
-         //    dispatch(getListHistory(auth.token));
-         // }else{
-         //    dispatch(getListHistoryByUserId(auth.token,auth.user.id));
-         // }
-      }
-   },[history.isSuccess]);
-
+   },[showModalSuccess,showModalError]);
    
    const handleSearch = (event)=>{
       event.preventDefault();
@@ -210,8 +203,13 @@ export const History  = ()=> {
                   <div className='mt-3'>
                      <Button btnVarian={'button-filled w-100 fs-4'} onClick={handleReset}>Reset</Button>
                   </div>
-                  <ModalNotifError message={history.errMessage} showModal={history.isError}/> 
-                  <ModalNotifSuccess message={history.message} showModal={history.isSuccess}/>
+                  <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
+                  {
+                     messageError!=='' && <ModalNotifError message={messageError} show={showModalError} close={handleCloseError}/> 
+                  }
+                  {
+                     messageSuccess!=='' && <ModalNotifSuccess message={messageSuccess} show={showModalSuccess} close={handleCloseSuccess}/>
+                  }
                   <div className="today">
                      <div className="title-date mb-4">Today</div>
                      <div className="d-flex flex-md-wrap justify-content-between list-today">
@@ -248,7 +246,7 @@ export const History  = ()=> {
                                              <Animated animationIn='fadeIn' animationOut='fadeOut'>
                                                 <Button btnVarian="button-filled" onClick={handleShowModal}>Delete</Button>  
                                              </Animated>
-                                             <ModalConfitmation title={'Delete'} show={showModal} message={'Do you really want to delete this data? This data cannot restore.'} functionHandle={()=>handleDelete(item.id)} close={handleClose} button={'Delete'}/>    
+                                             <ModalConfitmation title={'Delete'} show={showModal} message={'Do you really want to delete this data? This data cannot restore.'} functionHandle={()=>handleDelete(item.id)} close={handleCloseModal} button={'Delete'}/>    
                                           </>
                                       
                                           }

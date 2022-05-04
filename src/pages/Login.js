@@ -10,6 +10,7 @@ import { loginProcess } from '../redux/actions/auth';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { validation } from '../helpers/validation';
+import ModalLoading from '../component/ModalLoading';
 import ModalNotifError from '../component/ModalNotifError';
 import ModalNotifSuccess from '../component/ModalNotifSuccess';
 // import ModalNotifSuccess from '../component/ModalNotifSuccess';
@@ -21,7 +22,14 @@ export const Login = () => {
    const navigate = useNavigate();
    const [error,setError] = useState({});
    const [control,setControl] = useState(false);
-   
+   const [showModalError,setShowModalError] = useState(false);
+   const [showModalSuccess,setShowModalSuccess] = useState(false);
+   const [showModalLoading,setShowModalLoading] = useState(false);
+   var [messageError,setMessageError] = useState('');
+   var [messageSuccess,setMessageSuccess] = useState('');
+   const handleCloseLoading = () => setShowModalLoading(false);
+   const handleCloseError = () => setShowModalError(false);
+   const handleCloseSuccess = () => setShowModalSuccess(false);
 
    useEffect(()=>{
       dispatch({
@@ -30,6 +38,32 @@ export const Login = () => {
       setError({});
       setControl(false);
    },[]);
+
+   useEffect(()=>{
+      setShowModalLoading(auth.isLoading);
+      if(auth.isLoading==false && control==true){
+         if(auth.isError){
+            messageError = auth.errMessage;
+            setMessageError(messageError);
+            setShowModalError(true);
+         }else{
+            console.log(auth.message);
+            messageSuccess = auth.message;
+            setMessageSuccess(messageSuccess);
+            setShowModalSuccess(true);
+         }
+         setControl(false);
+      }
+   },[auth.isLoading]);
+
+   //handle show success modal after close
+   useEffect(()=>{
+      if(showModalSuccess==false || showModalError==false){
+         if(auth.token!==null){
+            navigate('/');
+         }
+      }
+   },[showModalSuccess,showModalError]);
 
    const goToSignup = ()=>{
       navigate('/signup');
@@ -59,9 +93,6 @@ export const Login = () => {
 
    return (
       <>
-         {
-            auth.token!==null &&<Navigate to='/'/>
-         }
          <header className="header-login-signup">
             <div className="header-content">
                <div className="container">
@@ -78,12 +109,12 @@ export const Login = () => {
                      </div>
                      <div className="header-login col-lg">       
                         <form onSubmit={loginHandle} className="form-login-signup">
+                           <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
                            {
-                              auth.isError==true &&
-                              <>
-                                 <ModalNotifError message={auth.errMessage}/> 
-                              </>
-                            
+                              messageError!=='' && <ModalNotifError message={messageError} show={showModalError} close={handleCloseError}/> 
+                           }
+                           {
+                              messageSuccess!=='' && <ModalNotifSuccess message={messageSuccess} show={showModalSuccess} close={handleCloseSuccess}/>
                            }
                            <div>
                               <Input typeInput="text" name="email" placeholder="Email"/>
