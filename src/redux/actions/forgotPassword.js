@@ -9,8 +9,8 @@ export const forgotPasswordProcess = (email) => {
    };
 };
 
-export const confirmForgotPasswordProcess = (email, code, password, confirmPassword) => {
-   const data = { 'email': email, 'code': code, 'password': password, 'confirmPassword': confirmPassword };
+export const confirmForgotPasswordProcess = (dataSend) => {
+   const data = { 'email': dataSend.email, 'code': dataSend.code, 'password': dataSend.password, 'confirmPassword': dataSend['confirm password']};
    console.log(data);
    return {
       type: 'CONFIRM_FORGOT_PASSWORD',
