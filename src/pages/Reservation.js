@@ -35,9 +35,13 @@ export const Reservation  = ()=> {
    const {id} = useParams();
    
    const [control,setControl] = useState(false);
-
-   const [showModalSuccess, setShowModalSuccess] = useState(false);
-   const handleShowModalSuccess = ()=>setShowModalSuccess(true);
+   var [messageError,setMessageError] = useState('');
+   var [messageSuccess,setMessageSuccess] = useState('');
+   const [showModalError,setShowModalError] = useState(false);
+   const [showModalSuccess,setShowModalSuccess] = useState(false);
+   const [showModalLoading,setShowModalLoading] = useState(false);
+   const handleCloseLoading = () => setShowModalLoading(false);
+   const handleCloseError = () => setShowModalError(false);
    const handleCloseSuccess = () => setShowModalSuccess(false);
 
    const navigate = useNavigate();
@@ -46,27 +50,8 @@ export const Reservation  = ()=> {
       dispatch({
          type : 'CLEAR_RESERVATION'
       });
-      dispatch(getDetailVehicle(id));
       setQty(counter.num);
-      console.log(reservation.dataReservation);
    },[]);
-
-   useEffect(()=>{
-      if(reservation.dataReservation!==null){
-         dispatch({
-            type : 'CLEAR_RESERVATION'
-         });
-      }
-   },[reservation.dataReservation]);
-
-   useEffect(()=>{
-      if(reservation.dataReservation!==null && control){
-         navigate(`/payment/${reservation.dataReservation.id}`);
-         dispatch({
-            type : 'CLEAR_RESERVATION'
-         });
-      }
-   },[reservation.dataReservation]);
 
    // const getDataVehicle = async()=>{
    //     const {data} = await axios.get(`http://localhost:5000/vehicles/${id}`);
@@ -91,14 +76,30 @@ export const Reservation  = ()=> {
       }
    };
 
+   //handle  show success modal
    useEffect(()=>{
-      if(reservation.isError==true){
-         dispatch({
-            type:'RESERVATION_MESSAGE_ERROR'
-         });
+      setShowModalLoading(reservation.isLoading);
+      if(reservation.isLoading==false && control==true){
+         if(reservation.isError){
+            messageError = reservation.errMessage;
+            setMessageError(messageError);
+            setShowModalError(true);
+         }else{
+            messageSuccess = reservation.message;
+            setMessageSuccess(messageSuccess);
+            console.log(messageSuccess);
+            setShowModalSuccess(true);
+         }
+         setControl(false);
+      }
+   },[reservation.isLoading]);
+
+   //handle show success modal after close
+   useEffect(()=>{
+      if(showModalSuccess==false || showModalError==false){
          window.scrollTo(0,0);
       }
-   },[reservation.isError]);
+   },[showModalSuccess,showModalError]);
 
    const handleChange = (event) =>{
       let value = event.target.value;
@@ -150,24 +151,29 @@ export const Reservation  = ()=> {
                <FaChevronLeft/>
                <span>Reservation</span>
             </div>
-            <div className="row">
-               <ModalLoading showModal={reservation.isLoading}/>
-               <ModalNotifError message={reservation.errMessage} showModal={reservation.isError}/> 
-               <div className="col-md">
-                  <div>
-                     <Image photo={vehicle.dataVehicle.photo} photoVarian={'img-vehicle'} alt="detail-vehicle"/>
+            <form onSubmit={reservationHandle}>
+               <div className="row">
+                  <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
+                  {
+                     messageError!=='' && <ModalNotifError message={messageError} show={showModalError} close={handleCloseError}/> 
+                  }
+                  {
+                     messageSuccess!=='' && <ModalNotifSuccess message={messageSuccess} show={showModalSuccess} close={handleCloseSuccess} button="Go to payment" functionHandle={()=>navigate('/payment')}/>
+                  }
+               
+                  <div className="col-lg">
+                     <div>
+                        <Image photo={vehicle.dataVehicle.photo} photoVarian={'img-vehicle'} alt="detail-vehicle"/>
+                     </div>
                   </div>
-               </div>
-               <div className="col-md">
-                  <div className="title-vehicle">
-                     <h1>{vehicle.dataVehicle.name}</h1>
-                     <div className="location">{vehicle.dataVehicle.location}</div>
-                  </div>
-                  <div className="status-vehicle">
-                     <div className="no-prepayment fw-bold">No Prepayment</div>
-                  </div>
-
-                  <form onSubmit={reservationHandle}>
+                  <div className="col-lg">
+                     <div className="title-vehicle">
+                        <h1>{vehicle.dataVehicle.name}</h1>
+                        <div className="location">{vehicle.dataVehicle.location}</div>
+                     </div>
+                     <div className="status-vehicle">
+                        <div className="no-prepayment fw-bold">No Prepayment</div>
+                     </div>
                      <div className="form-quantity d-flex button-plus-minus">
                         <Button btnVarian="plus" onClick={countIncrement}>+</Button>
                         <Input id="qty" typeInput="number" name="qty" value={qty} onChange={handleChange}/>
@@ -189,13 +195,12 @@ export const Reservation  = ()=> {
                         <FaChevronDown/>
                      </div>
                      {error!==null && error.day ? <div className="error">{error.day}</div> : '' }
-                     <div className="btn-payment">
-                        <Button type="submit" btnVarian="button-filled">Pay now : Rp {day!==null ? ((qty*vehicle.dataVehicle.price)*day).toLocaleString('id') : 0}</Button>
-                     </div>
-                     <ModalNotifSuccess show={showModalSuccess} close={handleCloseSuccess} message={reservation.errMessage}/> 
-                  </form>
+                  </div>
+                  <div className="btn-payment">
+                     <Button type="submit" btnVarian="button-filled">Pay now : Rp {day!==null ? ((qty*vehicle.dataVehicle.price)*day).toLocaleString('id') : 0}</Button>
+                  </div>
                </div>
-            </div>
+            </form>
          </section>
       </Layout>
    );
