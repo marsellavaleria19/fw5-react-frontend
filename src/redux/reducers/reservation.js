@@ -19,18 +19,15 @@ const reservation = (state = dataReservation, action) => {
       const { data } = action.payload;
       state.dataReservation = data.result;
       state.isLoading = false;
-      state.message = data.message;
-      state.isSuccess = true;
+      state.message = 'Data reservation created successfully';
       state.isError = false;
       return {...state };
    }
    case 'RESERVATION_REJECTED':
    {
-      const { data } = action.payload.response;
       state.isLoading = false;
       state.isError = true;
-      state.isSuccess  = false;
-      state.errMessage = data.message;
+      state.errMessage = 'Data reservetion failed to create';
       return {...state };
    }
    case 'DATA_RESERVATION':
