@@ -2,10 +2,11 @@
 import React, { useEffect,useState } from 'react';
 import {FaChevronDown} from 'react-icons/fa';
 import {FaChevronLeft} from 'react-icons/fa';
-import { useNavigate,useParams } from 'react-router-dom';
-import { getDetailReservation } from '../redux/actions/reservation';
+import { useNavigate } from 'react-router-dom';
 import { paymentUpdate } from '../redux/actions/payment';
-import { useSelector,connect,useDispatch } from 'react-redux';
+import { getListHistoryByUserId } from '../redux/actions/history';
+import { getPopularVehicle } from '../redux/actions/vehicle';
+import { useSelector,connect} from 'react-redux';
 import Layout from '../component/Layout';
 import Select from '../component/Select';
 import Button from '../component/Button';
@@ -13,39 +14,53 @@ import { validation } from '../helpers/validation';
 import ModalNotifSuccess from '../component/ModalNotifSuccess';
 import ModalNotifError from '../component/ModalNotifError';
 import ModalLoading from '../component/ModalLoading';
-import { getListHistory,getListHistoryByUserId } from '../redux/actions/history';
-import { getPopularVehicle } from '../redux/actions/vehicle';
+import moment from 'moment';
 
-export const Payment = ({paymentUpdate,getDetailReservation})=> {
+
+export const Payment = ({paymentUpdate,getListHistoryByUserId,getPopularVehicle})=> {
 
    const {reservation,payment,paymentType,auth} = useSelector(state=>state);
-   const {id} = useParams();
    const [control,setControl] = useState(false);
    const [error,setError] = useState({});
-   const dispatch  = useDispatch();
+   var [messageError,setMessageError] = useState('');
+   var [messageSuccess,setMessageSuccess] = useState('');
+   const [showModalError,setShowModalError] = useState(false);
+   const [showModalSuccess,setShowModalSuccess] = useState(false);
+   const [showModalLoading,setShowModalLoading] = useState(false);
+   const handleCloseLoading = () => setShowModalLoading(false);
+   const handleCloseError = () => setShowModalError(false);
+   const handleCloseSuccess = () => setShowModalSuccess(false);
    // const [dataVehicle,setDataVehicle] = useState({})
     
    const navigate = useNavigate();
 
    useEffect(()=>{
-      console.log(reservation);
-      getDetailReservation(id);
       setError({});
    },[]);
 
+   //handle  show success modal
    useEffect(()=>{
-      if(payment.dataPayment!==null && control){
-         if(auth.user!==null){
-            if(auth.user.role=='admin'){
-               dispatch(getListHistory(auth.token));
-            }else{
-               dispatch(getListHistoryByUserId(auth.token,auth.user.id));
-            }
+      setShowModalLoading(payment.isLoading);
+      if(payment.isLoading==false && control==true){
+         if(payment.isError){
+            messageError = payment.errMessage;
+            setMessageError(messageError);
+            setShowModalError(true);
+         }else{
+            messageSuccess = payment.message;
+            setMessageSuccess(messageSuccess);
+            setShowModalSuccess(true);
          }
-         dispatch(getPopularVehicle());
-         goToHistory();
+         setControl(false);
       }
-   },[payment.dataPayment]);
+   },[payment.isLoading]);
+
+   //handle show success modal after close
+   useEffect(()=>{
+      if(showModalSuccess==false || showModalError==false){
+         window.scrollTo(0,0);
+      }
+   },[showModalSuccess,showModalError]);
 
    const handlePayment = (event)=>{
       event.preventDefault();
@@ -61,30 +76,13 @@ export const Payment = ({paymentUpdate,getDetailReservation})=> {
       var validate = validation(data,requirement);
 
       if(Object.keys(validate).length == 0){
-         paymentUpdate(auth.token,reservation.dataReservation.totalPayment,paymentMethod,id);
+         paymentUpdate(auth.token,reservation.dataReservation.totalPayment,paymentMethod,reservation.dataReservation.id);
          setControl(true);
       }else{
          setError(validate);
       }
    };
-
-   useEffect(()=>{
-      if(payment.isError==true){
-         dispatch({
-            type:'PAYMENT_MESSAGE_ERROR'
-         });
-         window.scrollTo(0,0);
-      }
-   },[payment.isError]);
-
-   useEffect(()=>{
-      if(payment.isSuccess==true){
-         dispatch({
-            type:'PAYMENT_MESSAGE_SUCCESS'
-         });
-      }
-   },[payment.isSuccess]);
-    
+  
    // const getDataVehicle = async()=>{
    //     const {data} = await axios.get(`http://localhost:5000/vehicles/${id}`);
    //     setDataVehicle(data.results);
@@ -92,6 +90,8 @@ export const Payment = ({paymentUpdate,getDetailReservation})=> {
 
 
    const goToHistory = ()=>{
+      getListHistoryByUserId(auth.token,auth.user.id);
+      getPopularVehicle();
       navigate('/history');
    };
 
@@ -109,9 +109,13 @@ export const Payment = ({paymentUpdate,getDetailReservation})=> {
                   <FaChevronLeft/>
                   <span>Payment</span>
                </div>
-               <ModalLoading showModal={payment.isLoading}/>
-               <ModalNotifError message={payment.errMessage} showModal={payment.isError}/> 
-               <ModalNotifSuccess message={payment.message} showModal={payment.isSuccess}/>
+               <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
+               {
+                  messageError!=='' && <ModalNotifError message={messageError} show={showModalError} close={handleCloseError}/> 
+               }
+               {
+                  messageSuccess!=='' && <ModalNotifSuccess message={messageSuccess} show={showModalSuccess} close={handleCloseSuccess} button="Go to history" functionHandle={goToHistory}/>
+               }
                <form onSubmit={handlePayment}>
                   <div className="card">
                      <div className="card-header">
@@ -127,7 +131,7 @@ export const Payment = ({paymentUpdate,getDetailReservation})=> {
                               </div>
                               <div className="text-detail-payment-reservation mt-4">
                                  <div className='title'>Reservation Date :</div>
-                                 <div className='detail-book'>{reservation.dataReservation!==null && `${reservation.dataReservation.rentStartDate}-${reservation.dataReservation.rentEndDate}`}</div>
+                                 <div className='detail-book'>{reservation.dataReservation!==null && `${moment(reservation.dataReservation.rentStartDate).format('DD MMM YYYY')}-${moment(reservation.dataReservation.rentEndDate).format('DD MMM YYYY')}`}</div>
                               </div>
                               <div className="text-detail-payment-reservation mt-4">
                                  <div className='d-md-flex justify-content-between'>
@@ -285,5 +289,5 @@ export const Payment = ({paymentUpdate,getDetailReservation})=> {
 };
 
 const mapStateToProps = state => ({reservation:state.reservation,payment:state.payment});
-const mapDispatchToProps = {paymentUpdate,getDetailReservation};
+const mapDispatchToProps = {paymentUpdate,getListHistoryByUserId,getPopularVehicle};
 export default connect(mapStateToProps,mapDispatchToProps)(Payment);
