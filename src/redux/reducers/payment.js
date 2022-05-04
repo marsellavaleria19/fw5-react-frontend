@@ -3,7 +3,8 @@ const dataPayment = {
    listPaymentType : [],
    isError: false,
    isLoading: false,
-   errMessage: null
+   errMessage: null,
+   message:null
 };
 
 const payment = (state = dataPayment, action) => {
@@ -18,6 +19,7 @@ const payment = (state = dataPayment, action) => {
       const { data } = action.payload;
       console.log(data);
       state.dataPayment = data.result;
+      state.message = 'Payment created successfully';
       state.isLoading = false;
       state.isError = false;
       return {...state };
