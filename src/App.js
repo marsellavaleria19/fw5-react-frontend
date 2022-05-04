@@ -44,13 +44,6 @@ export const App = () => {
    },[]);
   
    useEffect(()=>{
-      if(auth.user!==null){
-         if(auth.user.role=='admin'){
-            dispatch(getListHistory(auth.token));
-         }else{
-            dispatch(getListHistoryByUserId(auth.token,auth.user.id));
-         }
-      }
       
       // dispatch({
       //    type:'REFRESH_DATA_VEHICLE'
@@ -58,19 +51,15 @@ export const App = () => {
    },[auth.user]);
 
    useEffect(()=>{
-      const token = window.localStorage.getItem('token');
-      if(token){
-         dispatch({
-            type: 'LOGIN_FULFILLED',
-            payload: {
-               data: {
-                  result: {
-                     token
-                  }
-               }
+      if(auth.token){
+         dispatch(getDataUser(auth.token));
+         if(auth.user!==null){
+            if(auth.user.role=='admin'){
+               dispatch(getListHistory(auth.token));
+            }else{
+               dispatch(getListHistoryByUserId(auth.token,auth.user.id));
             }
-         });
-         dispatch(getDataUser(token));
+         }
       }
    },[dispatch,auth.token]);
 
@@ -97,8 +86,8 @@ export const App = () => {
             <Route path="vehicle/add" element={<AddVehicle/>}></Route>
             <Route path="vehicle/edit" element={<EditVehicle/>}></Route>
             <Route path="confirmforgotpassword" element={<ConfirmForgotPassowrd/>}></Route>
-            <Route path="reservation/:id" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Reservation/></PrivateRoute>}></Route>
-            <Route path="payment/:id" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Payment/></PrivateRoute>}></Route>
+            <Route path="reservation" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Reservation/></PrivateRoute>}></Route>
+            <Route path="payment" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Payment/></PrivateRoute>}></Route>
          </Routes>
       </BrowserRouter>
    );
