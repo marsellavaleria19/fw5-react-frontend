@@ -62,7 +62,7 @@ export const NavbarHome = () => {
                         <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
                            <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
                            <li><Link className="dropdown-item" to="/change-password">Change Password</Link></li>
-                           <li><Link className="dropdown-item" to="/verify-email">Verify Email</Link></li>
+                           {auth.user!==null && auth.user.role!=='admin' && auth.user.isVerified==0 &&<li><Link className="dropdown-item" to="/verify-email">Verify Email</Link></li>}
                            <li><hr className="dropdown-divider"/></li>
                            <li  className='dropdown-item' onClick={handleLogout}>Logout</li>
                         </ul>
