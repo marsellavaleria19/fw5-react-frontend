@@ -36,14 +36,15 @@
             color: var(--secondary);
         }
         
-        .search .btn {
+         .search .btn-search {
             border: none;
             right: 0;
             width: 80px;
             height: 50px;
+            background-color: transparent;
         }
         
-        .search .btn svg {
+        .search .btn-search svg {
             font-size: 20px;
             color: var(--secondary);
         }
@@ -97,7 +98,6 @@
             font-size: 24px;
             background-color: rgba(255, 255, 255, 0.3);
             color: white;
-            margin-bottom: 31px;
         }
         
         .header-forgot .header-content form div input:focus {
@@ -195,6 +195,21 @@
          font-weight: 700;
         }
 
+        .button-delete-photo{
+         position: absolute;
+         top:10px;
+         right: 5px;
+         width: 50px;
+         height: 50px;
+         border-radius: 50%;
+         background-color: var(--third);
+         color: var(--primary);
+         font-weight: 700;
+         text-align: center;
+         font-size: 28px;
+        }
+
+
       .label-form-line {
          font-family: 'Nunito', serif;
          font-size: 24px;
@@ -266,8 +281,8 @@
         }
         
         .header-login-signup .header-content {
-            background-color: rgba(0, 0, 0, 0.5);
-            height: 758px;
+            background-color: rgba(0, 0, 0, 0.6);
+            height: 100%;
             color: var(--third);
         }
         
@@ -287,10 +302,24 @@
          font-size: 14px;
          }
 
+         .input-img {
+            height: 162px;
+            z-index: 2;
+            opacity: 0;
+            top: 58px;
+          }
+          .bg-input-img {
+            z-index: 1;
+          }
+
          .img-vehicle{
-            height: 100px;
+            height: 100%;
          }
 
+         .img-vehicle-detail{
+            height: 50px;
+   
+         }
          .modal-custom-header{
             background-color: var(--primary);
             color: var(--four);
@@ -472,8 +501,8 @@
         }
         
         .navbar img {
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
         }
         
         nav .container {
@@ -499,7 +528,7 @@
         .jumbotron .content {
             background-color: rgba(0, 0, 0, 0.3);
             width: 100%;
-            height: 767px;
+            height:800px;
         }
         
         .jumbotron h1.heading {
@@ -511,6 +540,13 @@
             padding-top: 69px;
         }
         
+        .jumbotron h1.heading-slide {
+         font-size: 96px;
+         font-family: 'Playfair Display', serif;
+         text-align: left;
+         font-weight: bold;
+         color: white;
+     }
         .jumbotron p {
             font-family: 'Nunito', serif;
             font-size: 22px;
@@ -561,6 +597,17 @@
             font-size: 17px;
         }
         
+        .carousel-caption {
+         transform: translateY(-50%);
+         bottom: initial;
+         top: 50%;
+         text-align: center;
+         }
+
+         .button-indicator{
+           background-color: #9B0A0A;
+         }
+         
         .section-title {
             font-family: 'Playfair Display', serif;
             font-size: 38px;
@@ -984,6 +1031,10 @@
             color: #9B0A0A;
         }
         
+        .status-vehicle .text-error {
+         color: #9B0A0A;
+         }
+
         .detail-vehicle .header-nav {
             margin-bottom: 112px;
         }
@@ -1027,6 +1078,7 @@
          text-align: center;
          font-weight: 900;
          color: var(--primary);
+         width: 100%;
      }
      
      .form-quantity-item button {
@@ -1151,14 +1203,23 @@
             color: var(--primary);
             border: none;
          }
+         /* round buttons on hover */
+         .rec.rec-arrow:hover {
+            color: var(--third) !important;
+            background-color: var(--primary) !important;
+         }
+
+         .rec.rec-arrow:disabled {
+            visibility: hidden;
+         }
         
         .reservation .header-nav {
             margin-bottom: 121px;
         }
         
-        .reservation .img-vehicle img {
+        .reservation .img-vehicle {
             width: 100%;
-            height: 616px;
+            min-height: 616px;
         }
         
         .reservation .title-vehicle {
@@ -1177,7 +1238,7 @@
         .reservation form h5 {
             font-family: 'Nunito', serif;
             font-size: 24px;
-            margin-top: 60px;
+            margin-top: 55px;
             margin-bottom: 32px;
             font-weight: bold;
             color: var(--primary);
@@ -1901,6 +1962,9 @@
             .button-filled {
                 width: 100%;
             }
+            .button-delete-item{
+               width: 100%;
+              }
             .button-google {
                 width: 100%;
             }
