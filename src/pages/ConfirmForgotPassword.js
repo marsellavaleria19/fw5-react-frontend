@@ -77,12 +77,12 @@ export const ConfirmForgotPassowrd = ()=> {
       const validate = validation(data,requirement);
       if(Object.keys(validate).length == 0){
          if(data.password!==data['confirm password']){
-            auth.idError = true;
-            auth.errMessage = 'password and confirm password not match';
+            setMessageError('password and confirm password not match');
+            setShowModalError(true);
          }else{
             dispatch(confirmForgotPasswordProcess(data));        
-            setControl(true);
          }
+         setControl(true);
       }else{
          setError(validate);
       }
