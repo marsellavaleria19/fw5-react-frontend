@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../assets/images/logo-rv-3.png';
 import {FaRegEnvelope} from 'react-icons/fa';
 import {FaSearch} from 'react-icons/fa';
-import {useNavigate } from 'react-router-dom';
+import {Navigate, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Button from './Button';
 import { useDispatch,useSelector } from 'react-redux';
@@ -26,14 +26,13 @@ export const NavbarHomeSearch = () => {
       dispatch({
          type : 'LOGOUT'
       });
-
-      if(auth.token==null){
-         navigate('/login');
-      }
    };
 
    return (
       <nav className="navbar navbar-expand-lg navbar-light">
+         {
+            auth.token==null && <Navigate to={'/'} />
+         }
          <div className="container">
             <Link className="navbar-brand" to="/">
                <img src={logo} alt="Logo"/>
@@ -61,7 +60,7 @@ export const NavbarHomeSearch = () => {
                      <form id="search" onSubmit={handleSearch} className="search">
                         <div className='d-flex position-relative'>
                            <input className="form-control" name="search" type="search" placeholder="Search Vehicle" aria-label="Search"/>
-                           <button className="btn position-absolute" type="submit"><FaSearch/></button>
+                           <button className="btn-search position-absolute" type="submit"><FaSearch/></button>
                         </div>
                      </form>
                   </div>
@@ -74,16 +73,17 @@ export const NavbarHomeSearch = () => {
                         {/* <Link to="/profil" data-bs-toggle="dropdown">
                                   <img src={profile} className="profile rounded-circle" alt="profile"/>
                               </Link> */}
-                        {auth.user!==null && auth.user.fullName}
+                        {auth?.user!==null && auth?.user.fullName}
                         <ul className="navbar-nav">
                            <li className="nav-item dropdown">
                               <Button className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                 <img src = {auth.user!==null && (auth.user.photo==null ? profileImg : auth.user.photo)} className="profile rounded-circle" alt="profile"/>
+                                 <img src = {auth?.user!==null && (auth?.user.photo==null ? profileImg : auth.user.photo)} className="profile rounded-circle" alt="profile"/>
                               </Button>
                               <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
                                  <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
+                                 <li><Link className="dropdown-item" to="/vehicle/favorite">My Favorite</Link></li>
                                  <li><Link className="dropdown-item" to="/change-password">Change Password</Link></li>
-                                 {auth?.isVerify==true && auth?.user.role!=='admin' &&<li><Link className="dropdown-item" to="/verify-email">Verify Email</Link></li>}
+                                 {auth.user!==null && auth.user.role!=='admin' && auth.user.isVerified==0 &&<li><Link className="dropdown-item" to="/verify-email">Verify Email</Link></li>}
                                  <li><hr className="dropdown-divider"/></li>
                                  <li  className='dropdown-item' onClick={handleLogout}>Logout</li>
                               </ul>
