@@ -3,11 +3,13 @@
 import React, { useState,useEffect } from 'react';
 import Layout from '../component/Layout';
 import {useSearchParams } from 'react-router-dom';
-import { getListSearchFilter } from '../redux/actions/search';
+import { getListSearchFilter,getListSearchByUrl } from '../redux/actions/search';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link,useNavigate } from 'react-router-dom';
 import SkeletonComponent from '../component/SkeletonComponent';
 import Image from '../component/Image';
+import Button from '../component/Button';
+import { FaAngleDoubleDown } from 'react-icons/fa';
 
 export  const Search = ()=> {
    const {search,location,category,payment} = useSelector(state=>state);
@@ -84,6 +86,12 @@ export  const Search = ()=> {
    const goToDetail = (id)=>{
       navigate(`/category/vehicle/${id}`);
    };
+
+   const getNextData = (url)=>{
+      dispatch(getListSearchByUrl(url));
+      //  setListVehicle([...listVehicle,...vehicle.listVehicle])
+   };
+
 
    // const getDataSearch = async(dataSearch)=>{
    //     const url = (dataSearch)=>{
@@ -190,53 +198,52 @@ export  const Search = ()=> {
             <div className="row mb-3">
                <section className="popular-town">
                   <div className="container">
-                     {
-                        <>
-                           <div className="row text-center">
-                              {
-                                 !search.isLoading ?
-                                    search.listSearch.length > 0 ? search.listSearch.map((item)=>{
-                                       return(
-                                          <div  key={String(item.id)} onClick={()=>goToDetail(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
-                                             <div className="d-inline-block position-relative">
-                                                <Image photo={item.photo} photoVarian="img-fluid" alt={`${item.name}`} />
-                                                <div className="text-title-vehicle">
-                                                   <div className="vehicle-name">{item.brand}</div>
-                                                   <div className="location">{item.location}</div>
-                                                </div>
-                                             </div>
+                     <div className="row text-center">
+                        {
+                           !search.isLoading ?
+                              search.listSearch.length > 0 ? search.listSearch.map((item)=>{
+                                 return(
+                                    <div  key={String(item.id)} onClick={()=>goToDetail(item.id)} className="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                       <div className="d-inline-block position-relative">
+                                          <Image photo={item.photo} photoVarian="img-fluid" alt={`${item.name}`} />
+                                          <div className="text-title-vehicle">
+                                             <div className="vehicle-name">{item.brand}</div>
+                                             <div className="location">{item.location}</div>
                                           </div>
-                                       // <div key={item.id} className="col-sm-6 col-md-4 col-lg-3 mb-3">
-                                       //    <div className="card">
-                                       //       <img src={item.photo} className="card-img-top" alt="..."/>
-                                       //       <div className="card-body">
-                                       //          <h5 className="card-title">{item.name}</h5>
-                                       //          <div className="card-text">Location : {item.location}</div>
-                                       //          <div className="card-text">Type : {item.category}</div>
-                                       //          <div className="card-text">Price : {item.price}</div>
-                                       //          <div className="card-text">Payment Type: {item.payment == null ? '-' : item.payment}</div>
-                                       //          <div className="card-text">Rent date : {item.rentStartDate == null && item.rentEndDate==null ? '-' : `${item.rentStartDate}-${item.rentEndDate}`}</div>
-                                       //       </div>
-                                       //    </div>
-                                       // </div>
-                                       );
-                                    }) : 
-                                       <div className="no-vehicle text-center">
+                                       </div>
+                                    </div>
+
+                                 // <div key={item.id} className="col-sm-6 col-md-4 col-lg-3 mb-3">
+                                 //    <div className="card">
+                                 //       <img src={item.photo} className="card-img-top" alt="..."/>
+                                 //       <div className="card-body">
+                                 //          <h5 className="card-title">{item.name}</h5>
+                                 //          <div className="card-text">Location : {item.location}</div>
+                                 //          <div className="card-text">Type : {item.category}</div>
+                                 //          <div className="card-text">Price : {item.price}</div>
+                                 //          <div className="card-text">Payment Type: {item.payment == null ? '-' : item.payment}</div>
+                                 //          <div className="card-text">Rent date : {item.rentStartDate == null && item.rentEndDate==null ? '-' : `${item.rentStartDate}-${item.rentEndDate}`}</div>
+                                 //       </div>
+                                 //    </div>
+                                 // </div>
+                                 );
+                              }) : 
+                                 <div className="no-vehicle text-center">
                                               There is no vehicle left
-                                       </div> 
-                                    :
-                                    <SkeletonComponent count={REACT_APP_LIMIT_CATEGORY}/> 
-                              }
-                           </div>
-                           {/* {
-                              vehicle.pageInfo.next!==null ? 
-                                 <div className='text-center mt-5 mb-5'>
-                                    <Button onClick={()=>getNextData(vehicle.pageInfo.next)} btnVarian='btn-next'>Load more <FaAngleDoubleDown/></Button>
-                                 </div> : ''
-                           } */}
-                        </>   
-                     }
+                                 </div> 
+                              :
+                              <SkeletonComponent count={REACT_APP_LIMIT_CATEGORY}/> 
+                        }
+                     </div>
+                       
+                     
                   </div>
+                  {
+                     search.pageInfo.next!==null ? 
+                        <div className='text-center mt-5 mb-5'>
+                           <Button onClick={()=>getNextData(search.pageInfo.next)} btnVarian='btn-next'>Load more <FaAngleDoubleDown/></Button>
+                        </div> : ''
+                  }
                </section> 
             
                {/*               
