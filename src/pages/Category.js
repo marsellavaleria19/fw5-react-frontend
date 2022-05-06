@@ -2,8 +2,8 @@
 import React, { useEffect } from 'react';
 import {FaChevronRight} from 'react-icons/fa';
 import Layout from '../component/Layout';
-import { getListVehicleByCategory } from '../redux/actions/vehicle';
-import { Link } from 'react-router-dom';
+import { getListVehicleByCategory,getDataVehicle } from '../redux/actions/vehicle';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import ListVehicleComponent from '../component/ListVehicleComponent';
@@ -13,6 +13,7 @@ export const Category = ()=> {
    const {category,vehicle} = useSelector(state=>state);
    const dispatch = useDispatch();
    const {REACT_APP_LIMIT_CATEGORY} = process.env; 
+   const navigate = useNavigate();
 
    useEffect(()=>{
       dispatch({
@@ -23,15 +24,14 @@ export const Category = ()=> {
       });
    },[category.listCategory]);
 
-   // useEffect(()=>{
-   //    dispatch({
-   //       type:'CLEAR_VEHICLE'
-   //    });
-   //    category.listCategory.length > 0 && category.listCategory.map((itemCategory)=>{
-   //       dispatch(getListVehicleByCategory(itemCategory.id,REACT_APP_LIMIT_CATEGORY));
-   //    });     
-   // },[category.listCategory]);
- 
+   const goToDetail = (item)=>{
+      dispatch(getDataVehicle(item));
+      dispatch({
+         type:'CLEAR_COUNTER'
+      });
+      navigate(`/vehicle/${item.id}`);
+   };
+   
    return (
       <Layout>
          {
@@ -53,7 +53,7 @@ export const Category = ()=> {
                                  <SkeletonComponent count={REACT_APP_LIMIT_CATEGORY}/> :
                                  vehicle.listAllVehicle.length > 0 ? vehicle.listAllVehicle.filter((item)=>item.category_id==itemCategory.id).map((item)=>{
                                     return(
-                                       <ListVehicleComponent key={item.id} name={item.name} location={item.location} photo={item.photo}/>
+                                       <ListVehicleComponent key={item.id} name={item.name} location={item.location} photo={item.photo} onClick={()=>goToDetail(item)}/>
                                     );
                                  }) :
                                     <div className="no-vehicle text-center">
