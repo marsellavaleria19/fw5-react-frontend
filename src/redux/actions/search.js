@@ -29,3 +29,10 @@ export const getListSearchFilter = (dataParams='') => {
       payload: AxiosCostum().get(`/search?${url(dataParams)}`)
    };
 };
+
+export const getListSearchByUrl = (url) => {
+   return {
+      type: 'SEARCH_NEXT',
+      payload: AxiosCostum().get(`${url}`)
+   };
+};

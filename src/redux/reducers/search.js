@@ -26,7 +26,27 @@ const search = (state = dataSearch, action) => {
       const { data } = action.payload.response;
       state.isLoading = false;
       state.isError = true;
+      state.listSearch = [];
       state.errMessage = data.message;
+      return {...state };
+   }
+   case 'SEARCH_NEXT_PENDING':
+   {
+      state.isLoading = true;
+      return {...state };
+   }
+   case 'SEARCH_NEXT_FULFILLED':
+   {
+      const { data } = action.payload;
+      state.listSearch = [...state.listSearch, ...data.result];
+      state.pageInfo = data.pageInfo;
+      state.isLoading = false;
+      return {...state };
+   }
+   case 'SEARCH_NEXT_REJECTED':
+   {
+      state.isLoading = false;
+      state.isError = true;
       return {...state };
    }
    default:
