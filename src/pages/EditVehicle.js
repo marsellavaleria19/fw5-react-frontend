@@ -23,6 +23,7 @@ import LayoutProfile from '../component/LayoutProfile';
 import { addCategory,getListCategory } from '../redux/actions/category';
 import { addLocation,getListLocation } from '../redux/actions/location';
 import ModalInput from '../component/ModalInput';
+import {ImCross} from 'react-icons/im';
 
 export const EditVehicle = ()=> {
    const {auth,category,location,vehicle} = useSelector(state=>state);
@@ -55,6 +56,7 @@ export const EditVehicle = ()=> {
    const handleCloseLoading = () => setShowModalLoading(false);
    const handleCloseError = () => setShowModalError(false);
    const handleCloseSuccess = () => setShowModalSuccess(false);
+   const [showDeletePhoto,setShowDeletePhoto] = useState(false);
  
    const dispatch = useDispatch();
    
@@ -71,6 +73,9 @@ export const EditVehicle = ()=> {
             description : vehicle.dataVehicle.description,
             'is available' : isAvailable
          };
+         if(vehicle.dataVehicle.photo!==null){
+            setShowDeletePhoto(true);
+         }
          setInputVehicle(inputVehicle);
          setControl(false);
          setError({});
@@ -290,6 +295,13 @@ export const EditVehicle = ()=> {
       }
    };
 
+   // const deletePhotoHandle = (e)=> {
+   //    e.preventDefault();
+   //    setFile(null);
+   //    setImage(photoImg);
+   //    setShowDeletePhoto(false);
+   // };
+
    return (
       <LayoutProfile>
          <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
@@ -297,7 +309,7 @@ export const EditVehicle = ()=> {
             messageError!=='' && <ModalNotifError message={messageError} show={showModalError} close={handleCloseError}/> 
          }
          {
-            messageSuccess!=='' && <ModalNotifSuccess message={messageSuccess} show={showModalSuccess} close={handleCloseSuccess}/>
+            messageSuccess!=='' && <ModalNotifSuccess message={messageSuccess} show={showModalSuccess} close={handleCloseSuccess} button="Go to detail list vehicle" functionHandle={goToVehicle}/>
          }
          <div className='container'>
             <div className="header-nav">
@@ -323,11 +335,18 @@ export const EditVehicle = ()=> {
                         <Input variantInput="d-block w-100 input-line" typeInput="text" name="name" placeholder="Name (max up to 50 words)" onChange={handleChange} value={inputVehicle.name}/>
                         {error!==null && error.name ? <div className="error">{error.name}</div> : '' }
                      </div>
-                     <div>
-                        <Image photo={image} photoVarian={'img-vehicle'} onClick={(e)=>chooseFiles(e)}/>
-                        <input id="fileUpload" type="file" name="photo" hidden onChange={selectedFile}/>  
+                     <div className="d-inline-block img-vehicle position-relative">
+                        <Image photo={image} photoVarian='img-fluid img-vehicle w-100' alt="Popular1" onClick={(e)=>chooseFiles(e)}/>
+                        <input id="fileUpload" type="file" name="photo" hidden onChange={selectedFile}/> 
+                        {/* {showDeletePhoto==true &&
+                           <div className="button-delete-photo" onClick={deletePhotoHandle}>
+                              <ImCross/>
+                           </div>} */}
                      </div>
-                    
+                     {/* <div className='position-relative'>
+                        <Image photo={image} photoVarian={'img-vehicle'} onClick={(e)=>chooseFiles(e)}/>
+                        <input id="fileUpload" type="file" name="photo" hidden onChange={selectedFile}/> 
+                     </div> */}
                   </div>
                   <div className='col-md'>
                      <div className="mb-4">
