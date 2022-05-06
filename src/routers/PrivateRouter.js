@@ -2,11 +2,12 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-export const PrivateRouter = ({children,isAuthenticated})=>{
-   if(isAuthenticated){
+export const PrivateRouter = ({children,token=null})=>{
+   console.log(token);
+   if(token!==null){
       return children;  
    }
-   else if(!isAuthenticated){
+   else{
       return <Navigate to="/login" />;
    }
 };
