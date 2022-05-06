@@ -19,6 +19,7 @@ import { validation } from '../helpers/validation';
 import ModalNotifError from '../component/ModalNotifError';
 import ModalLoading from '../component/ModalLoading';
 import ModalNotifSuccess from '../component/ModalNotifSuccess';
+import PrivateRouter from '../routers/PrivateRouter';
 
 export const Reservation  = ()=> {
 
@@ -145,64 +146,66 @@ export const Reservation  = ()=> {
    };
 
    return (
-      <Layout>
-         <section className="reservation container mb-5">
-            <div onClick={goToReservation} className="header-nav">
-               <FaChevronLeft/>
-               <span>Reservation</span>
-            </div>
-            <form onSubmit={reservationHandle}>
-               <div className="row">
-                  <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
-                  {
-                     messageError!=='' && <ModalNotifError message={messageError} show={showModalError} close={handleCloseError}/> 
-                  }
-                  {
-                     messageSuccess!=='' && <ModalNotifSuccess message={messageSuccess} show={showModalSuccess} close={handleCloseSuccess} button="Go to payment" functionHandle={()=>navigate('/payment')}/>
-                  }
-               
-                  <div className="col-lg">
-                     <div>
-                        <Image photo={vehicle.dataVehicle.photo} photoVarian={'img-vehicle'} alt="detail-vehicle"/>
-                     </div>
-                  </div>
-                  <div className="col-lg">
-                     <div className="title-vehicle">
-                        <h1>{vehicle.dataVehicle.name}</h1>
-                        <div className="location">{vehicle.dataVehicle.location}</div>
-                     </div>
-                     <div className="status-vehicle">
-                        <div className="no-prepayment fw-bold">No Prepayment</div>
-                     </div>
-                     <div className="form-quantity d-flex button-plus-minus">
-                        <Button btnVarian="plus" onClick={countIncrement}>+</Button>
-                        <Input id="qty" typeInput="number" name="qty" value={qty} onChange={handleChange}/>
-                        <Button className="minus" onClick={countDecrement}>-</Button>
-                     </div>
-                     {error!==null && error.quantity ? <div className="error">{error.quantity}</div> : '' }
-                     <h5>Reservation Date</h5>
-                     <div className="mb-3">
-                        <Input typeInput="date" name="date" variantInput="input-add" placeholder="date"/>
-                        {error!==null && error.date ? <div className="error">{error.date}</div> : '' }
-                     </div>
-                     <div className="select-form d-flex position-relative align-items-center">
-                        <Select name="day" onChange={handleChange}>
-                           <option value="" style={{display:'none'}}>Select Day</option>
-                           <option value="1">1 Day</option>
-                           <option value="2">2 Day</option>
-                           <option value="3">3 Day</option>
-                        </Select>
-                        <FaChevronDown/>
-                     </div>
-                     {error!==null && error.day ? <div className="error">{error.day}</div> : '' }
-                  </div>
-                  <div className="btn-payment">
-                     <Button type="submit" btnVarian="button-filled">Pay now : Rp {day!==null ? ((qty*vehicle.dataVehicle.price)*day).toLocaleString('id') : 0}</Button>
-                  </div>
+      <PrivateRouter token={auth.token}>
+         <Layout>
+            <section className="reservation container mb-5">
+               <div onClick={goToReservation} className="header-nav">
+                  <FaChevronLeft/>
+                  <span>Reservation</span>
                </div>
-            </form>
-         </section>
-      </Layout>
+               <form onSubmit={reservationHandle}>
+                  <div className="row">
+                     <ModalLoading show={showModalLoading} close={handleCloseLoading}/>
+                     {
+                        messageError!=='' && <ModalNotifError message={messageError} show={showModalError} close={handleCloseError}/> 
+                     }
+                     {
+                        messageSuccess!=='' && <ModalNotifSuccess message={messageSuccess} show={showModalSuccess} close={handleCloseSuccess} button="Go to payment" functionHandle={()=>navigate('/payment')}/>
+                     }
+               
+                     <div className="col-lg">
+                        <div>
+                           <Image photo={vehicle.dataVehicle.photo} photoVarian={'img-vehicle'} alt="detail-vehicle"/>
+                        </div>
+                     </div>
+                     <div className="col-lg">
+                        <div className="title-vehicle">
+                           <h1>{vehicle.dataVehicle.name}</h1>
+                           <div className="location">{vehicle.dataVehicle.location}</div>
+                        </div>
+                        <div className="status-vehicle">
+                           <div className="no-prepayment fw-bold">No Prepayment</div>
+                        </div>
+                        <div className="form-quantity d-flex button-plus-minus">
+                           <Button btnVarian="plus" onClick={countIncrement}>+</Button>
+                           <Input id="qty" typeInput="number" name="qty" value={qty} onChange={handleChange}/>
+                           <Button className="minus" onClick={countDecrement}>-</Button>
+                        </div>
+                        {error!==null && error.quantity ? <div className="error">{error.quantity}</div> : '' }
+                        <h5>Reservation Date</h5>
+                        <div className="mb-3">
+                           <Input typeInput="date" name="date" variantInput="input-add" placeholder="date"/>
+                           {error!==null && error.date ? <div className="error">{error.date}</div> : '' }
+                        </div>
+                        <div className="select-form d-flex position-relative align-items-center">
+                           <Select name="day" onChange={handleChange}>
+                              <option value="" style={{display:'none'}}>Select Day</option>
+                              <option value="1">1 Day</option>
+                              <option value="2">2 Day</option>
+                              <option value="3">3 Day</option>
+                           </Select>
+                           <FaChevronDown/>
+                        </div>
+                        {error!==null && error.day ? <div className="error">{error.day}</div> : '' }
+                     </div>
+                     <div className="btn-payment">
+                        <Button type="submit" btnVarian="button-filled">Pay now : Rp {day!==null ? ((qty*vehicle.dataVehicle.price)*day).toLocaleString('id') : 0}</Button>
+                     </div>
+                  </div>
+               </form>
+            </section>
+         </Layout>
+      </PrivateRouter>
    );
 };
 
