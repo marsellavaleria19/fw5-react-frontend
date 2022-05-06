@@ -7,9 +7,9 @@ import Select from './Select';
 import { useSelector } from 'react-redux';
 
 export const Header = ()=> {
-   const {auth} = useSelector(state=>state);
+   const {auth,location,category,payment} = useSelector(state=>state);
 
-   const [filledForms,setFilledForms] = useState(['category_id','location','payment_id','date']);
+   const [filledForms,setFilledForms] = useState(['category_id','location_id','payment_id','date']);
    const navigate = useNavigate();
  
    const handleFilter = (event)=>{
@@ -41,23 +41,37 @@ export const Header = ()=> {
                   <div className="line"></div>
                   <form onSubmit={handleFilter} className="filter-homepage">
                      <div className="d-md-flex flex-md-wrap mb-md-4">
-                        <Select name="location" selectVarian="me-4 mb-3" aria-label="Default select example"> 
+                        <Select name="location_id" selectVarian="me-4 mb-3" aria-label="Default select example"> 
                            <option value="" style={{display:'none'}}>Location</option>
-                           <option value="Yogyakarta">Yogyakarta</option>
-                           <option value="Bandung">Bandung</option>
+                           {
+                              location.listLocation.length > 0 && location.listLocation.map((item)=>{
+                                 return (
+                                    <option key={item.id} value={item.id}>{item.location}</option>
+                                 );
+                              })
+                           }
                         </Select>
                         <Select name="category_id" selectVarian="mb-3" aria-label="Default select example">
                            <option value="" style={{display:'none'}}>Type</option>
-                           <option value="1">Bike</option>
-                           <option value="2">Cars</option>
-                           <option value="3">Motorbike</option>
+                           {
+                              category.listCategory.length > 0 && category.listCategory.map((item)=>{
+                                 return (
+                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                 );
+                              })
+                           }
                         </Select>
                      </div>
                      <div className="d-md-flex flex-md-wrap">
                         <Select name="payment_id" selectVarian="me-4 mb-3" aria-label="Default select example">
                            <option value="" style={{display:'none'}}>Payment</option>
-                           <option value="1">Cash</option>
-                           <option value="2">Transfer</option>
+                           {
+                              payment.listPaymentType.length > 0 && payment.listPaymentType.map((item)=>{
+                                 return (
+                                    <option key={item.id} value={item.id}>{item.payment}</option>
+                                 );
+                              })
+                           }
                         </Select>
                         <Input typeInput="date" name="date"/>
                      </div>
