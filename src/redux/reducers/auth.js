@@ -6,9 +6,7 @@ const dataLogin = {
    isLoading: false,
    isAuthenticated: false,
    isVerify: false,
-   isRegister: false,
-   isUpdatedProfile : false,
-   isSubmitEmail: false,
+   isLogout : false,
    errMessage: null
 };
 
@@ -225,6 +223,7 @@ const auth = (state = dataLogin, action) => {
       state.user = null;
       state.isAuthenticated = false;
       state.isVerify = false;
+      state.isLogout = true;
       return {...state };
    }
    case 'CLEAR_AUTH':
