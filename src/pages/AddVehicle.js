@@ -95,6 +95,7 @@ export const AddVehicle = ()=> {
    },[location.isLoading]);
 
    useEffect(()=>{
+
       setShowModalLoading(category.isLoading);
       setShowModalInputCategory(false);
       if(category.isLoading==false && control==true){
@@ -105,6 +106,7 @@ export const AddVehicle = ()=> {
             dispatch(getListCategory());
             messageSuccess = category.message;
             setMessageSuccess(messageSuccess);
+            console.log(messageSuccess);
             setShowModalSuccess(true);
             setDataCategory(category.dataCategory.id);
          }
@@ -150,6 +152,7 @@ export const AddVehicle = ()=> {
          document.getElementById('form-vehicle').reset();
          setStock(0);
          setImage(photoImg);
+         setFile(null);
          setDataCategory(null);
          setDataLocation(null);
          setError({});
@@ -287,18 +290,7 @@ export const AddVehicle = ()=> {
                               <option value={0}>+ Add Location</option>
                            </Select>
                            <FaChevronDown/>
-                           <ModalInput title="Add Location" show={showModalInputLocation} close={handleCloseModalLocation}>
-                              <form onSubmit={addLocationHandle}>
-                                 <div className="mb-5 mt-4">
-                                    <Input variantInput="d-block w-100 input-line" typeInput="text" name="location" placeholder="Location"/>
-                                    {error!==null && error.location ? <div className="error">{error.location}</div> : '' }
-                                 </div>
-                                 <div className='text-end'>
-                                    <Button btnVarian={'button-delete-item'} onClick={handleCloseModalLocation}>Close</Button>
-                                    <Button type="submit" btnVarian={'button-filled fw-bold ms-3'}>Save changes</Button>
-                                 </div>
-                              </form>
-                           </ModalInput>
+                          
                         </div>
                         {error!==null && error.location ? <div className="error">{error.location}</div> : '' }
                      </div>
@@ -351,18 +343,6 @@ export const AddVehicle = ()=> {
                            <option value={0}>+ Add Category</option>
                         </Select>
                         <FaChevronDown/>
-                        <ModalInput title="Add Category" show={showModalInputCategory} close={handleCloseModalCategory}>
-                           <form onSubmit={addCategoryHandle}>
-                              <div className="mb-5 mt-4">
-                                 <Input variantInput="d-block w-100 input-line" typeInput="text" name="category" placeholder="Category"/>
-                                 {error!==null && error.category ? <div className="error">{error.category}</div> : '' }
-                              </div>
-                              <div className='text-end'>
-                                 <Button btnVarian={'button-delete-item'} onClick={handleCloseModalCategory}>Close</Button>
-                                 <Button type="submit" btnVarian={'button-filled fw-bold ms-3'}>Save changes</Button>
-                              </div>
-                           </form>
-                        </ModalInput>
                      </div>
                      {error!==null && error.category ? <div className="error">{error.category}</div> : '' }
                   </div>
@@ -371,6 +351,30 @@ export const AddVehicle = ()=> {
                   </div>
                </div>
             </form>
+            <ModalInput title="Add Location" show={showModalInputLocation} close={handleCloseModalLocation}>
+               <form onSubmit={addLocationHandle}>
+                  <div className="mb-5 mt-4">
+                     <Input variantInput="d-block w-100 input-line" typeInput="text" name="location" placeholder="Location"/>
+                     {error!==null && error.location ? <div className="error">{error.location}</div> : '' }
+                  </div>
+                  <div className='text-end'>
+                     <Button btnVarian={'button-delete-item'} onClick={handleCloseModalLocation}>Close</Button>
+                     <Button type="submit" btnVarian={'button-filled fw-bold ms-3'}>Save changes</Button>
+                  </div>
+               </form>
+            </ModalInput>
+            <ModalInput title="Add Category" show={showModalInputCategory} close={handleCloseModalCategory}>
+               <form onSubmit={addCategoryHandle}>
+                  <div className="mb-5 mt-4">
+                     <Input variantInput="d-block w-100 input-line" typeInput="text" name="category" placeholder="Category"/>
+                     {error!==null && error.category ? <div className="error">{error.category}</div> : '' }
+                  </div>
+                  <div className='text-end'>
+                     <Button btnVarian={'button-delete-item'} onClick={handleCloseModalCategory}>Close</Button>
+                     <Button type="submit" btnVarian={'button-filled fw-bold ms-3'}>Save changes</Button>
+                  </div>
+               </form>
+            </ModalInput>
             {/* <form onSubmit={handleUpdateProfile} encType='multipart/form-data'>
             <section className="profile container">
                <div className="text-center">
