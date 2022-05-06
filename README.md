@@ -1,8 +1,9 @@
 <div align="center">
-   <img src=https://user-images.githubusercontent.com/44119106/165676684-1c93b7fe-7b04-40f4-8f34-31ed661adbce.png />
+   <img src=https://user-images.githubusercontent.com/44119106/167139154-6b2a90f9-cf4b-4ccf-845b-2a80eccd0c84.png />
 </div>
 
 <h1>RVRental</h1>
+
 <p>RVRental is a website for renting various types of vehicles. Here, users can easily rent various types of vehicles.</p>
 <br>
 </div>
@@ -40,9 +41,9 @@ npm install
 ## 🔎 Preview Pages
 
   <span>
-      <img src="https://user-images.githubusercontent.com/44119106/165675717-a6da1d56-55d4-47e6-baec-6cc26fefb519.png" alt="ttps://user-images.githubusercontent.com/44119106/165675717-a6da1d56-55d4-47e6-baec-6cc26fefb519.png" width="415"/>
-    <img src="https://user-images.githubusercontent.com/44119106/165675970-fec4828f-6af3-4bfa-8f68-3312768dbb69.png" width="415"/>
-    <img src="https://user-images.githubusercontent.com/44119106/165676184-88c80128-a9ad-4adc-bc56-35e61cba3fff.png" width="415"/>
+      <img src="https://user-images.githubusercontent.com/44119106/167138044-805a240d-12f2-400a-a130-19b71f075f5c.png" alt="https://user-images.githubusercontent.com/44119106/167138044-805a240d-12f2-400a-a130-19b71f075f5c.png" width="415"/>
+    <img src="https://user-images.githubusercontent.com/44119106/167138296-e132f761-3436-45e5-9247-99542428d28f.png" width="415"/>
+    <img src="https://user-images.githubusercontent.com/44119106/167138573-a09cde1b-4a0a-4ad7-986e-d1a689fa7ea3.png" width="415"/>
     <br/>
   </span>
 
