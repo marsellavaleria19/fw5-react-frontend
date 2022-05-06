@@ -4,8 +4,6 @@ import imgDetailVehicle from '../assets/images/detail-vehicle.png';
 import imgPopular1 from '../assets/images/popular1.png';
 import imgPopular2 from '../assets/images/popular2.png';
 import imgPopular3 from '../assets/images/popular3.png';
-import NavbarHomeSearch from '../component/NavbarHomeSearch';
-import Footer from '../component/Footer';
 import {FaChevronLeft} from 'react-icons/fa';
 import {FaChevronRight} from 'react-icons/fa';
 import {FaHeart} from 'react-icons/fa';
@@ -13,7 +11,7 @@ import {default as axios} from 'axios';
 import { useParams } from 'react-router-dom';
 import Layout from '../component/Layout';
 import { Link,useNavigate } from 'react-router-dom';
-import { getDetailVehicle } from '../redux/actions/vehicle';
+import { getDetailVehicle,addFavoriteVehicle } from '../redux/actions/vehicle';
 import { increment,decrement } from '../redux/actions/counter';
 import { useSelector,connect } from 'react-redux';
 import Button from '../component/Button';
@@ -21,12 +19,11 @@ import Input from '../component/Input';
 import { useDispatch } from 'react-redux';
 import Image from '../component/Image';
 import Carousel from 'react-elastic-carousel';
-import { getDataVehicle } from '../redux/actions/vehicle';
 import photoImage from '../assets/images/image-photo.png';
-import auth from '../redux/reducers/auth';
-import ModalConfitmation from '../component/ModalConfirmation';
 import ModalInput from '../component/ModalInput';
+import ModalNotifSuccess from '../component/ModalNotifSuccess';
 import {AiFillWarning} from 'react-icons/ai';
+import ModalNotifError from '../component/ModalNotifError';
 
 const  DetailVehicle =  ()=> {
 
@@ -40,13 +37,21 @@ const  DetailVehicle =  ()=> {
    const [photo,setPhoto] = useState(imgDetailVehicle);
    const [showModal,setShowModal] = useState(false);
    const handleCloseModal = () => setShowModal(false);
+   const [control,setControl] = useState(false);
+   var [messageError,setMessageError] = useState('');
+   var [messageSuccess,setMessageSuccess] = useState('');
+   const [showModalError,setShowModalError] = useState(false);
+   const [showModalSuccess,setShowModalSuccess] = useState(false);
+   const [showModalLoading,setShowModalLoading] = useState(false);
+   const handleCloseLoading = () => setShowModalLoading(false);
+   const handleCloseError = () => setShowModalError(false);
+   const handleCloseSuccess = () => setShowModalSuccess(false);
  
    const {id} = useParams();
    console.log(id);
    const navigate = useNavigate();
 
    useEffect(()=>{
-      dispatch(getDetailVehicle(id));
       setPhoto(vehicle.dataVehicle?.photo);
       setDataVehicle(vehicle.dataVehicle);
       if(auth.user?.role=='admin'){
@@ -70,7 +75,7 @@ const  DetailVehicle =  ()=> {
          }
       }
    },[vehicle.dataVehicle]);
-    
+   
    // const getDataVehicle = async()=>{
    //     const {data} = await axios.get(`${REACT_APP_URL}/vehicles/${id}`);
    //     setDataVehicle(data.results);
@@ -102,15 +107,43 @@ const  DetailVehicle =  ()=> {
    };
 
    const reservationHandle = ()=>{
-      if(auth.user.isVerified==1){
-         goToReservation(dataVehicle.id);
+      if(auth.user!==null){
+         if(auth.user.isVerified==0){
+            setShowModal(true);
+         }else{
+            goToReservation(dataVehicle.id);
+         }
       }else{
-         setShowModal(true);
+         goToReservation(dataVehicle.id);
       }
    };
 
+   const addFavoriteSuccess = ()=>{
+      setMessageSuccess('Add Favourite vehicle is successfully');
+      setShowModalSuccess(true);
+   };
+
+   const favoriteVehicleHandle = (item)=>{
+      console.log('masuk handle favorite');
+      if(vehicle.listFavoriteVehicle.length == 0){
+         dispatch(addFavoriteVehicle(auth.user.id,item));
+         addFavoriteSuccess();
+      }else{
+         const result = vehicle.listFavoriteVehicle.filter((value)=>value.id==auth.user.id && value.item.id==item.id);
+         if(result.length == 0){
+            dispatch(addFavoriteVehicle(auth.user.id,item));
+            addFavoriteSuccess();
+         }else{
+            vehicle.isError = true;
+            setMessageError('Data vehicle has list favorite item');
+            setShowModalError(true);
+         }
+      }
+      setControl(true);
+   };
+
    const showButtonHandle = ()=>{
-      if(auth.user.role=='admin'){
+      if(auth.user?.role=='admin'){
          return (
             <Button btnVarian={'button-save-item fs-4 fw-bold'} onClick={goToEditVehicle}>Edit Item</Button>
          );
@@ -124,7 +157,7 @@ const  DetailVehicle =  ()=> {
                   <button onClick={reservationHandle} className="button-filled btn-reservation">Reservation</button>
                </div>
                <div className="col-lg-2 col-md-3 mb-3">
-                  <button className="button-dark btn-like d-flex justify-content-center align-items-center">
+                  <button className="button-dark btn-like d-flex justify-content-center align-items-center" onClick={()=>favoriteVehicleHandle(vehicle.dataVehicle)}>
                      <FaHeart/>Like</button>
                </div>
             </div>
@@ -145,10 +178,16 @@ const  DetailVehicle =  ()=> {
                <div className='fs-1 pps fw-bold text-pallet-1'>Warning</div>
                <div className='fs-5 pps  text-pallet-1'>Your account not verified. Please do verify to enjoy our product.</div>
                <div className='text-end mt-5'>
-                  <Button btnVarian={'button-delete-item'} onClick={handleCloseModal}>Close</Button>
-                  <Button type="button" btnVarian={'button-filled fw-bold ms-3'} onClick={()=>navigate('/verify-email')}>Verify Email</Button>
+                  <Button btnVarian={'button-delete-item mb-2 mb-lg-0'} onClick={handleCloseModal}>Close</Button>
+                  <Button type="button" btnVarian={'button-filled fw-bold ms-lg-3'} onClick={()=>navigate('/verify-email')}>Verify Email</Button>
                </div>
             </ModalInput>
+            {
+               messageError!=='' && <ModalNotifError message={messageError} show={showModalError} close={handleCloseError}/>
+            }
+            {
+               messageSuccess!=='' && <ModalNotifSuccess message={messageSuccess} show={showModalSuccess} close={handleCloseSuccess}/>
+            }
             <div className='row'>
                <div className='col-md'>
                   <div>
@@ -187,7 +226,7 @@ const  DetailVehicle =  ()=> {
                      <div className="location">{dataVehicle?.location}</div>
                   </div>
                   <div className="status-vehicle">
-                     <div className="text-success fw-bold mb-2">{dataVehicle?.isAvailable==1 ? 'Is Available' : 'Full booked'}</div>
+                     {dataVehicle?.isAvailable==1 ? <div className="text-success fw-bold mb-2">Is Available</div> :<div className='text-error fw-bold mb-2'> Full booked</div>}
                      <div className="no-prepayment">No Prepayment</div>
                   </div>
                   <div className="detail-info">
