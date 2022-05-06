@@ -1,5 +1,5 @@
-import React from 'react';
-import logo from '../assets/images/logo3.png';
+import React,{useEffect,useState} from 'react';
+import logo from '../assets/images/logo-rv-3.png';
 import {FaRegEnvelope} from 'react-icons/fa';
 import {useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -12,16 +12,23 @@ export const NavbarHome = () => {
    const {auth} = useSelector(state=>state);
    const dispatch = useDispatch(); 
 
+   const[control,setControl] = useState(false);
 
+   useEffect(()=>{
+      if(control==true){
+         setControl(false);
+         if(auth.isLogout==true){
+            navigate('/');
+         }
+      }
+   },[control]);
+   
    const handleLogout = (event)=>{
       event.preventDefault();
       dispatch({
          type : 'LOGOUT'
       });
-
-      if(auth.token==null){
-         navigate('/login');
-      }
+      setControl(true);
    };
 
    return (

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../assets/images/logo-rv-3.png';
 import {FaRegEnvelope} from 'react-icons/fa';
 import {FaSearch} from 'react-icons/fa';
-import {Navigate, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Button from './Button';
 import { useDispatch,useSelector } from 'react-redux';
@@ -12,13 +12,22 @@ export const NavbarHomeSearch = () => {
    const navigate = useNavigate();
    const auth = useSelector(state=>state.auth);
    const dispatch = useDispatch();
+   const[control,setControl] = useState(false);
 
+   useEffect(()=>{
+      if(control==true){
+         setControl(false);
+         if(auth.isLogout==true){
+            navigate('/');
+         }
+      }
+   },[control]);
+   
    const handleSearch = (event)=>{
       event.preventDefault();
       const searchVehicle = event.target.elements['search'].value;
       // setSearchParams({searchVehicle});
       navigate(`/search?name=${searchVehicle}`,{replace:true});
-        
    };
 
    const handleLogout = (event)=>{
@@ -26,13 +35,11 @@ export const NavbarHomeSearch = () => {
       dispatch({
          type : 'LOGOUT'
       });
+      setControl(true);
    };
 
    return (
       <nav className="navbar navbar-expand-lg navbar-light">
-         {
-            auth.token==null && <Navigate to={'/'} />
-         }
          <div className="container">
             <Link className="navbar-brand" to="/">
                <img src={logo} alt="Logo"/>
