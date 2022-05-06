@@ -24,7 +24,7 @@ export const saveDataReservation = (reservation, token) => {
    data.emailAddress = reservation.user.email;
    data.startRentDate = moment(rentStartDate).format('YYYY-MM-DD');
    data.endRentDate = moment(rentEndDate).format('YYYY-MM-DD');
-   data.status = 6;
+   data.status = 1;
    data.idCard = null;
    data.prepayment = 0;
    data.location = reservation.user.address;
@@ -36,6 +36,13 @@ export const saveDataReservation = (reservation, token) => {
 };
 
 export const addDataReservation = (data) => {
+   return {
+      type: 'DATA_RESERVATION',
+      payload: data
+   };
+};
+
+export const getDataReservation = (data) => {
    return {
       type: 'DATA_RESERVATION',
       payload: data
