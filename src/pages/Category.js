@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import ListVehicleComponent from '../component/ListVehicleComponent';
 import SkeletonComponent from '../component/SkeletonComponent';
+import photoImage from '../assets/images/image-photo.png';
 
 export const Category = ()=> {
    const {category,vehicle} = useSelector(state=>state);
@@ -53,7 +54,7 @@ export const Category = ()=> {
                                  <SkeletonComponent count={REACT_APP_LIMIT_CATEGORY}/> :
                                  vehicle.listAllVehicle.length > 0 ? vehicle.listAllVehicle.filter((item)=>item.category_id==itemCategory.id).map((item)=>{
                                     return(
-                                       <ListVehicleComponent key={item.id} name={item.name} location={item.location} photo={item.photo} onClick={()=>goToDetail(item)}/>
+                                       <ListVehicleComponent key={item.id} name={item.name} location={item.location} photo={item.photo==null ? photoImage : item.photo} onClick={()=>goToDetail(item)}/>
                                     );
                                  }) :
                                     <div className="no-vehicle text-center">
