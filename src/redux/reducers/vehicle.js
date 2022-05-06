@@ -2,6 +2,7 @@ const dataVehicle = {
    listVehicle: [],
    listVehiclepopular : [],
    listAllVehicle : [],
+   listFavoriteVehicle : [],
    pageInfo: {},
    isLoading: false,
    isSuccess : false,
@@ -72,6 +73,19 @@ const vehicle = (state = dataVehicle, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
+      return {...state };
+   }
+   case 'ADD_FAVORITE_VEHICLE':
+   {
+      state.isLoading = true;
+      state.listFavoriteVehicle.push(action.payload);
+      state.message = 'Add favourite vehicle successfully.';
+      return {...state };
+   }
+   case 'FAVORITE_VEHICLE':
+   {
+      state.isLoading = true;
+      state.listFavoriteVehicle;
       return {...state };
    }
    case 'GET_DETAIL_VEHICLE_PENDING':

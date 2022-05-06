@@ -91,6 +91,7 @@ export const updateVehicle = (data,id,token,file=null) =>{
    if (file !== null) {
       formData.append('photo', file);
    }
+   
    return {
       type:'UPDATE_VEHICLE',
       payload : AxiosCostum(token).patch(`/vehicles/${id}`,formData)
@@ -101,5 +102,18 @@ export const deleteVehicle = (id,token) =>{
    return {
       type:'DELETE_VEHICLE',
       payload : AxiosCostum(token).delete(`/vehicles/${id}`)
+   };
+};
+
+export const addFavoriteVehicle = (id,item) =>{
+   return {
+      type:'ADD_FAVORITE_VEHICLE',
+      payload : {id,item}
+   };
+};
+
+export const getListFavoriteVehicle = () =>{
+   return {
+      type:'FAVORITE_VEHICLE'
    };
 };
