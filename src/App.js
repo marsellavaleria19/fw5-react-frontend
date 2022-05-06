@@ -17,16 +17,15 @@ import ConfirmForgotPassowrd from './pages/ConfirmForgotPassword';
 import AddVehicle from './pages/AddVehicle';
 import {getDataUser } from './redux/actions/auth';
 import { useDispatch,useSelector } from 'react-redux';
-import PrivateRoute from './routers/PrivateRouter';
 import { getListCategory } from './redux/actions/category';
 import { getListLocation } from './redux/actions/location';
 import { getListPaymentType } from './redux/actions/payment';
 import EditVehicle from './pages/EditVehicle';
 import { getListStatus } from './redux/actions/status';
 import { getListHistory,getListHistoryByUserId } from './redux/actions/history';
-import { getPopularVehicle } from './redux/actions/vehicle';
 import ChangePasswordLayout from './pages/ChangePassword';
 import ConfirmVerifyEmailLayout from './pages/ConfirmVerifyEmail';
+import ListFavoriteVehicle from './pages/ListFavoriteVehicle';
 
 export const App = () => {
    const auth = useSelector(state=>state.auth);
@@ -37,7 +36,6 @@ export const App = () => {
       dispatch(getListLocation());
       dispatch(getListPaymentType());
       dispatch(getListStatus());
-      dispatch(getPopularVehicle());
       // dispatch({
       //    type:'REFRESH_DATA_VEHICLE'
       // });
@@ -74,8 +72,9 @@ export const App = () => {
             <Route path="category/:id" element={<ListVehicle/>}></Route>
             <Route path="vehicle" element={<ListVehicle/>}></Route>
             <Route path="vehicle/:id" element={<DetailVehicle/>}></Route>
+            <Route path="vehicle/favorite" element={<ListFavoriteVehicle/>}></Route>
             <Route path="search" element={<Search/>}></Route>
-            <Route path="history" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><History/></PrivateRoute>}></Route>
+            <Route path="history" element={<History/>}></Route>
             <Route path="profile" element={<ProfileLayout/>}></Route>
             <Route path="change-password" element={<ChangePasswordLayout/>}></Route>
             <Route path="login" element={<Login/>}></Route>
@@ -86,8 +85,8 @@ export const App = () => {
             <Route path="vehicle/add" element={<AddVehicle/>}></Route>
             <Route path="vehicle/edit" element={<EditVehicle/>}></Route>
             <Route path="confirmforgotpassword" element={<ConfirmForgotPassowrd/>}></Route>
-            <Route path="reservation" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Reservation/></PrivateRoute>}></Route>
-            <Route path="payment" element={<PrivateRoute isAuthenticated={auth.isAuthenticated}><Payment/></PrivateRoute>}></Route>
+            <Route path="reservation" element={<Reservation/>}></Route>
+            <Route path="payment" element={<Payment/>}></Route>
          </Routes>
       </BrowserRouter>
    );
