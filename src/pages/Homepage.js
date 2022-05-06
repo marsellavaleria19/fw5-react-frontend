@@ -25,6 +25,11 @@ export const Homepage = ()=> {
    const {REACT_APP_LIMIT_CATEGORY} = process.env; 
  
    useEffect(()=>{
+      if(auth.isLogout==true){
+         dispatch({
+            type:'CLEAR_AUTH'
+         });
+      }
       dispatch(getPopularVehicle());
    },[]);
   
