@@ -50,6 +50,28 @@ const category = (state = dataCategory, action) => {
       state.errMessage = data.message;
       return {...state };
    }
+   case 'ADD_CATEGORY_PENDING':
+   {
+      state.isLoading = true;
+      return {...state };
+   }
+   case 'ADD_CATEGORY_FULFILLED':
+   {
+      const { data } = action.payload;
+      state.dataCategory = data.result;
+      state.isLoading = false;
+      state.message = data.message;
+      state.isError = false;
+      return {...state };
+   }
+   case 'ADD_CATEGORY_REJECTED':
+   {
+      const {data} = action.payload.response;
+      state.isLoading = false;
+      state.isError = true;
+      state.errMessage = data.message;
+      return {...state };
+   }
    case 'GET_DATA_CATEGORY':
    {
       state.dataCategory = action.payload;
