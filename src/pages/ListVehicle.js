@@ -29,6 +29,9 @@ export const ListVehicle = ()=> {
    const {REACT_APP_LIMIT_VEHICLE} = process.env; 
     
    useEffect(()=>{
+      dispatch({
+         type:'CLEAR_VEHICLE'
+      });
       dispatch(getDetailCategory(id));
       dispatch(getListVehicleByCategory(id,REACT_APP_LIMIT_VEHICLE));
    },[]);
