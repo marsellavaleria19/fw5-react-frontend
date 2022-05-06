@@ -1,7 +1,7 @@
 const dataHistory = {
    dataHistory: null,
    isError: false,
-   isSuccess:false,
+   isDelete:false,
    isLoading: false,
    errMessage: null,
    message: null,
@@ -42,8 +42,8 @@ const history = (state = dataHistory, action) => {
       const { data } = action.payload;
       state.isLoading = false;
       state.isError = false;
-      state.isSuccess = true;
       state.listHistory;
+      state.isDelete = true;
       state.message = data.message;
       return {...state };
    }
@@ -52,7 +52,7 @@ const history = (state = dataHistory, action) => {
       const { data } = action.payload.response;
       state.isLoading = false;
       state.isError = true;
-      state.isSuccess = false;
+      state.isDelete = true;
       state.errMessage = data.message;
       state.listHistory = [];
       return {...state };
@@ -60,26 +60,6 @@ const history = (state = dataHistory, action) => {
    case 'GET_HISTORY':
    {
       state.listHistory;
-      return {...state};
-   }
-   case 'HISTORY_NOT_LOADING' :{
-      state.isLoading = false;
-      return {...state};
-   }
-   case 'HISTORY_MESSAGE_SUCCESS':
-   {
-      state.isError = false;
-      state.isSuccess = false;
-      state.isLoading = false;
-      state.message;
-      return {...state};
-   }
-   case 'HISTORY_MESSAGE_ERROR':
-   {
-      state.isError = false;
-      state.isSuccess = false;
-      state.isLoading = false;
-      state.errMessage;
       return {...state};
    }
    default:
