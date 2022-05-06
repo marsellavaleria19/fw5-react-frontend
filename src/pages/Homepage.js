@@ -27,7 +27,7 @@ export const Homepage = ()=> {
    useEffect(()=>{
       dispatch(getPopularVehicle());
    },[]);
-    
+  
    const goToDetail = (id)=>{
       navigate(`/category/vehicles/${id}`);
    };
