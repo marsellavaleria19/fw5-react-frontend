@@ -4,7 +4,7 @@
 
 <h1>RVRental</h1>
 
-<p>RVRental is a website for renting various types of vehicles. Here, users can easily rent various types of vehicles.</p>
+<p>RVRental is a website for rent various types of vehicles. Here, users can easily rent various types of vehicles.</p>
 <br>
 </div>
 
