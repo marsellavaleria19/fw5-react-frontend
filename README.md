@@ -91,5 +91,5 @@ npm install
 - [redux-promise-middleware](https://www.npmjs.com/package/redux-promise-middleware)
 - [react-bootstrap](https://react-bootstrap.github.io/)
 - [react-elastic-carousel](https://www.npmjs.com/package/react-elastic-carousel)
-
+- [redux-persist](https://www.npmjs.com/package/redux-persist)
 <br>
