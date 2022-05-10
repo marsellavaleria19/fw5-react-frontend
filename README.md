@@ -36,13 +36,29 @@ npm install
 ```
 - Copy env.example file and rename to .env file
 - Open .env file and filled setting in .env file
-  | CONFIG | DESCRPTION | REMARKS |
-| :-------------: |:-------------:|:-----------:|
-|REACT_APP_URL|filled with api domain | example : https://rvrental-backend.herokuapp.com/ (my api domain) |
-|REACT_APP_LIMIT_VEHICLE|filled with data on the number of vehicle you want to display on the website application|example : 16 (On the website application, will display 16 vehicle data)|
-|REACT_APP_LIMIT_CATEGORY|
-filled with data on the number of vehicles you want to display per category on the website application| example : 4 (On the website application, will display 4 vehicle data per category}|
-
+ <table>
+   <tr>
+      <th>CONFIG</th>
+      <th>DESCRPTION</th>
+      <th>REMARKS</th>
+   </tr>
+   <tr>
+      <td>REACT_APP_URL</td>
+      <td>filled with api domain</td>
+      <td>example : https://rvrental-backend.herokuapp.com/ (my api domain) </td>
+   </tr>
+   <tr>
+      <td>REACT_APP_LIMIT_VEHICLE</td>
+      <td>filled with data on the number of vehicle you want to display on the website application</td>
+      <td>example : 16 (On the website application, will display 16 vehicle data)</td>
+   </tr>
+   <tr>
+      <td>REACT_APP_LIMIT_CATEGORY</td>
+      <td>filled with data on the number of vehicles you want to display per category on the website application</td>
+      <td>example : 4 (On the website application, will display 4 vehicle data per category) </td>
+   </tr>
+  </table>
+  
 - Type ``` npm run start ``` To Start The Project
 
 <br>
